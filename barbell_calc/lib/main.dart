@@ -33,7 +33,29 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(),
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            TextField(
+              // autofocus: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'gewünschtes Gewicht',
+              ),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Hantelgewicht',
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(onPressed: null, child: Text('BERECHNE'))
+          ],
+        ),
+      ),
     );
   }
 }
