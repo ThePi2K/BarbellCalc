@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class PlateWidget extends StatelessWidget {
-  const PlateWidget(
-      {super.key, required this.heightPlate, required this.weightPlate});
+  const PlateWidget({super.key, required this.weightPlate});
 
-  final double heightPlate;
   final double weightPlate;
 
   @override
   Widget build(BuildContext context) {
+    // calculate height
+    double heightPlate = (weightPlate / 25) * 300;
+
     return Container(
       height: heightPlate,
       width: 32.0,
@@ -30,19 +31,16 @@ class PlateWidget extends StatelessWidget {
 }
 
 class BarbellWidget extends StatelessWidget {
-  const BarbellWidget(
-      {super.key, required this.plateList});
+  const BarbellWidget({super.key, required this.plateList});
 
   final double distancePlates = 0.9;
   final List<PlateWidget> plateList;
 
   @override
   Widget build(BuildContext context) {
-    return
-       Padding(
-       padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
-       child:
-      Stack(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
+      child: Stack(
         alignment: Alignment.centerLeft,
         children: [
           // bar in the background
@@ -65,9 +63,8 @@ class BarbellWidget extends StatelessWidget {
             ],
           ),
         ],
-      )
-     ,    )
-    ;
+      ),
+    );
   }
 }
 
@@ -93,7 +90,7 @@ class BarWidget extends StatelessWidget {
                 Theme.of(context).colorScheme.secondary.withOpacity(0.0),
                 Theme.of(context).colorScheme.secondary.withOpacity(1.0),
               ],
-              stops: const [0.0, 0.02],
+              stops: const [0.0, 0.017],
             ),
             borderRadius: const BorderRadius.only(
               topRight: Radius.circular(5.0),
