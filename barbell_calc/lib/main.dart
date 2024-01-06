@@ -49,6 +49,20 @@ class CalculatePlateWeight extends StatefulWidget {
 }
 
 class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
+  @override
+  Widget build(BuildContext context) {
+    return const MainPage();
+  }
+}
+
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
   double plateWeight = 0;
   final trainingWeightController = TextEditingController();
   final barbellWeightController = TextEditingController();
@@ -85,7 +99,7 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(20,20,20,0),
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
           child: Column(
             children: [
               Column(
@@ -124,24 +138,55 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
             ],
           ),
         ),
+        // Barbell
         Visibility(
           visible: calculated,
           child: BarbellWidget(
-              colorBar: Theme.of(context).colorScheme.secondary,
-              distancePlates: 3.0,
-              plateList: [
-                PlateWidget(
-                    heightPlate: 170.0,
-                    colorPlates: Theme.of(context).colorScheme.primary),
-                PlateWidget(
-                    heightPlate: 150.0,
-                    colorPlates: Theme.of(context).colorScheme.primary),
-                PlateWidget(
-                    heightPlate: 70.0,
-                    colorPlates: Theme.of(context).colorScheme.primary),
-              ]),
+            colorBar: Theme.of(context).colorScheme.secondary,
+            distancePlates: 3.0,
+            plateList: [
+              PlateWidget(
+                  heightPlate: 170.0,
+                  colorPlates: Theme.of(context).colorScheme.primary),
+              PlateWidget(
+                  heightPlate: 150.0,
+                  colorPlates: Theme.of(context).colorScheme.primary),
+              PlateWidget(
+                  heightPlate: 70.0,
+                  colorPlates: Theme.of(context).colorScheme.primary),
+            ],
+          ),
         ),
       ],
+    );
+  }
+}
+
+class InventoryPage extends StatelessWidget {
+  const InventoryPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Column(
+        children: <Widget>[
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.notifications_sharp),
+              title: Text('Notification 1'),
+              subtitle: Text('This is a notification'),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.notifications_sharp),
+              title: Text('Notification 2'),
+              subtitle: Text('This is a notification'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
