@@ -11,7 +11,7 @@ class PlateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: heightPlate,
-      width: 37.0,
+      width: 35.0,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(7.0),
@@ -79,20 +79,39 @@ class BarWidget extends StatelessWidget {
       alignment: Alignment.centerLeft,
       children: [
         // bar
-
         Container(
           height: 20.0,
           width: MediaQuery.of(context).size.width - (barPadding * 2),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondary,
-            borderRadius: BorderRadius.circular(5.0),
-            border: Border.all(
-              color: Colors.black,
-              width: 1.5,
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Theme.of(context).colorScheme.secondary.withOpacity(0.0),
+                Theme.of(context).colorScheme.secondary.withOpacity(1.0),
+              ],
+              stops: const [0.0, 0.02],
+            ),
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(5.0),
+              bottomRight: Radius.circular(5.0),
+            ),
+            border: Border(
+              top: BorderSide(
+                color: Colors.black.withOpacity(1.0),
+                width: 1.5,
+              ),
+              bottom: BorderSide(
+                color: Colors.black.withOpacity(1.0),
+                width: 1.5,
+              ),
+              right: BorderSide(
+                color: Colors.black.withOpacity(1.0),
+                width: 1.5,
+              ),
             ),
           ),
         ),
-
         Row(
           children: [
             const SizedBox(width: 15.0),
