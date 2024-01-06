@@ -113,7 +113,7 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
             ],
           ),
         ),
-        const BarbellWidget(),
+        const BarbellWidget(distancePlates: 3.0, plateList: [PlateWidget(heightPlate: 170.0), PlateWidget(heightPlate: 150.0), PlateWidget(heightPlate: 70.0)]),
       ],
     );
   }
