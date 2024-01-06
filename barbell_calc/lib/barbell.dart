@@ -11,13 +11,13 @@ class PlateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: heightPlate,
-      width: 35.0,
+      width: 32.0,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(7.0),
         border: Border.all(
           color: Colors.black,
-          width: 2.5,
+          width: 1.5,
         ),
       ),
       child: Center(
@@ -31,23 +31,25 @@ class PlateWidget extends StatelessWidget {
 
 class BarbellWidget extends StatelessWidget {
   const BarbellWidget(
-      {super.key, required this.distancePlates, required this.plateList});
+      {super.key, required this.plateList});
 
-  final double distancePlates;
+  final double distancePlates = 0.9;
   final List<PlateWidget> plateList;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Stack(
+    return
+       Padding(
+       padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
+       child:
+      Stack(
         alignment: Alignment.centerLeft,
         children: [
           // bar in the background
           const BarWidget(barPadding: 20.0),
           Row(
             children: [
-              const SizedBox(width: 15.0 + 17.0),
+              const SizedBox(width: 10.0 + 17.0),
 
               // here are the plates from the array plateList
               Row(
@@ -63,8 +65,9 @@ class BarbellWidget extends StatelessWidget {
             ],
           ),
         ],
-      ),
-    );
+      )
+     ,    )
+    ;
   }
 }
 
