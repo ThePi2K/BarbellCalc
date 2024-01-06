@@ -73,40 +73,113 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          Column(
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
             children: [
-              const SizedBox(height: 20),
-              TextField(
-                controller: trainingWeightController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Training Weight',
-                ),
-                keyboardType: TextInputType.number,
+              Column(
+                children: [
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: trainingWeightController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Training Weight',
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: barbellWeightController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Barbell Weight',
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
+              ElevatedButton(
+                  onPressed: calculateWeight, child: const Text('CALC')),
               const SizedBox(height: 20),
-              TextField(
-                controller: barbellWeightController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Barbell Weight',
-                ),
-                keyboardType: TextInputType.number,
+              Text(
+                plateWeight.toString(),
+                style: const TextStyle(fontSize: 50.0),
               ),
-              const SizedBox(height: 20),
             ],
           ),
-          ElevatedButton(onPressed: calculateWeight, child: const Text('CALC')),
-          const SizedBox(height: 20),
-          Text(
-            plateWeight.toString(),
-            style: const TextStyle(fontSize: 50.0),
-          )
-        ],
+        ),
+        const BarbellWidget(),
+      ],
+    );
+  }
+}
+
+class BarbellWidget extends StatelessWidget {
+  const BarbellWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Stack(
+      alignment: Alignment.centerLeft,
+      children: [
+        BarWidget(),
+        Row(
+          children: [
+            PlateWidget(heightPlate: 150.0),
+            PlateWidget(heightPlate: 150.0),
+          ],
+        ),
+      ],
+      // Text('20'),
+      // Text('15'),
+      // Text('10'),
+    );
+  }
+}
+
+class BarWidget extends StatelessWidget {
+  const BarWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          height: 10.0,
+          width: MediaQuery.of(context).size.width,
+          decoration: const BoxDecoration(
+            color: Colors.grey,
+          ),
+        ),
+        // Text('20'),
+        // Text('15'),
+        // Text('10'),
+      ],
+    );
+  }
+}
+
+class PlateWidget extends StatefulWidget {
+  const PlateWidget({super.key, required this.heightPlate});
+
+  final double heightPlate;
+
+  @override
+  State<PlateWidget> createState() => _PlateWidgetState();
+}
+
+class _PlateWidgetState extends State<PlateWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: widget.heightPlate,
+      width: 10.0,
+      decoration: const BoxDecoration(
+        color: Colors.black, // Farbe der Hantelscheibe
       ),
     );
   }
