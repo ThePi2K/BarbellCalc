@@ -5,14 +5,28 @@ import 'inventory.dart';
 import 'settings.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isDarkMode = false;
+
+  late ThemeMode themeMode;
+
+  @override
   Widget build(BuildContext context) {
+    if (isDarkMode) {
+      themeMode = ThemeMode.dark;
+    } else {
+      themeMode = ThemeMode.light;
+    }
     return MaterialApp(
       title: 'BarbellCalc',
       theme: ThemeData(
@@ -22,7 +36,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
-      themeMode: ThemeMode.light,
+      themeMode: themeMode,
       home: const MyHomePage(),
     );
   }
