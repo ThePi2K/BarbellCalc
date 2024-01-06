@@ -13,9 +13,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'BarbellCalc',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
         useMaterial3: true,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.light,
       home: const MyHomePage(),
     );
   }
@@ -52,7 +56,6 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
 
   void calculateWeight() {
     setState(() {
-
       // close keyboard
       FocusManager.instance.primaryFocus?.unfocus();
 
@@ -71,7 +74,6 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
       plateWeight = (double.parse(trainingWeightController.text) -
               double.parse(barbellWeightController.text)) /
           2;
-
 
       // set calculated true
       calculated = true;
@@ -124,18 +126,20 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
         ),
         Visibility(
           visible: calculated,
-          child: const BarbellWidget(distancePlates: 3.0, plateList: [
-            PlateWidget(heightPlate: 170.0),
-            PlateWidget(heightPlate: 150.0),
-            PlateWidget(heightPlate: 70.0),
-            PlateWidget(heightPlate: 60.0),
-            PlateWidget(heightPlate: 60.0),
-            PlateWidget(heightPlate: 60.0),
-            PlateWidget(heightPlate: 60.0),
-            PlateWidget(heightPlate: 60.0),
-            PlateWidget(heightPlate: 60.0),
-            PlateWidget(heightPlate: 60.0),
-          ]),
+          child: BarbellWidget(
+              colorBar: Theme.of(context).colorScheme.secondary,
+              distancePlates: 3.0,
+              plateList: [
+                PlateWidget(
+                    heightPlate: 170.0,
+                    colorPlates: Theme.of(context).colorScheme.primary),
+                PlateWidget(
+                    heightPlate: 150.0,
+                    colorPlates: Theme.of(context).colorScheme.primary),
+                PlateWidget(
+                    heightPlate: 70.0,
+                    colorPlates: Theme.of(context).colorScheme.primary),
+              ]),
         ),
       ],
     );
