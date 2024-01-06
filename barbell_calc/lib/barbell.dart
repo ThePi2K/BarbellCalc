@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PlateWidget extends StatelessWidget {
-  const PlateWidget({super.key, required this.heightPlate, required this.colorPlates});
+  const PlateWidget(
+      {super.key, required this.heightPlate, required this.colorPlates});
 
   final double heightPlate;
   final Color colorPlates;
@@ -14,7 +15,10 @@ class PlateWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorPlates,
         borderRadius: BorderRadius.circular(7.0),
-          border: Border.all(color: Colors.black, width: 2.5,),
+        border: Border.all(
+          color: Colors.black,
+          width: 2.5,
+        ),
       ),
     );
   }
@@ -22,7 +26,10 @@ class PlateWidget extends StatelessWidget {
 
 class BarbellWidget extends StatelessWidget {
   const BarbellWidget(
-      {super.key, required this.distancePlates, required this.plateList, required this.colorBar});
+      {super.key,
+      required this.distancePlates,
+      required this.plateList,
+      required this.colorBar});
 
   final Color colorBar;
   final double distancePlates;
@@ -78,7 +85,13 @@ class BarWidget extends StatelessWidget {
           height: 20.0,
           width: MediaQuery.of(context).size.width - (barPadding * 2),
           decoration: BoxDecoration(
-              color: colorBar, borderRadius: BorderRadius.circular(5.0)),
+            color: colorBar,
+            borderRadius: BorderRadius.circular(5.0),
+            border: Border.all(
+              color: Colors.black,
+              width: 1.5,
+            ),
+          ),
         ),
 
         Row(
@@ -90,6 +103,10 @@ class BarWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 color: colorBar,
                 borderRadius: BorderRadius.circular(5.0),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 1.5,
+                ),
               ),
             ),
           ],
