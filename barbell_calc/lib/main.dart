@@ -33,25 +33,36 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int currentPageIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: CalculatePlateWeight(),
+    return Scaffold(
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        indicatorColor: Theme.of(context).colorScheme.primary,
+        selectedIndex: currentPageIndex,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Badge(child: Icon(Icons.inventory)),
+            label: 'Inventory',
+          ),
+        ],
+      ),
+      body: const <Widget>[
+        MainPage(),
+        InventoryPage(),
+      ][currentPageIndex],
     );
-  }
-}
-
-class CalculatePlateWeight extends StatefulWidget {
-  const CalculatePlateWeight({super.key});
-
-  @override
-  State<CalculatePlateWeight> createState() => _CalculatePlateWeightState();
-}
-
-class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
-  @override
-  Widget build(BuildContext context) {
-    return const MainPage();
   }
 }
 
