@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'barbell.dart';
 
 void main() {
   runApp(const MyApp());
@@ -118,63 +119,4 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
   }
 }
 
-class BarbellWidget extends StatelessWidget {
-  const BarbellWidget({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const Stack(
-      alignment: Alignment.centerLeft,
-      children: [
-        BarWidget(),
-        Row(
-          children: [
-            PlateWidget(heightPlate: 150.0),
-            PlateWidget(heightPlate: 150.0),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class BarWidget extends StatelessWidget {
-  const BarWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          height: 10.0,
-          width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-            color: Colors.grey,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class PlateWidget extends StatefulWidget {
-  const PlateWidget({super.key, required this.heightPlate});
-
-  final double heightPlate;
-
-  @override
-  State<PlateWidget> createState() => _PlateWidgetState();
-}
-
-class _PlateWidgetState extends State<PlateWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: widget.heightPlate,
-      width: 10.0,
-      decoration: const BoxDecoration(
-        color: Colors.black,
-      ),
-    );
-  }
-}
