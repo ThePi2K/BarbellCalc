@@ -134,9 +134,6 @@ class BarbellWidget extends StatelessWidget {
           ],
         ),
       ],
-      // Text('20'),
-      // Text('15'),
-      // Text('10'),
     );
   }
 }
