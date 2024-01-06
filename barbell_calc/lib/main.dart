@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'homepage.dart';
 import 'inventory.dart';
+import 'settings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Widget> pages = [
     const MainPage(),
     InventoryPage(),
+    SettingsPage(),
   ];
 
   @override
@@ -60,6 +62,10 @@ class _MyHomePageState extends State<MyHomePage> {
           NavigationDestination(
             icon: Icon(Icons.inventory),
             label: 'Inventory',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
       ),
