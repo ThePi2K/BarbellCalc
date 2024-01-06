@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'homepage.dart';
 import 'inventory.dart';
 import 'settings.dart';
@@ -39,8 +40,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<Widget> pages = [
     const MainPage(),
-    InventoryPage(),
-    SettingsPage(),
+    const InventoryPage(),
+    const SettingsPage(),
   ];
 
   @override
