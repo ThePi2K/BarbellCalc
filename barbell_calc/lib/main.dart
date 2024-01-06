@@ -12,18 +12,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'BarbellCalc',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'BarbellCalc Home'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -46,7 +44,7 @@ class CalculatePlateWeight extends StatefulWidget {
 }
 
 class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
-  late double plateWeight;
+  double plateWeight = 0;
   final trainingWeightController = TextEditingController();
   final barbellWeightController = TextEditingController();
 
@@ -70,11 +68,6 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
       plateWeight = (double.parse(trainingWeightController.text) -
               double.parse(barbellWeightController.text)) /
           2;
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-            '(${trainingWeightController.text} - ${barbellWeightController.text}) / 2 = ${plateWeight.toString()}'),
-      ));
     });
   }
 
@@ -107,7 +100,12 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
               const SizedBox(height: 20),
             ],
           ),
-          ElevatedButton(onPressed: calculateWeight, child: const Text('CALC'))
+          ElevatedButton(onPressed: calculateWeight, child: const Text('CALC')),
+          const SizedBox(height: 20),
+          Text(
+            plateWeight.toString(),
+            style: const TextStyle(fontSize: 50.0),
+          )
         ],
       ),
     );
