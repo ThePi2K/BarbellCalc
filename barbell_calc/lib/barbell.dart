@@ -114,7 +114,7 @@ class BarWidget extends StatelessWidget {
         ),
         Row(
           children: [
-            const SizedBox(width: 15.0),
+            const SizedBox(width: 10.0),
             Container(
               height: 50.0,
               width: 17.0,
