@@ -36,8 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int currentPageIndex = 0;
 
   final List<Widget> pages = [
-    MainPage(),
-    InventoryPage(),
+    const MainPage(),
+    const InventoryPage(),
   ];
 
   @override
