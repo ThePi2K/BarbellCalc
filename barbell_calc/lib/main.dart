@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<Widget> pages = [
     const MainPage(),
-    const InventoryPage(),
+    InventoryPage(),
   ];
 
   @override
@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Home',
           ),
           NavigationDestination(
-            icon: Badge(child: Icon(Icons.inventory)),
+            icon: Icon(Icons.inventory),
             label: 'Inventory',
           ),
         ],
