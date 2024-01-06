@@ -9,7 +9,7 @@ class PlateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: heightPlate,
-      width: 20.0,
+      width: 25.0,
       decoration: BoxDecoration(
         color: Colors.black,
         borderRadius: BorderRadius.circular(7.0),
