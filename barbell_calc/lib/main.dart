@@ -155,9 +155,6 @@ class BarWidget extends StatelessWidget {
             color: Colors.grey,
           ),
         ),
-        // Text('20'),
-        // Text('15'),
-        // Text('10'),
       ],
     );
   }
@@ -179,7 +176,7 @@ class _PlateWidgetState extends State<PlateWidget> {
       height: widget.heightPlate,
       width: 10.0,
       decoration: const BoxDecoration(
-        color: Colors.black, // Farbe der Hantelscheibe
+        color: Colors.black,
       ),
     );
   }
