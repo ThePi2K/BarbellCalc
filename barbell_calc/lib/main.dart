@@ -21,12 +21,32 @@ class _MyAppState extends State<MyApp> {
   late ThemeMode themeMode;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    loadPreferences();
+  }
+
+  Future<void> loadPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? isDarkModePref = prefs.getBool('isDarkMode');
+    if (isDarkModePref != null) {
+      setState(() {
+        isDarkMode = isDarkModePref;
+        updateThemeMode();
+      });
+    }
+  }
+
+  void updateThemeMode() {
     if (isDarkMode) {
       themeMode = ThemeMode.dark;
     } else {
       themeMode = ThemeMode.light;
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BarbellCalc',
       theme: ThemeData(
@@ -41,6 +61,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
