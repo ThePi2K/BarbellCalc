@@ -85,7 +85,7 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20,20,20,0),
           child: Column(
             children: [
               Column(
@@ -113,12 +113,12 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
               ),
               ElevatedButton(
                   onPressed: calculateWeight, child: const Text('CALC')),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Visibility(
                 visible: calculated,
                 child: Text(
                   plateWeight.toString(),
-                  style: const TextStyle(fontSize: 50.0),
+                  style: const TextStyle(fontSize: 40.0),
                 ),
               ),
             ],
