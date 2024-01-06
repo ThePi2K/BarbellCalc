@@ -51,7 +51,21 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
 
   void calculateWeight() {
     setState(() {
-      // FORMEL
+      // close keyboard
+      FocusManager.instance.primaryFocus?.unfocus();
+
+      // reformatting text inputs (remove spaces and minus, replace , with .)
+      void reformatTextInput(TextEditingController controller) {
+        controller.text = controller.text
+            .replaceAll(" ", "")
+            .replaceAll("-", "")
+            .replaceAll(",", ".");
+      }
+
+      reformatTextInput(trainingWeightController);
+      reformatTextInput(barbellWeightController);
+
+      // calculate the weight for the plates
       plateWeight = (double.parse(trainingWeightController.text) -
               double.parse(barbellWeightController.text)) /
           2;
@@ -71,6 +85,7 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
         children: [
           Column(
             children: [
+              const SizedBox(height: 20),
               TextField(
                 controller: trainingWeightController,
                 decoration: const InputDecoration(
