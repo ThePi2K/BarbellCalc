@@ -8,7 +8,25 @@ class PlateWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // calculate height
-    double heightPlate = (weightPlate / 25) * 300;
+    double heightPlate = 0;
+
+    if (weightPlate >= 25) {
+      heightPlate = 200.0;
+    } else if (weightPlate >= 20) {
+      heightPlate = 170.0;
+    } else if (weightPlate >= 15) {
+      heightPlate = 150.0;
+    } else if (weightPlate >= 10) {
+      heightPlate = 130.0;
+    } else if (weightPlate >= 5) {
+      heightPlate = 100.0;
+    } else if (weightPlate >= 2.5) {
+      heightPlate = 80.0;
+    } else if (weightPlate >= 1) {
+      heightPlate = 60.0;
+    } else {
+      heightPlate = 45.0;
+    }
 
     return Container(
       height: heightPlate,
@@ -44,7 +62,7 @@ class BarbellWidget extends StatelessWidget {
         alignment: Alignment.centerLeft,
         children: [
           // bar in the background
-          const BarWidget(barPadding: 20.0),
+          const BarWidget(barPadding: 10.0),
           Row(
             children: [
               const SizedBox(width: 10.0 + 17.0),
