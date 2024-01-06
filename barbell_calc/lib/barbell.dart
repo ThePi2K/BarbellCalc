@@ -31,9 +31,7 @@ class BarbellWidget extends StatelessWidget {
           BarWidget(barPadding: 20.0, barColor: Colors.grey),
           Row(
             children: [
-              SizedBox(width: 20.0),
-              // plates start
-              SizedBox(width: 2),
+              SizedBox(width: 27.0),
               PlateWidget(heightPlate: 150.0),
               SizedBox(width: 2),
               PlateWidget(heightPlate: 100.0),
@@ -70,9 +68,9 @@ class BarWidget extends StatelessWidget {
         ),
         Row(
           children: [
-            const SizedBox(width: 10.0),
+            const SizedBox(width: 15.0),
             Container(
-              height: 18.0,
+              height: 50.0,
               width: 10.0,
               decoration: BoxDecoration(
                 color: barColor,
