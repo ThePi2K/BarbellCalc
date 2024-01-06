@@ -33,28 +33,66 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          children: [
-            TextField(
-              // autofocus: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'gewünschtes Gewicht',
+      body: CalculatePlateWeight(),
+    );
+  }
+}
+
+class CalculatePlateWeight extends StatefulWidget {
+  const CalculatePlateWeight({super.key});
+
+  State<CalculatePlateWeight> createState() => _CalculatePlateWeightState();
+}
+
+class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
+  late double plateWeight;
+  final trainingWeightController = TextEditingController();
+  final barbellWeightController = TextEditingController();
+
+  void calculateWeight() {
+    setState(() {
+      // FORMEL
+      plateWeight = (double.parse(trainingWeightController.text) -
+              double.parse(barbellWeightController.text)) /
+          2;
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            '(${trainingWeightController.text} - ${barbellWeightController.text}) / 2 = ${plateWeight.toString()}'),
+      ));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Column(
+            children: [
+              TextField(
+                controller: trainingWeightController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'gewünschtes Gewicht',
+                ),
+                keyboardType: TextInputType.number,
               ),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Hantelgewicht',
+              const SizedBox(height: 20),
+              TextField(
+                controller: barbellWeightController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Hantelgewicht',
+                ),
+                keyboardType: TextInputType.number,
               ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(onPressed: null, child: Text('BERECHNE'))
-          ],
-        ),
+              const SizedBox(height: 20),
+            ],
+          ),
+          ElevatedButton(onPressed: calculateWeight, child: const Text('CALC'))
+        ],
       ),
     );
   }
