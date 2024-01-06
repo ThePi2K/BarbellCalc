@@ -41,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
 class CalculatePlateWeight extends StatefulWidget {
   const CalculatePlateWeight({super.key});
 
+  @override
   State<CalculatePlateWeight> createState() => _CalculatePlateWeightState();
 }
 
@@ -90,7 +91,7 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
                 controller: trainingWeightController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'gewünschtes Gewicht',
+                  labelText: 'Training Weight',
                 ),
                 keyboardType: TextInputType.number,
               ),
@@ -99,7 +100,7 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
                 controller: barbellWeightController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Hantelgewicht',
+                  labelText: 'Barbell Weight',
                 ),
                 keyboardType: TextInputType.number,
               ),
