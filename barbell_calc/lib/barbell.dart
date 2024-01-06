@@ -10,8 +10,9 @@ class PlateWidget extends StatelessWidget {
     return Container(
       height: heightPlate,
       width: 20.0,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.black,
+        borderRadius: BorderRadius.circular(7.0),
       ),
     );
   }
@@ -69,13 +70,14 @@ class BarWidget extends StatelessWidget {
       alignment: Alignment.centerLeft,
       children: [
         // bar
+
         Container(
           height: 20.0,
           width: MediaQuery.of(context).size.width - (barPadding * 2),
           decoration: BoxDecoration(
-            color: barColor,
-          ),
+              color: barColor, borderRadius: BorderRadius.circular(5.0)),
         ),
+
         Row(
           children: [
             const SizedBox(width: 15.0),
@@ -84,8 +86,9 @@ class BarWidget extends StatelessWidget {
               width: 17.0,
               decoration: BoxDecoration(
                 color: barColor,
+                borderRadius: BorderRadius.circular(5.0),
               ),
-            )
+            ),
           ],
         )
       ],
