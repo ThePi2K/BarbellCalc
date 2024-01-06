@@ -88,15 +88,14 @@ class _MainPageState extends State<MainPage> {
         Visibility(
           visible: calculated,
           child: const BarbellWidget(
-            distancePlates: 3.0,
             plateList: [
-              PlateWidget(heightPlate: 170.0, weightPlate: 10.0),
-              PlateWidget(heightPlate: 150.0, weightPlate: 5.0),
-              PlateWidget(heightPlate: 70.0, weightPlate: 2.5),
-              PlateWidget(heightPlate: 70.0, weightPlate: 2.5),
-              PlateWidget(heightPlate: 70.0, weightPlate: 2.5),
-              PlateWidget(heightPlate: 70.0, weightPlate: 2.5),
-              PlateWidget(heightPlate: 70.0, weightPlate: 2.5),
+              PlateWidget(weightPlate: 20.0),
+              PlateWidget(weightPlate: 10.0),
+              PlateWidget(weightPlate: 2.5),
+              PlateWidget(weightPlate: 2.5),
+              PlateWidget(weightPlate: 2.5),
+              PlateWidget(weightPlate: 2.5),
+              PlateWidget(weightPlate: 1.25),
             ],
           ),
         ),
