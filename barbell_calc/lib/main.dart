@@ -49,7 +49,6 @@ class _MyHomePageState extends State<MyHomePage> {
             currentPageIndex = index;
           });
         },
-        indicatorColor: Theme.of(context).colorScheme.primary,
         selectedIndex: currentPageIndex,
         destinations: const <Widget>[
           NavigationDestination(
