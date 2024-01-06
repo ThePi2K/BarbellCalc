@@ -48,9 +48,11 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
   double plateWeight = 0;
   final trainingWeightController = TextEditingController();
   final barbellWeightController = TextEditingController();
+  bool calculated = false;
 
   void calculateWeight() {
     setState(() {
+
       // close keyboard
       FocusManager.instance.primaryFocus?.unfocus();
 
@@ -69,6 +71,10 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
       plateWeight = (double.parse(trainingWeightController.text) -
               double.parse(barbellWeightController.text)) /
           2;
+
+
+      // set calculated true
+      calculated = true;
     });
   }
 
@@ -106,17 +112,32 @@ class _CalculatePlateWeightState extends State<CalculatePlateWeight> {
               ElevatedButton(
                   onPressed: calculateWeight, child: const Text('CALC')),
               const SizedBox(height: 20),
-              Text(
-                plateWeight.toString(),
-                style: const TextStyle(fontSize: 50.0),
+              Visibility(
+                visible: calculated,
+                child: Text(
+                  plateWeight.toString(),
+                  style: const TextStyle(fontSize: 50.0),
+                ),
               ),
             ],
           ),
         ),
-        const BarbellWidget(distancePlates: 3.0, plateList: [PlateWidget(heightPlate: 170.0), PlateWidget(heightPlate: 150.0), PlateWidget(heightPlate: 70.0)]),
+        Visibility(
+          visible: calculated,
+          child: const BarbellWidget(distancePlates: 3.0, plateList: [
+            PlateWidget(heightPlate: 170.0),
+            PlateWidget(heightPlate: 150.0),
+            PlateWidget(heightPlate: 70.0),
+            PlateWidget(heightPlate: 60.0),
+            PlateWidget(heightPlate: 60.0),
+            PlateWidget(heightPlate: 60.0),
+            PlateWidget(heightPlate: 60.0),
+            PlateWidget(heightPlate: 60.0),
+            PlateWidget(heightPlate: 60.0),
+            PlateWidget(heightPlate: 60.0),
+          ]),
+        ),
       ],
     );
   }
 }
-
-
