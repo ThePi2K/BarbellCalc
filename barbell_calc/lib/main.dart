@@ -156,19 +156,12 @@ class _MainPageState extends State<MainPage> {
         // Barbell
         Visibility(
           visible: calculated,
-          child: BarbellWidget(
-            colorBar: Theme.of(context).colorScheme.secondary,
+          child: const BarbellWidget(
             distancePlates: 3.0,
             plateList: [
-              PlateWidget(
-                  heightPlate: 170.0,
-                  colorPlates: Theme.of(context).colorScheme.primary),
-              PlateWidget(
-                  heightPlate: 150.0,
-                  colorPlates: Theme.of(context).colorScheme.primary),
-              PlateWidget(
-                  heightPlate: 70.0,
-                  colorPlates: Theme.of(context).colorScheme.primary),
+              PlateWidget(heightPlate: 170.0, weightPlate: 10.0),
+              PlateWidget(heightPlate: 150.0, weightPlate: 5.0),
+              PlateWidget(heightPlate: 70.0, weightPlate: 2.5),
             ],
           ),
         ),

@@ -2,23 +2,28 @@ import 'package:flutter/material.dart';
 
 class PlateWidget extends StatelessWidget {
   const PlateWidget(
-      {super.key, required this.heightPlate, required this.colorPlates});
+      {super.key, required this.heightPlate, required this.weightPlate});
 
   final double heightPlate;
-  final Color colorPlates;
+  final double weightPlate;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: heightPlate,
-      width: 25.0,
+      width: 37.0,
       decoration: BoxDecoration(
-        color: colorPlates,
+        color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(7.0),
         border: Border.all(
           color: Colors.black,
           width: 2.5,
         ),
+      ),
+      child: Center(
+        child: Text(weightPlate.toString(),
+            style: TextStyle(color: Theme.of(context).colorScheme.background),
+            textAlign: TextAlign.center),
       ),
     );
   }
@@ -26,12 +31,8 @@ class PlateWidget extends StatelessWidget {
 
 class BarbellWidget extends StatelessWidget {
   const BarbellWidget(
-      {super.key,
-      required this.distancePlates,
-      required this.plateList,
-      required this.colorBar});
+      {super.key, required this.distancePlates, required this.plateList});
 
-  final Color colorBar;
   final double distancePlates;
   final List<PlateWidget> plateList;
 
@@ -43,7 +44,7 @@ class BarbellWidget extends StatelessWidget {
         alignment: Alignment.centerLeft,
         children: [
           // bar in the background
-          BarWidget(barPadding: 20.0, colorBar: colorBar),
+          const BarWidget(barPadding: 20.0),
           Row(
             children: [
               const SizedBox(width: 15.0 + 17.0),
@@ -68,11 +69,9 @@ class BarbellWidget extends StatelessWidget {
 }
 
 class BarWidget extends StatelessWidget {
-  const BarWidget(
-      {super.key, required this.barPadding, required this.colorBar});
+  const BarWidget({super.key, required this.barPadding});
 
   final double barPadding;
-  final Color colorBar;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +84,7 @@ class BarWidget extends StatelessWidget {
           height: 20.0,
           width: MediaQuery.of(context).size.width - (barPadding * 2),
           decoration: BoxDecoration(
-            color: colorBar,
+            color: Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadius.circular(5.0),
             border: Border.all(
               color: Colors.black,
@@ -101,7 +100,7 @@ class BarWidget extends StatelessWidget {
               height: 50.0,
               width: 17.0,
               decoration: BoxDecoration(
-                color: colorBar,
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(5.0),
                 border: Border.all(
                   color: Colors.black,
