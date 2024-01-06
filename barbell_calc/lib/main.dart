@@ -35,6 +35,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int currentPageIndex = 0;
 
+  final List<Widget> pages = [
+    MainPage(),
+    InventoryPage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,10 +63,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: const <Widget>[
-        MainPage(),
-        InventoryPage(),
-      ][currentPageIndex],
+      body: IndexedStack(
+        index: currentPageIndex,
+        children: pages,
+      ),
     );
   }
 }
