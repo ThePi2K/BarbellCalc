@@ -16,6 +16,29 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool darkMode = false;
+  ThemeMode theme = ThemeMode.light;
+  late SharedPreferences prefs;
+
+  // starting loadSharedPreference()
+  @override
+  void initState() {
+    super.initState();
+    loadSharedPreference();
+  }
+
+  void loadSharedPreference() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // reading darkModeEnabled and save value to variable
+      darkMode = prefs.getBool('darkModeEnabled') ?? false;
+      if (darkMode) {
+        theme = ThemeMode.dark;
+      } else {
+        theme = ThemeMode.light;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +51,7 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
-      themeMode: ThemeMode.light,
+      themeMode: theme,
       home: const MyHomePage(),
     );
   }
@@ -67,11 +90,13 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Home',
           ),
           NavigationDestination(
-            icon: Icon(Icons.inventory),
+            selectedIcon: Icon(Icons.inventory),
+            icon: Icon(Icons.inventory_2_outlined),
             label: 'Inventory',
           ),
           NavigationDestination(
-            icon: Icon(Icons.settings),
+            selectedIcon: Icon(Icons.settings),
+            icon: Icon(Icons.settings_outlined),
             label: 'Settings',
           ),
         ],
