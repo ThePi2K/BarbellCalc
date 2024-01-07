@@ -90,13 +90,14 @@ class _MainPageState extends State<MainPage> {
               visible: calculated,
               child: const BarbellWidget(
                 plateList: [
-                  PlateWidget(weightPlate: 30),
                   PlateWidget(weightPlate: 25),
-                  PlateWidget(weightPlate: 2.5),
-                  PlateWidget(weightPlate: 2.5),
-                  PlateWidget(weightPlate: 2.5),
+                  PlateWidget(weightPlate: 20),
+                  PlateWidget(weightPlate: 15),
+                  PlateWidget(weightPlate: 10),
+                  PlateWidget(weightPlate: 5),
                   PlateWidget(weightPlate: 2.5),
                   PlateWidget(weightPlate: 1.25),
+                  PlateWidget(weightPlate: 1),
                 ],
               ),
             )
