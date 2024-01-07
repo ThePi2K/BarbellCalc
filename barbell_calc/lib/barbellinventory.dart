@@ -10,7 +10,7 @@ class BarbellInventoryPage extends StatefulWidget {
 }
 
 class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
-  late List<Barbell> barbells; // Liste zum Speichern der Hanteln
+  late List<Barbell> barbells;
 
   @override
   void initState() {
@@ -20,23 +20,27 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
 
   // Methode zum Abrufen der Hanteln aus den SharedPreferences
   void getBarbells() async {
+    // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // get barbells from SharedPreferences
     final String? barbellsString = prefs.getString('barbells_key');
 
+    // check if Items in List
     if (barbellsString != null) {
       setState(() {
+        // save the barbells into the List "barbells"
         barbells = Barbell.decode(barbellsString);
       });
     } else {
       // no Items in the Barbell List
 
+      // initialise the list
       List<Barbell> barbells = [];
 
       // Create a new Barbell and add it to the list
-      Barbell newBarbell =
-          Barbell(name: 'My first Barbell', weight: 20.0, width: '30mm');
-      barbells.add(newBarbell);
-      barbells.add(newBarbell);
+      barbells
+          .add(Barbell(name: 'My first Barbell', weight: 20.0, width: '30mm'));
 
       // Encode the updated list to a string
       final String encodedData = Barbell.encode(barbells);
@@ -118,19 +122,21 @@ class _AddBarbellState extends State<AddBarbell> {
         .replaceAll("-", "")
         .replaceAll(",", ".");
 
-    print("Name ${nameController.text} Gewicht ${weightController.text}");
-
+    // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? barbellsString = prefs.getString('barbells_key');
 
+    // get barbells from SharedPreferences and save them into the List "barbells"
+    final String? barbellsString = prefs.getString('barbells_key');
     List<Barbell> barbells = [];
     barbells = Barbell.decode(barbellsString!);
 
-    Barbell newBarbell = Barbell(
-        name: nameController.text,
-        weight: double.parse(weightController.text),
-        width: '30mm');
-    barbells.add(newBarbell);
+    // add barbell to List (on top)
+    barbells.insert(
+        0,
+        Barbell(
+            name: nameController.text,
+            weight: double.parse(weightController.text),
+            width: '30mm'));
 
     // Encode the updated list to a string
     final String encodedData = Barbell.encode(barbells);
