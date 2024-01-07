@@ -10,15 +10,25 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool darkMode = false;
-  bool savedPreference = false;
+  late SharedPreferences prefs;
+
+  // starting loadSharedPreference()
+  @override
+  void initState() {
+    super.initState();
+    loadSharedPreference();
+  }
+
+  void loadSharedPreference() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      darkMode = prefs.getBool('darkModeEnabled') ?? false;
+    });
+  }
 
   void toggleDarkMode(bool value) async {
-    // read Data
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     // set bool value
     await prefs.setBool('darkModeEnabled', value);
-    savedPreference = prefs.getBool('darkModeEnabled')!;
-
     setState(() {
       darkMode = value;
     });
@@ -32,7 +42,7 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           const Text('Dark Mode'),
           Switch(value: darkMode, onChanged: toggleDarkMode),
-          Text (savedPreference.toString())
+          Text(darkMode.toString())
         ],
       ),
     );
