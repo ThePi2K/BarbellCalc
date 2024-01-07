@@ -153,7 +153,6 @@ class AddBarbell extends StatefulWidget {
 class _AddBarbellState extends State<AddBarbell> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
-  String selectedWidth = '50 mm';
 
   List<String> widthList = <String>['30 mm', '50 mm'];
 
@@ -184,6 +183,7 @@ class _AddBarbellState extends State<AddBarbell> {
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Barbell Name',
+                icon: Icon(Icons.tag)
               ),
             ),
             const SizedBox(height: 20),
@@ -192,28 +192,24 @@ class _AddBarbellState extends State<AddBarbell> {
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Barbell Weight',
+                  icon: Icon(Icons.scale)
               ),
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 20),
-            Row(
-              children: [
-                Text('Barbell Width'),
-                DropdownMenu<String>(
-                  initialSelection: widthList.first,
-                  onSelected: (String? value) {
-                    // This is called when the user selects an item.
-                    setState(() {
-                      dropdownValue = value!;
-                    });
-                  },
-                  dropdownMenuEntries:
-                      widthList.map<DropdownMenuEntry<String>>((String value) {
-                    return DropdownMenuEntry<String>(value: value, label: value);
-                  }).toList(),
-                ),
-              ],
-            )
+            DropdownMenu<String>(
+              leadingIcon: const Icon(Icons.straighten),
+              initialSelection: widthList.first,
+              onSelected: (String? value) {
+                setState(() {
+                  dropdownValue = value!;
+                });
+              },
+              dropdownMenuEntries:
+                  widthList.map<DropdownMenuEntry<String>>((String value) {
+                return DropdownMenuEntry<String>(value: value, label: value);
+              }).toList(),
+            ),
           ],
         ),
       ),
