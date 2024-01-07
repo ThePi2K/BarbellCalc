@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class InventoryPage extends StatelessWidget {
   const InventoryPage({super.key});
@@ -156,14 +159,29 @@ class _AddBarbellState extends State<AddBarbell> {
 
   List<String> widthList = <String>['30 mm', '50 mm'];
 
-  void saveBarbell() {
+  Future<void> saveBarbell() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String encodedData = Barbell.encode([
+      Barbell(id: 1, name: 'Test', weight: 30.0, width: '30mm'),
+      Barbell(id: 2, name: 'Test', weight: 30.0, width: '30mm'),
+    ]);
+    await prefs.setString('barbells_key', encodedData);
+    final String? barbellsString = prefs.getString('barbells_key');
+    final List<Barbell> barbells = Barbell.decode(barbellsString!);
+
+
+
     setState(() {
       // reformatting text inputs (remove spaces and minus, replace , with .)
       weightController.text = weightController.text
           .replaceAll(" ", "")
           .replaceAll("-", "")
           .replaceAll(",", ".");
+
+      print(barbells.first.name);
     });
+
+
   }
 
   @override
@@ -230,4 +248,44 @@ class _AddBarbellState extends State<AddBarbell> {
     weightController.dispose();
     super.dispose();
   }
+}
+
+class Barbell {
+  final int id;
+  final String name, width;
+  final double weight;
+
+  Barbell({
+    required this.id,
+    required this.name,
+    required this.width,
+    required this.weight,
+  });
+
+  factory Barbell.fromJson(Map<String, dynamic> jsonData) {
+    return Barbell(
+      id: jsonData['id'],
+      name: jsonData['name'],
+      width: jsonData['width'],
+      weight: jsonData['weight'],
+    );
+  }
+
+  static Map<String, dynamic> toMap(Barbell barbell) => {
+        'id': barbell.id,
+        'name': barbell.name,
+        'width': barbell.width,
+        'weight': barbell.weight,
+      };
+
+  static String encode(List<Barbell> musics) => json.encode(
+        musics
+            .map<Map<String, dynamic>>((music) => Barbell.toMap(music))
+            .toList(),
+      );
+
+  static List<Barbell> decode(String musics) =>
+      (json.decode(musics) as List<dynamic>)
+          .map<Barbell>((item) => Barbell.fromJson(item))
+          .toList();
 }
