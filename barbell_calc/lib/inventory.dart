@@ -6,7 +6,10 @@ class InventoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Inventory')),
+      appBar: AppBar(
+        title: const Text('Inventory'),
+        leading: const Icon(Icons.inventory),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -15,13 +18,15 @@ class InventoryPage extends StatelessWidget {
             Inventory(
               title: 'Barbells',
               image: 'assets/barbell_bing.jpeg',
-              inventoryPage: () => MaterialPageRoute(builder: (context) => const BarbellInventoryPage()),
+              inventoryPage: () => MaterialPageRoute(
+                  builder: (context) => const BarbellInventoryPage()),
             ),
             const SizedBox(height: 15),
             Inventory(
               title: 'Plates',
               image: 'assets/plates_bing.jpeg',
-              inventoryPage: () => MaterialPageRoute(builder: (context) => const PlateInventoryPage()),
+              inventoryPage: () => MaterialPageRoute(
+                  builder: (context) => const PlateInventoryPage()),
             ),
           ],
         ),
@@ -62,7 +67,7 @@ class Inventory extends StatelessWidget {
               fit: BoxFit.fill,
               colorFilter: ColorFilter.mode(
                 // adding BlendMode to picture
-                Colors.white.withOpacity(0.5),
+                Colors.white.withOpacity(0.6),
                 BlendMode.dstATop,
               ),
             ),
