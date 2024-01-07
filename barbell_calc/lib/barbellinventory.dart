@@ -117,29 +117,27 @@ class _AddBarbellState extends State<AddBarbell> {
   late String dropdownValue;
 
   void saveBarbell() async {
-    if (false) {
-      // connect to SharedPreferences
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // connect to SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      // get barbells from SharedPreferences and save them into the List "barbells"
-      final String? barbellsString = prefs.getString('barbells_key');
-      List<Barbell> barbells = [];
-      barbells = Barbell.decode(barbellsString!);
+    // get barbells from SharedPreferences and save them into the List "barbells"
+    final String? barbellsString = prefs.getString('barbells_key');
+    List<Barbell> barbells = [];
+    barbells = Barbell.decode(barbellsString!);
 
-      // add barbell to List (on top)
-      barbells.insert(
-          0,
-          Barbell(
-              name: nameController.text,
-              weight: double.parse(weightController.text),
-              width: '30mm'));
+    // add barbell to List (on top)
+    barbells.insert(
+        0,
+        Barbell(
+            name: nameController.text,
+            weight: double.parse(weightController.text),
+            width: '30mm'));
 
-      // Encode the updated list to a string
-      final String encodedData = Barbell.encode(barbells);
+    // Encode the updated list to a string
+    final String encodedData = Barbell.encode(barbells);
 
-      // Write the updated string to 'barbells_key'
-      await prefs.setString('barbells_key', encodedData);
-    }
+    // Write the updated string to 'barbells_key'
+    await prefs.setString('barbells_key', encodedData);
 
     closeWindow();
   }
