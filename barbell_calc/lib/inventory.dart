@@ -107,8 +107,48 @@ class InventoryButton extends StatelessWidget {
   }
 }
 
-class BarbellInventoryPage extends StatelessWidget {
+class BarbellInventoryPage extends StatefulWidget {
   const BarbellInventoryPage({super.key});
+
+  @override
+  State<BarbellInventoryPage> createState() => _BarbellInventoryPageState();
+}
+
+class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
+  late List<Barbell> barbells; // Liste zum Speichern der Hanteln
+
+  @override
+  void initState() {
+    super.initState();
+    getBarbells(); // Ruft die Methode auf, um die Hanteln zu laden, wenn das Widget initialisiert wird
+  }
+
+  // Methode zum Abrufen der Hanteln aus den SharedPreferences
+  void getBarbells() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? barbellsString = prefs.getString('barbells_key');
+
+    if (barbellsString != null) {
+      setState(() {
+        barbells = Barbell.decode(barbellsString);
+      });
+    } else {
+      // no Items in the Barbell List
+
+      List<Barbell> barbells = [];
+
+      // Create a new Barbell and add it to the list
+      Barbell newBarbell =
+          Barbell(name: 'My first Barbell', weight: 20.0, width: '30mm');
+      barbells.add(newBarbell);
+
+      // Encode the updated list to a string
+      final String encodedData = Barbell.encode(barbells);
+
+      // Write the updated string to 'barbells_key'
+      await prefs.setString('barbells_key', encodedData);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +156,17 @@ class BarbellInventoryPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Barbell Inventory'),
       ),
-      body: const Placeholder(),
+      body: ListView.builder(
+        itemCount: barbells.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            title: Text(barbells[index].name),
+            subtitle: Text(
+                'Weight: ${barbells[index].weight.toString()} Width: ${barbells[index].width}'),
+            // Additional information about the barbell can be displayed here
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(
@@ -157,41 +207,27 @@ class _AddBarbellState extends State<AddBarbell> {
   final TextEditingController weightController = TextEditingController();
 
   List<String> widthList = <String>['30 mm', '50 mm'];
+  late String dropdownValue;
 
-  Future<void> saveBarbell() async {
+  void saveBarbell() async {
     // reformatting text inputs (remove spaces and minus, replace , with .)
     weightController.text = weightController.text
         .replaceAll(" ", "")
         .replaceAll("-", "")
         .replaceAll(",", ".");
 
-    // // get SharedPreferences Instance
-    // final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // // convert barbell list to string array
-    // final String encodedData = Barbell.encode([
-    //   Barbell(id: 1, name: 'Test', weight: 30.0, width: '30mm'),
-    //   Barbell(id: 2, name: 'Test', weight: 30.0, width: '30mm'),
-    // ]);
-    // // write string array to barbells_key
-    // await prefs.setString('barbells_key', encodedData);
-    // // get string array from barbells_key
-    // final String? barbellsString = prefs.getString('barbells_key');
-    // // convert string array to barbell list
-    // final List<Barbell> barbells = Barbell.decode(barbellsString!);
-
-    // Get SharedPreferences Instance
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // Get existing barbells or initialize an empty list
+    // Get existing barbells
     final String? barbellsString = prefs.getString('barbells_key');
+
     List<Barbell> barbells = [];
-    if (barbellsString != null) {
-      barbells = Barbell.decode(barbellsString);
-    }
 
     // Create a new Barbell and add it to the list
-    Barbell newBarbell =
-        Barbell(name: 'New Barbell', weight: 40.0, width: '40mm');
+    Barbell newBarbell = Barbell(
+        name: nameController.text,
+        weight: double.parse(weightController.text),
+        width: dropdownValue);
     barbells.add(newBarbell);
 
     // Encode the updated list to a string
@@ -200,10 +236,16 @@ class _AddBarbellState extends State<AddBarbell> {
     // Write the updated string to 'barbells_key'
     await prefs.setString('barbells_key', encodedData);
 
-    // Confirmation message
-    print('New barbell added successfully!');
-
-    setState(() {});
+    // setState(() {
+    //   Navigator.pop(context);
+    //
+    //   final _BarbellInventoryPageState? parentState =
+    //   context.findAncestorStateOfType<_BarbellInventoryPageState>();
+    //   if (parentState != null) {
+    //     parentState
+    //         .getBarbells(); // Ruft die Methode auf, um die Hanteln neu zu laden
+    //   }
+    // });
   }
 
   @override
