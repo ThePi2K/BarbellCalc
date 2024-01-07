@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'barbell.dart';
 
@@ -116,12 +117,6 @@ class _AddBarbellState extends State<AddBarbell> {
   late String dropdownValue;
 
   void saveBarbell() async {
-    // reformatting text inputs (remove spaces and minus, replace , with .)
-    weightController.text = weightController.text
-        .replaceAll(" ", "")
-        .replaceAll("-", "")
-        .replaceAll(",", ".");
-
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -143,6 +138,25 @@ class _AddBarbellState extends State<AddBarbell> {
 
     // Write the updated string to 'barbells_key'
     await prefs.setString('barbells_key', encodedData);
+
+    closeWindow();
+  }
+
+  void closeWindow() {
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    } else {
+      SystemNavigator.pop();
+    }
+  }
+
+  bool checkWeightDouble() {
+    try {
+      double.parse(weightController.text);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   @override
@@ -199,7 +213,37 @@ class _AddBarbellState extends State<AddBarbell> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: saveBarbell, child: const Icon(Icons.check)),
+        onPressed: () {
+          // reformatting text inputs (remove spaces and minus, replace , with .)
+          weightController.text = weightController.text
+              .replaceAll(" ", "")
+              .replaceAll("-", "")
+              .replaceAll(",", ".");
+
+          if (checkWeightDouble()) {
+            saveBarbell();
+          } else {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Error'),
+                  content: const Text('Weight is invalid!'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        },
+        child: const Icon(Icons.check),
+      ),
     );
   }
 
