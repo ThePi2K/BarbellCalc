@@ -155,6 +155,8 @@ class _AddBarbellState extends State<AddBarbell> {
   final TextEditingController weightController = TextEditingController();
   String selectedWidth = '50 mm';
 
+  List<String> widthList = <String>['30 mm', '50 mm'];
+
   void saveBarbell() {
     setState(() {
       // reformatting text inputs (remove spaces and minus, replace , with .)
@@ -167,6 +169,7 @@ class _AddBarbellState extends State<AddBarbell> {
 
   @override
   Widget build(BuildContext context) {
+    String dropdownValue = widthList.first;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Barbell'),
@@ -193,21 +196,24 @@ class _AddBarbellState extends State<AddBarbell> {
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 20),
-            DropdownButton<String>(
-              value: selectedWidth,
-              onChanged: (newValue) {
-                setState(() {
-                  selectedWidth = newValue!;
-                });
-              },
-              items: <String>['50 mm', '30 mm']
-                  .map<DropdownMenuItem<String>>(
-                      (String value) => DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          ))
-                  .toList(),
-            ),
+            Row(
+              children: [
+                Text('Barbell Width'),
+                DropdownMenu<String>(
+                  initialSelection: widthList.first,
+                  onSelected: (String? value) {
+                    // This is called when the user selects an item.
+                    setState(() {
+                      dropdownValue = value!;
+                    });
+                  },
+                  dropdownMenuEntries:
+                      widthList.map<DropdownMenuEntry<String>>((String value) {
+                    return DropdownMenuEntry<String>(value: value, label: value);
+                  }).toList(),
+                ),
+              ],
+            )
           ],
         ),
       ),
