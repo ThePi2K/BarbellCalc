@@ -15,13 +15,13 @@ class InventoryPage extends StatelessWidget {
             Inventory(
               title: 'Barbells',
               image: 'assets/barbell_bing.jpeg',
-              inventoryPage: MaterialPageRoute(builder: (context) => const BarbellInventoryPage()),
+              inventoryPage: () => MaterialPageRoute(builder: (context) => const BarbellInventoryPage()),
             ),
             const SizedBox(height: 15),
             Inventory(
               title: 'Plates',
               image: 'assets/plates_bing.jpeg',
-              inventoryPage: MaterialPageRoute(builder: (context) => const PlateInventoryPage()),
+              inventoryPage: () => MaterialPageRoute(builder: (context) => const PlateInventoryPage()),
             ),
           ],
         ),
@@ -39,7 +39,7 @@ class Inventory extends StatelessWidget {
 
   final String title;
   final String image;
-  final MaterialPageRoute inventoryPage;
+  final Function inventoryPage;
 
   final double textSize = 60.0;
 
@@ -50,7 +50,7 @@ class Inventory extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            inventoryPage,
+            inventoryPage(),
           );
         },
         child: Container(
@@ -115,7 +115,7 @@ class BarbellInventoryPage extends StatelessWidget {
             // Zur ersten Seite zurückkehren
             Navigator.pop(context);
           },
-          child: const Text('Zurück zur ersten Seite'),
+          child: const Text('ZURÜCK'),
         ),
       ),
     );
@@ -137,7 +137,7 @@ class PlateInventoryPage extends StatelessWidget {
             // Zur ersten Seite zurückkehren
             Navigator.pop(context);
           },
-          child: const Text('Zurück zur ersten Seite'),
+          child: const Text('ZURÜCK'),
         ),
       ),
     );
