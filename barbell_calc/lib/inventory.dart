@@ -15,18 +15,22 @@ class InventoryPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Inventory(
+            InventoryButton(
               title: 'Barbells',
               image: 'assets/barbell_bing.jpeg',
               inventoryPage: () => MaterialPageRoute(
-                  builder: (context) => const BarbellInventoryPage()),
+                  builder: (context) => const Inventory(
+                        title: 'Barbell Inventory',
+                      )),
             ),
             const SizedBox(height: 15),
-            Inventory(
+            InventoryButton(
               title: 'Plates',
               image: 'assets/plates_bing.jpeg',
               inventoryPage: () => MaterialPageRoute(
-                  builder: (context) => const PlateInventoryPage()),
+                  builder: (context) => const Inventory(
+                        title: 'Plate Inventory',
+                      )),
             ),
           ],
         ),
@@ -35,8 +39,8 @@ class InventoryPage extends StatelessWidget {
   }
 }
 
-class Inventory extends StatelessWidget {
-  const Inventory(
+class InventoryButton extends StatelessWidget {
+  const InventoryButton(
       {super.key,
       required this.title,
       required this.image,
@@ -105,46 +109,20 @@ class Inventory extends StatelessWidget {
   }
 }
 
-class BarbellInventoryPage extends StatelessWidget {
-  const BarbellInventoryPage({super.key});
+class Inventory extends StatelessWidget {
+  const Inventory({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BarbellInventoryPage'),
+        title: Text(title),
       ),
-      body: Center(
-        child: GestureDetector(
-          onTap: () {
-            // Zur ersten Seite zurückkehren
-            Navigator.pop(context);
-          },
-          child: const Text('ZURÜCK'),
-        ),
-      ),
-    );
-  }
-}
-
-class PlateInventoryPage extends StatelessWidget {
-  const PlateInventoryPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('PlateInventoryPage'),
-      ),
-      body: Center(
-        child: GestureDetector(
-          onTap: () {
-            // Zur ersten Seite zurückkehren
-            Navigator.pop(context);
-          },
-          child: const Text('ZURÜCK'),
-        ),
-      ),
+      body: const Placeholder(),
+      floatingActionButton:
+          const FloatingActionButton(onPressed: null, child: Icon(Icons.add)),
     );
   }
 }
