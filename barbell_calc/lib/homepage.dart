@@ -42,64 +42,66 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  const SizedBox(height: 20),
-                  TextField(
-                    controller: trainingWeightController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Training Weight',
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+            child: Column(
+              children: [
+                Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    TextField(
+                      controller: trainingWeightController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Training Weight',
+                      ),
+                      keyboardType: TextInputType.number,
                     ),
-                    keyboardType: TextInputType.number,
-                  ),
-                  const SizedBox(height: 20),
-                  TextField(
-                    controller: barbellWeightController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Barbell Weight',
+                    const SizedBox(height: 20),
+                    TextField(
+                      controller: barbellWeightController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Barbell Weight',
+                      ),
+                      keyboardType: TextInputType.number,
                     ),
-                    keyboardType: TextInputType.number,
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              ),
-              ElevatedButton(
-                  onPressed: calculateWeight, child: const Text('CALC')),
-              const SizedBox(height: 10),
-              Visibility(
-                visible: calculated,
-                child: Text(
-                  plateWeight.toString(),
-                  style: const TextStyle(fontSize: 40.0),
+                    const SizedBox(height: 20),
+                  ],
                 ),
-              ),
-            ],
+                ElevatedButton(
+                    onPressed: calculateWeight, child: const Text('CALC')),
+                const SizedBox(height: 10),
+                Visibility(
+                  visible: calculated,
+                  child: Text(
+                    plateWeight.toString(),
+                    style: const TextStyle(fontSize: 40.0),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        // Barbell
-        Visibility(
-          visible: calculated,
-          child: const BarbellWidget(
-            plateList: [
-              PlateWidget(weightPlate: 20.0),
-              PlateWidget(weightPlate: 10.0),
-              PlateWidget(weightPlate: 2.5),
-              PlateWidget(weightPlate: 2.5),
-              PlateWidget(weightPlate: 2.5),
-              PlateWidget(weightPlate: 2.5),
-              PlateWidget(weightPlate: 1.25),
-            ],
+          // Barbell
+          Visibility(
+            visible: calculated,
+            child: const BarbellWidget(
+              plateList: [
+                PlateWidget(weightPlate: 20.0),
+                PlateWidget(weightPlate: 10.0),
+                PlateWidget(weightPlate: 2.5),
+                PlateWidget(weightPlate: 2.5),
+                PlateWidget(weightPlate: 2.5),
+                PlateWidget(weightPlate: 2.5),
+                PlateWidget(weightPlate: 1.25),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
