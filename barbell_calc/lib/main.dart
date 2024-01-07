@@ -16,34 +16,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isDarkMode = false;
-
-  late ThemeMode themeMode = ThemeMode.light;
-
-  @override
-  void initState() {
-    super.initState();
-    loadPreferences();
-  }
-
-  Future<void> loadPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? isDarkModePref = prefs.getBool('isDarkMode');
-    if (isDarkModePref != null) {
-      setState(() {
-        isDarkMode = isDarkModePref;
-        updateThemeMode();
-      });
-    }
-  }
-
-  void updateThemeMode() {
-    if (isDarkMode) {
-      themeMode = ThemeMode.dark;
-    } else {
-      themeMode = ThemeMode.light;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +28,7 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
-      themeMode: themeMode,
+      themeMode: ThemeMode.light,
       home: const MyHomePage(),
     );
   }
