@@ -16,10 +16,9 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
   @override
   void initState() {
     super.initState();
-    getBarbells(); // Ruft die Methode auf, um die Hanteln zu laden, wenn das Widget initialisiert wird
+    getBarbells();
   }
 
-  // Methode zum Abrufen der Hanteln aus den SharedPreferences
   void getBarbells() async {
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
