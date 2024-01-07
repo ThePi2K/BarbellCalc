@@ -115,8 +115,14 @@ class BarbellInventoryPage extends StatelessWidget {
         title: const Text('Barbell Inventory'),
       ),
       body: const Placeholder(),
-      floatingActionButton:
-          const FloatingActionButton(onPressed: null, child: Icon(Icons.add)),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddBarbell()),
+            );
+          },
+          child: const Icon(Icons.add)),
     );
   }
 }
@@ -136,3 +142,139 @@ class PlateInventoryPage extends StatelessWidget {
     );
   }
 }
+
+class AddBarbell extends StatefulWidget {
+  const AddBarbell({super.key});
+
+  @override
+  State<AddBarbell> createState() => _AddBarbellState();
+}
+
+class _AddBarbellState extends State<AddBarbell> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController weightController = TextEditingController();
+  String selectedWidth = '50 mm'; // default width
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Add Barbell'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Barbell Name',
+              ),
+            ),
+            const SizedBox(height: 20),
+            TextField(
+              controller: weightController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Barbell Weight',
+              ),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 20),
+            DropdownButton<String>(
+              value: selectedWidth,
+              onChanged: (newValue) {
+                setState(() {
+                  selectedWidth = newValue!;
+                });
+              },
+              items: <String>['50 mm', '30 mm']
+                  .map<DropdownMenuItem<String>>(
+                    (String value) => DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    ),
+                  )
+                  .toList(),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                String name = nameController.text;
+                String weight = weightController.text;
+
+                print('Name: $name, Weight: $weight, Width: $selectedWidth');
+                // Optionally, you can also use `_image` variable for the selected image file.
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    weightController.dispose();
+    super.dispose();
+  }
+}
+
+/*
+
+IMAGE IMPLEMENTATION
+
+
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
+  File? _image;
+
+  Future getImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+
+
+      _image != null
+      ? Image.file(
+          _image!,
+          height: 100,
+        )
+      : SizedBox(
+          height: 100,
+          child:
+              Placeholder(), // Placeholder until an image is selected
+        ),
+  SizedBox(height: 20),
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      ElevatedButton(
+        onPressed: () {
+          getImage(ImageSource.gallery);
+        },
+        child: Text('Select Image'),
+      ),
+      ElevatedButton(
+        onPressed: () {
+          getImage(ImageSource.camera);
+        },
+        child: Text('Take Picture'),
+      ),
+    ],
+  ),
+
+ */
