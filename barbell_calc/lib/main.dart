@@ -5,7 +5,7 @@ import 'inventory.dart';
 import 'settings.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -18,7 +18,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool isDarkMode = false;
 
-  late ThemeMode themeMode;
+  late ThemeMode themeMode = ThemeMode.light;
 
   @override
   void initState() {
