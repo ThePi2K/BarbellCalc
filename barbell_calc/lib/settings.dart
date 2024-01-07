@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  final Function(bool) updateTheme;
+
+  const SettingsPage({Key? key, required this.updateTheme}) : super(key: key);
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -30,6 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void toggleDarkMode(bool value) async {
     // set bool value
     await prefs.setBool('darkModeEnabled', value);
+    widget.updateTheme(value); // Notify main app to update theme
     setState(() {
       darkMode = value;
     });

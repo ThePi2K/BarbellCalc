@@ -9,7 +9,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -40,6 +40,13 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void updateTheme(bool value) {
+    setState(() {
+      darkMode = value;
+      theme = value ? ThemeMode.dark : ThemeMode.light;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -52,13 +59,15 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.dark,
       ),
       themeMode: theme,
-      home: const MyHomePage(),
+      home: MyHomePage(updateTheme: updateTheme),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  final Function(bool) updateTheme;
+
+  const MyHomePage({Key? key, required this.updateTheme}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -66,15 +75,22 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int currentPageIndex = 0;
+  late Function(bool) updateThemeCallback;
 
-  final List<Widget> pages = [
-    const MainPage(),
-    const InventoryPage(),
-    const SettingsPage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    updateThemeCallback = widget.updateTheme;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> pages = [
+      const MainPage(),
+      const InventoryPage(),
+      SettingsPage(updateTheme: updateThemeCallback),
+    ];
+
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
