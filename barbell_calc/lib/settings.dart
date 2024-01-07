@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SettingsPage extends StatefulWidget {
   final Function(bool) updateTheme;
 
-  const SettingsPage({Key? key, required this.updateTheme}) : super(key: key);
+  const SettingsPage({super.key, required this.updateTheme});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();

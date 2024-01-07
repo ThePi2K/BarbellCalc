@@ -9,7 +9,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
 class MyHomePage extends StatefulWidget {
   final Function(bool) updateTheme;
 
-  const MyHomePage({Key? key, required this.updateTheme}) : super(key: key);
+  const MyHomePage({super.key, required this.updateTheme});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
