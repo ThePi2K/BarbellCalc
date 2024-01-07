@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class Barbell {
-  final int id;
+  // final int id;
   final String name, width;
   final double weight;
 
   Barbell({
-    required this.id,
+    // required this.id,
     required this.name,
     required this.width,
     required this.weight,
@@ -14,7 +14,7 @@ class Barbell {
 
   factory Barbell.fromJson(Map<String, dynamic> jsonData) {
     return Barbell(
-      id: jsonData['id'],
+      // id: jsonData['id'],
       name: jsonData['name'],
       width: jsonData['width'],
       weight: jsonData['weight'],
@@ -22,7 +22,7 @@ class Barbell {
   }
 
   static Map<String, dynamic> toMap(Barbell barbell) => {
-        'id': barbell.id,
+        // 'id': barbell.id,
         'name': barbell.name,
         'width': barbell.width,
         'weight': barbell.weight,

@@ -159,24 +159,51 @@ class _AddBarbellState extends State<AddBarbell> {
   List<String> widthList = <String>['30 mm', '50 mm'];
 
   Future<void> saveBarbell() async {
+    // reformatting text inputs (remove spaces and minus, replace , with .)
+    weightController.text = weightController.text
+        .replaceAll(" ", "")
+        .replaceAll("-", "")
+        .replaceAll(",", ".");
+
+    // // get SharedPreferences Instance
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // // convert barbell list to string array
+    // final String encodedData = Barbell.encode([
+    //   Barbell(id: 1, name: 'Test', weight: 30.0, width: '30mm'),
+    //   Barbell(id: 2, name: 'Test', weight: 30.0, width: '30mm'),
+    // ]);
+    // // write string array to barbells_key
+    // await prefs.setString('barbells_key', encodedData);
+    // // get string array from barbells_key
+    // final String? barbellsString = prefs.getString('barbells_key');
+    // // convert string array to barbell list
+    // final List<Barbell> barbells = Barbell.decode(barbellsString!);
+
+    // Get SharedPreferences Instance
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String encodedData = Barbell.encode([
-      Barbell(id: 1, name: 'Test', weight: 30.0, width: '30mm'),
-      Barbell(id: 2, name: 'Test', weight: 30.0, width: '30mm'),
-    ]);
-    await prefs.setString('barbells_key', encodedData);
+
+    // Get existing barbells or initialize an empty list
     final String? barbellsString = prefs.getString('barbells_key');
-    final List<Barbell> barbells = Barbell.decode(barbellsString!);
+    List<Barbell> barbells = [];
+    if (barbellsString != null) {
+      barbells = Barbell.decode(barbellsString);
+    }
 
-    setState(() {
-      // reformatting text inputs (remove spaces and minus, replace , with .)
-      weightController.text = weightController.text
-          .replaceAll(" ", "")
-          .replaceAll("-", "")
-          .replaceAll(",", ".");
+    // Create a new Barbell and add it to the list
+    Barbell newBarbell =
+        Barbell(name: 'New Barbell', weight: 40.0, width: '40mm');
+    barbells.add(newBarbell);
 
-      print(barbells.first.name);
-    });
+    // Encode the updated list to a string
+    final String encodedData = Barbell.encode(barbells);
+
+    // Write the updated string to 'barbells_key'
+    await prefs.setString('barbells_key', encodedData);
+
+    // Confirmation message
+    print('New barbell added successfully!');
+
+    setState(() {});
   }
 
   @override
