@@ -178,36 +178,42 @@ class _AddBarbellState extends State<AddBarbell> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
+            TextFormField(
               controller: nameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Barbell Name',
-                icon: Icon(Icons.tag)
+                icon: Icon(Icons.tag),
               ),
             ),
             const SizedBox(height: 20),
-            TextField(
+            TextFormField(
               controller: weightController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Barbell Weight',
-                  icon: Icon(Icons.scale)
+                icon: Icon(Icons.scale),
               ),
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 20),
-            DropdownMenu<String>(
-              leadingIcon: const Icon(Icons.straighten),
-              initialSelection: widthList.first,
-              onSelected: (String? value) {
+            DropdownButtonFormField<String>(
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Select Width',
+                icon: Icon(Icons.straighten),
+              ),
+              value: dropdownValue,
+              onChanged: (String? value) {
                 setState(() {
                   dropdownValue = value!;
                 });
               },
-              dropdownMenuEntries:
-                  widthList.map<DropdownMenuEntry<String>>((String value) {
-                return DropdownMenuEntry<String>(value: value, label: value);
+              items: widthList.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
               }).toList(),
             ),
           ],
