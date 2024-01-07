@@ -117,27 +117,29 @@ class _AddBarbellState extends State<AddBarbell> {
   late String dropdownValue;
 
   void saveBarbell() async {
-    // connect to SharedPreferences
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (false) {
+      // connect to SharedPreferences
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // get barbells from SharedPreferences and save them into the List "barbells"
-    final String? barbellsString = prefs.getString('barbells_key');
-    List<Barbell> barbells = [];
-    barbells = Barbell.decode(barbellsString!);
+      // get barbells from SharedPreferences and save them into the List "barbells"
+      final String? barbellsString = prefs.getString('barbells_key');
+      List<Barbell> barbells = [];
+      barbells = Barbell.decode(barbellsString!);
 
-    // add barbell to List (on top)
-    barbells.insert(
-        0,
-        Barbell(
-            name: nameController.text,
-            weight: double.parse(weightController.text),
-            width: '30mm'));
+      // add barbell to List (on top)
+      barbells.insert(
+          0,
+          Barbell(
+              name: nameController.text,
+              weight: double.parse(weightController.text),
+              width: '30mm'));
 
-    // Encode the updated list to a string
-    final String encodedData = Barbell.encode(barbells);
+      // Encode the updated list to a string
+      final String encodedData = Barbell.encode(barbells);
 
-    // Write the updated string to 'barbells_key'
-    await prefs.setString('barbells_key', encodedData);
+      // Write the updated string to 'barbells_key'
+      await prefs.setString('barbells_key', encodedData);
+    }
 
     closeWindow();
   }
@@ -220,15 +222,14 @@ class _AddBarbellState extends State<AddBarbell> {
               .replaceAll("-", "")
               .replaceAll(",", ".");
 
-          if (checkWeightDouble()) {
-            saveBarbell();
-          } else {
+          // check if name is empty
+          if (nameController.text.isEmpty) {
             showDialog(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: const Text('Error'),
-                  content: const Text('Weight is invalid!'),
+                  content: const Text('Name cannot be empty!'),
                   actions: [
                     TextButton(
                       onPressed: () {
@@ -240,6 +241,29 @@ class _AddBarbellState extends State<AddBarbell> {
                 );
               },
             );
+          } else {
+            // check if weight is valid
+            if (checkWeightDouble()) {
+              saveBarbell();
+            } else {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Error'),
+                    content: const Text('Weight is invalid!'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
           }
         },
         child: const Icon(Icons.check),
