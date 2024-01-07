@@ -153,7 +153,11 @@ class AddBarbell extends StatefulWidget {
 class _AddBarbellState extends State<AddBarbell> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
-  String selectedWidth = '50 mm'; // default width
+  String selectedWidth = '50 mm';
+
+  void saveBarbell() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -192,27 +196,17 @@ class _AddBarbellState extends State<AddBarbell> {
               },
               items: <String>['50 mm', '30 mm']
                   .map<DropdownMenuItem<String>>(
-                    (String value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    ),
-                  )
+                      (String value) => DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          ))
                   .toList(),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                String name = nameController.text;
-                String weight = weightController.text;
-
-                print('Name: $name, Weight: $weight, Width: $selectedWidth');
-                // Optionally, you can also use `_image` variable for the selected image file.
-              },
-              child: const Text('Save'),
             ),
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: saveBarbell, child: const Icon(Icons.check)),
     );
   }
 
