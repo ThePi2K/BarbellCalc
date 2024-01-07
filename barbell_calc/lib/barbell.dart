@@ -62,7 +62,7 @@ class BarbellWidget extends StatelessWidget {
         alignment: Alignment.centerLeft,
         children: [
           // bar in the background
-          const BarWidget(barPadding: 10.0),
+          const BarWidget(),
           Row(
             children: [
               const SizedBox(width: 10.0 + 17.0),
@@ -87,9 +87,7 @@ class BarbellWidget extends StatelessWidget {
 }
 
 class BarWidget extends StatelessWidget {
-  const BarWidget({super.key, required this.barPadding});
-
-  final double barPadding;
+  const BarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -97,35 +95,36 @@ class BarWidget extends StatelessWidget {
       alignment: Alignment.centerLeft,
       children: [
         // bar
-        Container(
-          height: 20.0,
-          width: MediaQuery.of(context).size.width - (barPadding * 2),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Theme.of(context).colorScheme.secondary.withOpacity(0.0),
-                Theme.of(context).colorScheme.secondary.withOpacity(1.0),
-              ],
-              stops: const [0.0, 0.017],
-            ),
-            borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(5.0),
-              bottomRight: Radius.circular(5.0),
-            ),
-            border: Border(
-              top: BorderSide(
-                color: Colors.black.withOpacity(1.0),
-                width: 1.5,
+        Expanded(
+          child: Container(
+            height: 20.0,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  Theme.of(context).colorScheme.secondary.withOpacity(0.0),
+                  Theme.of(context).colorScheme.secondary.withOpacity(1.0),
+                ],
+                stops: const [0.0, 0.017],
               ),
-              bottom: BorderSide(
-                color: Colors.black.withOpacity(1.0),
-                width: 1.5,
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(5.0),
+                bottomRight: Radius.circular(5.0),
               ),
-              right: BorderSide(
-                color: Colors.black.withOpacity(1.0),
-                width: 1.5,
+              border: Border(
+                top: BorderSide(
+                  color: Colors.black.withOpacity(1.0),
+                  width: 1.5,
+                ),
+                bottom: BorderSide(
+                  color: Colors.black.withOpacity(1.0),
+                  width: 1.5,
+                ),
+                right: BorderSide(
+                  color: Colors.black.withOpacity(1.0),
+                  width: 1.5,
+                ),
               ),
             ),
           ),
