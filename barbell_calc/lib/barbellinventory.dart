@@ -55,8 +55,32 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
     setState(() {});
   }
 
-  void deleteBarbell(int index) {
-    print('Deleting Barbell' + barbells[index].name);
+  Future<void> deleteBarbell(int index) async {
+    // connect to SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // get barbells from SharedPreferences
+    final String? barbellsString = prefs.getString('barbells_key');
+
+    // check if Items in List
+    if (barbellsString != null) {
+      setState(() {
+        // save the barbells into the List "barbells"
+        barbells = Barbell.decode(barbellsString);
+      });
+    }
+
+    // remove barbell from array
+    barbells.remove(barbells[index]);
+
+    // Encode the updated list to a string
+    final String encodedData = Barbell.encode(barbells);
+
+    // Write the updated string to 'barbells_key'
+    await prefs.setString('barbells_key', encodedData);
+
+    // refresh the list
+    updateBarbells();
   }
 
   @override
