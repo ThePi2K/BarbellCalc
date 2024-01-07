@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'barbell.dart';
+import 'barbellwidget.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
