@@ -19,18 +19,14 @@ class InventoryPage extends StatelessWidget {
               title: 'Barbells',
               image: 'assets/barbell_bing.jpeg',
               inventoryPage: () => MaterialPageRoute(
-                  builder: (context) => const Inventory(
-                        title: 'Barbell Inventory',
-                      )),
+                  builder: (context) => const BarbellInventoryPage()),
             ),
             const SizedBox(height: 15),
             InventoryButton(
               title: 'Plates',
               image: 'assets/plates_bing.jpeg',
               inventoryPage: () => MaterialPageRoute(
-                  builder: (context) => const Inventory(
-                        title: 'Plate Inventory',
-                      )),
+                  builder: (context) => const PlateInventoryPage()),
             ),
           ],
         ),
@@ -109,16 +105,30 @@ class InventoryButton extends StatelessWidget {
   }
 }
 
-class Inventory extends StatelessWidget {
-  const Inventory({super.key, required this.title});
-
-  final String title;
+class BarbellInventoryPage extends StatelessWidget {
+  const BarbellInventoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: const Text('Barbell Inventory'),
+      ),
+      body: const Placeholder(),
+      floatingActionButton:
+          const FloatingActionButton(onPressed: null, child: Icon(Icons.add)),
+    );
+  }
+}
+
+class PlateInventoryPage extends StatelessWidget {
+  const PlateInventoryPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Plate Inventory'),
       ),
       body: const Placeholder(),
       floatingActionButton:
