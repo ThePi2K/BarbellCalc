@@ -36,6 +36,7 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
       Barbell newBarbell =
           Barbell(name: 'My first Barbell', weight: 20.0, width: '30mm');
       barbells.add(newBarbell);
+      barbells.add(newBarbell);
 
       // Encode the updated list to a string
       final String encodedData = Barbell.encode(barbells);
@@ -54,12 +55,10 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
       body: ListView.builder(
         itemCount: barbells.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(barbells[index].name),
-            subtitle: Text(
-                'Weight: ${barbells[index].weight.toString()} Width: ${barbells[index].width}'),
-            // Additional information about the barbell can be displayed here
-          );
+          return BarbellListItem(
+              name: barbells[index].name,
+              weight: barbells[index].weight,
+              width: barbells[index].width);
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -70,6 +69,30 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
             );
           },
           child: const Icon(Icons.add)),
+    );
+  }
+}
+
+class BarbellListItem extends StatelessWidget {
+  const BarbellListItem(
+      {super.key,
+      required this.name,
+      required this.weight,
+      required this.width});
+
+  final String name;
+  final double weight;
+  final String width;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        //leading: const FlutterLogo(size: 72.0),
+        title: Text(name),
+        subtitle: Text(weight.toString()),
+        trailing: IconButton(icon: const Icon(Icons.delete), onPressed: () {}),
+      ),
     );
   }
 }
@@ -95,18 +118,18 @@ class _AddBarbellState extends State<AddBarbell> {
         .replaceAll("-", "")
         .replaceAll(",", ".");
 
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("Name ${nameController.text} Gewicht ${weightController.text}");
 
-    // Get existing barbells
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? barbellsString = prefs.getString('barbells_key');
 
     List<Barbell> barbells = [];
+    barbells = Barbell.decode(barbellsString!);
 
-    // Create a new Barbell and add it to the list
     Barbell newBarbell = Barbell(
         name: nameController.text,
         weight: double.parse(weightController.text),
-        width: dropdownValue);
+        width: '30mm');
     barbells.add(newBarbell);
 
     // Encode the updated list to a string
@@ -114,17 +137,6 @@ class _AddBarbellState extends State<AddBarbell> {
 
     // Write the updated string to 'barbells_key'
     await prefs.setString('barbells_key', encodedData);
-
-    // setState(() {
-    //   Navigator.pop(context);
-    //
-    //   final _BarbellInventoryPageState? parentState =
-    //   context.findAncestorStateOfType<_BarbellInventoryPageState>();
-    //   if (parentState != null) {
-    //     parentState
-    //         .getBarbells(); // Ruft die Methode auf, um die Hanteln neu zu laden
-    //   }
-    // });
   }
 
   @override
