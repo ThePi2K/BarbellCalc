@@ -32,6 +32,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       // reading darkModeEnabled and save value to variable
       darkMode = prefs.getBool('darkModeEnabled') ?? false;
+      // set theme based of bool
       if (darkMode) {
         theme = ThemeMode.dark;
       } else {
