@@ -50,6 +50,11 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
     }
   }
 
+  void updateBarbells() {
+    getBarbells();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +74,8 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AddBarbell()),
+              MaterialPageRoute(
+                  builder: (context) => AddBarbell(onSave: updateBarbells)),
             );
           },
           child: const Icon(Icons.add)),
@@ -102,7 +108,9 @@ class BarbellListItem extends StatelessWidget {
 }
 
 class AddBarbell extends StatefulWidget {
-  const AddBarbell({super.key});
+  const AddBarbell({super.key, required this.onSave});
+
+  final Function() onSave;
 
   @override
   State<AddBarbell> createState() => _AddBarbellState();
@@ -139,6 +147,7 @@ class _AddBarbellState extends State<AddBarbell> {
     await prefs.setString('barbells_key', encodedData);
 
     closeWindow();
+    widget.onSave();
   }
 
   void closeWindow() {
