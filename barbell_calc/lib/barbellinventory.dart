@@ -55,6 +55,10 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
     setState(() {});
   }
 
+  void deleteBarbell(int index) {
+    print('Deleting Barbell' + barbells[index].name);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,9 +69,7 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
         itemCount: barbells.length,
         itemBuilder: (BuildContext context, int index) {
           return BarbellListItem(
-              name: barbells[index].name,
-              weight: barbells[index].weight,
-              width: barbells[index].width);
+              barbell: barbells[index], index: index, onDelete: deleteBarbell);
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -84,24 +86,29 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
 }
 
 class BarbellListItem extends StatelessWidget {
-  const BarbellListItem(
-      {super.key,
-      required this.name,
-      required this.weight,
-      required this.width});
+  const BarbellListItem({
+    super.key,
+    required this.barbell,
+    required this.index,
+    required this.onDelete,
+  });
 
-  final String name;
-  final double weight;
-  final String width;
+  final Barbell barbell;
+  final int index;
+  final Function(int) onDelete;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        //leading: const FlutterLogo(size: 72.0),
-        title: Text(name),
-        subtitle: Text(weight.toString()),
-        trailing: IconButton(icon: const Icon(Icons.delete), onPressed: () {}),
+        title: Text(barbell.name),
+        subtitle: Text(barbell.weight.toString()),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () {
+            onDelete(index);
+          },
+        ),
       ),
     );
   }
