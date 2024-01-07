@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'barbell.dart';
 import 'barbellinventory.dart';
 
 class InventoryPage extends StatelessWidget {
