@@ -178,7 +178,7 @@ class _AddBarbellState extends State<AddBarbell> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextFormField(
+            TextField(
               controller: nameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -187,7 +187,7 @@ class _AddBarbellState extends State<AddBarbell> {
               ),
             ),
             const SizedBox(height: 20),
-            TextFormField(
+            TextField(
               controller: weightController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
