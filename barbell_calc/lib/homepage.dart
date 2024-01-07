@@ -73,9 +73,9 @@ class _MainPageState extends State<MainPage> {
                       const SizedBox(height: 20),
                     ],
                   ),
-                  ElevatedButton(
-                      onPressed: calculateWeight, child: const Text('CALC')),
-                  const SizedBox(height: 10),
+                  // ElevatedButton(
+                  //     onPressed: calculateWeight, child: const Text('CALC')),
+                  // const SizedBox(height: 10),
                   Visibility(
                     visible: calculated,
                     child: Text(
