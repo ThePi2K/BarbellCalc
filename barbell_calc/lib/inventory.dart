@@ -156,7 +156,13 @@ class _AddBarbellState extends State<AddBarbell> {
   String selectedWidth = '50 mm';
 
   void saveBarbell() {
-    setState(() {});
+    setState(() {
+      // reformatting text inputs (remove spaces and minus, replace , with .)
+      weightController.text = weightController.text
+          .replaceAll(" ", "")
+          .replaceAll("-", "")
+          .replaceAll(",", ".");
+    });
   }
 
   @override
