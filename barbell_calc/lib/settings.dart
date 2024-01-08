@@ -80,15 +80,7 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          const Row(
-            children: [
-              Icon(Icons.color_lens_outlined),
-              SizedBox(
-                width: 10,
-              ),
-              Text('Design', style: TextStyle(fontSize: 25)),
-            ],
-          ),
+          const Text('Design', style: TextStyle(fontSize: 20)),
           const Divider(),
           ListTile(
             title: const Text('Follow System Theme'),
@@ -145,17 +137,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 );
               },
               icon: const Icon(Icons.color_lens_outlined),
+              color: currentColor,
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                    return currentColor;
-                  },
-                ),
-                foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                    return Colors.black38;
-                  },
-                ),
+                backgroundColor: MaterialStateProperty.all(currentColor),
+                foregroundColor:
+                    MaterialStateProperty.all(Colors.white.withOpacity(0.75)),
               ),
             ),
           ),
