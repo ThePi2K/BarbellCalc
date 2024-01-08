@@ -279,16 +279,14 @@ class _AddBarbellState extends State<AddBarbell> {
               },
             );
           } else {
-            // check if weight is valid
-            if (checkWeightDouble()) {
-              saveBarbell();
-            } else {
+            // check if weight is empty
+            if (weightController.text.isEmpty) {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text('Error'),
-                    content: const Text('Weight is invalid!'),
+                    content: const Text('Weight cannot be empty!'),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -300,6 +298,29 @@ class _AddBarbellState extends State<AddBarbell> {
                   );
                 },
               );
+            } else {
+              // check if weight is valid
+              if (checkWeightDouble()) {
+                saveBarbell();
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Error'),
+                      content: const Text('Weight is invalid!'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
             }
           }
         },
