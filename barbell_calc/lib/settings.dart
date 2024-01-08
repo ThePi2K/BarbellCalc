@@ -18,11 +18,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void changeColor(Color color) {
     setState(() => currentColor = color);
-    // Save the selected color to SharedPreferences or use it as needed
-    // For example:
-    // prefs.setInt('selectedColor', color.value);
-    // Then retrieve it later using:
-    // Color savedColor = Color(prefs.getInt('selectedColor') ?? Colors.blue.value);
+    // Save the selected color to SharedPreferences
+    prefs.setInt('selectedColor', color.value);
   }
 
   // starting loadSharedPreference()
