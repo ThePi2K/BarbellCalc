@@ -3,16 +3,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
+
   // final Function(bool) updateTheme;
   // final Function(bool) followSystemTheme;
   // final Function(Color) updateColor;
 
-  const SettingsPage({
-    super.key,
-    // required this.updateTheme,
-    // required this.updateColor,
-    // required this.followSystemTheme
-  });
+  // const SettingsPage({
+  //   super.key,
+  //   // required this.updateTheme,
+  //   // required this.updateColor,
+  //   // required this.followSystemTheme
+  // });
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
