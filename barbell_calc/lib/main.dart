@@ -41,36 +41,34 @@ class _MyAppState extends State<MyApp> {
 
       // reading selectedColor and save value to variable - if not existing set color blue
       savedColor = Color(prefs.getInt('selectedColor') ?? Colors.blue.value);
-
-      // set theme based of bool
-      if (followSystem) {
-        theme = ThemeMode.system;
-      } else {
-        if (darkMode) {
-          theme = ThemeMode.dark;
-        } else {
-          theme = ThemeMode.light;
-        }
-      }
     });
   }
 
   void updateTheme(bool value) {
     darkMode = value;
-    loadSharedPreference();
+    setTheme();
     setState(() {});
   }
 
   void setSystemTheme(bool value) {
     followSystem = value;
-    loadSharedPreference();
+    setTheme();
     setState(() {});
   }
 
   void updateColor(Color value) {
-    setState(() {
-      savedColor = value;
-    });
+    savedColor = value;
+    setTheme();
+    setState(() {});
+  }
+
+  void setTheme() {
+    loadSharedPreference();
+    if (followSystem) {
+      theme = ThemeMode.system;
+    } else {
+      theme = darkMode ? ThemeMode.dark : ThemeMode.light;
+    }
   }
 
   @override
