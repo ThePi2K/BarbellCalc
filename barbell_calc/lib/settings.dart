@@ -8,7 +8,10 @@ class SettingsPage extends StatefulWidget {
   final Function(Color) updateColor;
 
   const SettingsPage(
-      {super.key, required this.updateTheme, required this.updateColor, required this.followSystemTheme});
+      {super.key,
+      required this.updateTheme,
+      required this.updateColor,
+      required this.followSystemTheme});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -116,16 +119,23 @@ class _SettingsPageState extends State<SettingsPage> {
                     return AlertDialog(
                       title: const Text('Pick a color'),
                       content: SingleChildScrollView(
-                        child: ColorPicker(
-                          pickerColor: currentColor,
-                          onColorChanged: changeColor,
-                          pickerAreaHeightPercent: 0.8,
-                        ),
-                      ),
+                          child: BlockPicker(
+                        pickerColor: currentColor,
+                        onColorChanged: (Color color) {
+                          currentColor = color;
+                        },
+                      )),
                       actions: <Widget>[
                         TextButton(
-                          child: const Text('Done'),
+                          child: const Text('Cancel'),
                           onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: const Text('Save'),
+                          onPressed: () {
+                            changeColor(currentColor);
                             Navigator.of(context).pop();
                           },
                         ),
