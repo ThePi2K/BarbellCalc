@@ -4,8 +4,9 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class SettingsPage extends StatefulWidget {
   final Function(bool) updateTheme;
+  final Function(Color) updateColor;
 
-  const SettingsPage({super.key, required this.updateTheme});
+  const SettingsPage({super.key, required this.updateTheme, required this.updateColor});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -20,6 +21,10 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() => currentColor = color);
     // Save the selected color to SharedPreferences
     prefs.setInt('selectedColor', color.value);
+
+    // hier updatecolor theme
+
+    widget.updateColor(currentColor); // Notify main app to update color
   }
 
   // starting loadSharedPreference()
