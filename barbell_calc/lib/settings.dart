@@ -70,7 +70,8 @@ class _SettingsPageState extends State<SettingsPage> {
           const Divider(),
           ListTile(
             title: const Text('Pick a color'),
-            trailing: ElevatedButton(
+            trailing: IconButton(
+              icon: const Icon(Icons.color_lens_outlined),
               onPressed: () {
                 showDialog(
                   context: context,
@@ -99,7 +100,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 );
               },
-              child: const Text('Choose'),
             ),
           ),
           const Divider(),
