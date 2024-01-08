@@ -52,6 +52,26 @@ class _SettingsPageState extends State<SettingsPage> {
 
       // reading selectedColor and save value to variable
       currentColor = Color(prefs.getInt('selectedColor') ?? Colors.blue.value);
+
+      // reading standardBarbells and olympicBarbells and save the values to the variables
+      standardBarbells = prefs.getBool('standardBarbells') ?? true;
+      olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
+    });
+  }
+
+  void toggleStandardBarbells(bool value) async {
+    // set bool value
+    await prefs.setBool('standardBarbells', value);
+    setState(() {
+      standardBarbells = value;
+    });
+  }
+
+  void toggleOlympicBarbells(bool value) async {
+    // set bool value
+    await prefs.setBool('olympicBarbells', value);
+    setState(() {
+      olympicBarbells = value;
     });
   }
 
@@ -158,7 +178,9 @@ class _SettingsPageState extends State<SettingsPage> {
             title: const Text('Standard Barbells'),
             subtitle: const Text('Ø 30 mm'),
             trailing: Switch(
-              onChanged: (value){},
+              onChanged: (value) {
+                toggleStandardBarbells(value);
+              },
               value: standardBarbells,
             ),
           ),
@@ -166,7 +188,9 @@ class _SettingsPageState extends State<SettingsPage> {
             title: const Text('Olympic Barbells'),
             subtitle: const Text('Ø 50 mm'),
             trailing: Switch(
-              onChanged: (value){},
+              onChanged: (value) {
+                toggleOlympicBarbells(value);
+              },
               value: olympicBarbells,
             ),
           ),
