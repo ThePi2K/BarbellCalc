@@ -98,12 +98,6 @@ class _SettingsPageState extends State<SettingsPage> {
     int green = color.green;
     int blue = color.blue;
 
-    print(color.red.toString() +
-        " " +
-        color.green.toString() +
-        " " +
-        color.blue.toString());
-
     if (((color.red == 0) &
             (color.green == 0) &
             (color.blue == 0)) | // if black
