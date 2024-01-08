@@ -34,6 +34,9 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       // reading darkModeEnabled and save value to variable
       darkMode = prefs.getBool('darkModeEnabled') ?? false;
+
+      // reading selectedColor and save value to variable
+      currentColor = Color(prefs.getInt('selectedColor') ?? Colors.blue.value);
     });
   }
 
