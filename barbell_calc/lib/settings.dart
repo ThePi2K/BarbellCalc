@@ -4,9 +4,11 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class SettingsPage extends StatefulWidget {
   final Function(bool) updateTheme;
+  final Function(bool) followSystemTheme;
   final Function(Color) updateColor;
 
-  const SettingsPage({super.key, required this.updateTheme, required this.updateColor});
+  const SettingsPage(
+      {super.key, required this.updateTheme, required this.updateColor, required this.followSystemTheme});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -14,6 +16,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool darkMode = false;
+  bool systemTheme = false;
   late SharedPreferences prefs;
   Color currentColor = Colors.blue; // Default color
 
@@ -38,6 +41,9 @@ class _SettingsPageState extends State<SettingsPage> {
       // reading darkModeEnabled and save value to variable
       darkMode = prefs.getBool('darkModeEnabled') ?? false;
 
+      // reading systemThemeEnabled and save value to variable
+      systemTheme = prefs.getBool('systemThemeEnabled') ?? false;
+
       // reading selectedColor and save value to variable
       currentColor = Color(prefs.getInt('selectedColor') ?? Colors.blue.value);
     });
@@ -52,6 +58,15 @@ class _SettingsPageState extends State<SettingsPage> {
     });
   }
 
+  void toggleSystemTheme(bool value) async {
+    // set bool value
+    await prefs.setBool('systemThemeEnabled', value);
+    widget.updateTheme(value); // Notify main app to update theme
+    setState(() {
+      systemTheme = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,15 +77,35 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          const Divider(),
-          ListTile(
-            title: const Text('Dark Mode'),
-            trailing: Switch(
-              onChanged: toggleDarkMode,
-              value: darkMode,
-            ),
+          const Row(
+            children: [
+              Icon(Icons.color_lens_outlined),
+              SizedBox(
+                width: 10,
+              ),
+              Text('Design', style: TextStyle(fontSize: 25)),
+            ],
           ),
           const Divider(),
+          ListTile(
+            title: const Text('Follow System Theme'),
+            trailing: Switch(
+              onChanged: toggleSystemTheme,
+              value: systemTheme,
+            ),
+          ),
+          //const Divider(),
+          Visibility(
+            visible: !systemTheme,
+            child: ListTile(
+              title: const Text('Dark Mode'),
+              trailing: Switch(
+                onChanged: toggleDarkMode,
+                value: darkMode,
+              ),
+            ),
+          ),
+          //const Divider(),
           ListTile(
             title: const Text('App Color'),
             trailing: IconButton(

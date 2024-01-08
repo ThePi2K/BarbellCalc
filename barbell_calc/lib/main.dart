@@ -17,6 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool darkMode = false;
+  bool followSystem = false;
   ThemeMode theme = ThemeMode.light;
   late SharedPreferences prefs;
 
@@ -35,14 +36,21 @@ class _MyAppState extends State<MyApp> {
       // reading darkModeEnabled and save value to variable
       darkMode = prefs.getBool('darkModeEnabled') ?? false;
 
+      // reading darkModeEnabled and save value to variable
+      followSystem = prefs.getBool('systemThemeEnabled') ?? false;
+
       // reading selectedColor and save value to variable
       savedColor = Color(prefs.getInt('selectedColor') ?? Colors.blue.value);
 
       // set theme based of bool
-      if (darkMode) {
-        theme = ThemeMode.dark;
+      if (followSystem) {
+        theme = ThemeMode.system;
       } else {
-        theme = ThemeMode.light;
+        if (darkMode) {
+          theme = ThemeMode.dark;
+        } else {
+          theme = ThemeMode.light;
+        }
       }
     });
   }
@@ -50,6 +58,13 @@ class _MyAppState extends State<MyApp> {
   void updateTheme(bool value) {
     setState(() {
       darkMode = value;
+      theme = value ? ThemeMode.dark : ThemeMode.light;
+    });
+  }
+
+  void setSystemTheme(bool value) {
+    setState(() {
+      followSystem = value;
       theme = value ? ThemeMode.dark : ThemeMode.light;
     });
   }
@@ -62,7 +77,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: 'BarbellCalc',
       theme: ThemeData(
@@ -73,7 +87,10 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.dark,
       ),
       themeMode: theme,
-      home: MyHomePage(updateTheme: updateTheme, updateColor: updateColor,),
+      home: MyHomePage(
+        updateTheme: updateTheme,
+        updateColor: updateColor,
+      ),
     );
   }
 }
@@ -82,7 +99,8 @@ class MyHomePage extends StatefulWidget {
   final Function(bool) updateTheme;
   final Function(Color) updateColor;
 
-  const MyHomePage({super.key, required this.updateTheme, required this.updateColor});
+  const MyHomePage(
+      {super.key, required this.updateTheme, required this.updateColor});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -91,12 +109,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int currentPageIndex = 0;
   late Function(bool) updateThemeCallback;
+  late Function(bool) updateSystemThemeCallback;
   late Function(Color) updateColorCallback;
 
   @override
   void initState() {
     super.initState();
     updateThemeCallback = widget.updateTheme;
+    updateSystemThemeCallback = widget.updateTheme;
     updateColorCallback = widget.updateColor;
   }
 
@@ -105,7 +125,10 @@ class _MyHomePageState extends State<MyHomePage> {
     final List<Widget> pages = [
       const MainPage(),
       const InventoryPage(),
-      SettingsPage(updateTheme: updateThemeCallback, updateColor: updateColorCallback,),
+      SettingsPage(
+          updateTheme: updateThemeCallback,
+          updateColor: updateColorCallback,
+          followSystemTheme: updateSystemThemeCallback),
     ];
 
     return Scaffold(
