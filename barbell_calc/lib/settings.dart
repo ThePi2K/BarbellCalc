@@ -21,7 +21,10 @@ class _SettingsPageState extends State<SettingsPage> {
   bool darkMode = false;
   bool systemTheme = false;
   late SharedPreferences prefs;
-  Color currentColor = Colors.blue; // Default color
+  Color currentColor = Colors.blue;
+
+  bool standardBarbells = true;
+  bool olympicBarbells = false;
 
   void changeColor(Color color) {
     setState(() => currentColor = color);
@@ -80,8 +83,11 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          const Text('Design', style: TextStyle(fontSize: 20)),
           const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(5.0),
+            child: Text('Design', style: TextStyle(fontSize: 20)),
+          ),
           ListTile(
             title: const Text('Follow System Theme'),
             trailing: Switch(
@@ -89,7 +95,6 @@ class _SettingsPageState extends State<SettingsPage> {
               value: systemTheme,
             ),
           ),
-          //const Divider(),
           Visibility(
             visible: !systemTheme,
             child: ListTile(
@@ -100,7 +105,6 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           ),
-          //const Divider(),
           ListTile(
             title: const Text('App Color'),
             trailing: IconButton(
@@ -143,6 +147,25 @@ class _SettingsPageState extends State<SettingsPage> {
                 foregroundColor:
                     MaterialStateProperty.all(Colors.white.withOpacity(0.75)),
               ),
+            ),
+          ),
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(5.0),
+            child: Text('Sleeve Diameters', style: TextStyle(fontSize: 20)),
+          ),
+          ListTile(
+            title: const Text('Standard Barbells (1 inch)'),
+            trailing: Switch(
+              onChanged: (value){},
+              value: standardBarbells,
+            ),
+          ),
+          ListTile(
+            title: const Text('Olympic Barbells (2 inches)'),
+            trailing: Switch(
+              onChanged: (value){},
+              value: olympicBarbells,
             ),
           ),
           const Divider(),
