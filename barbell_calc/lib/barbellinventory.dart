@@ -41,7 +41,7 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
 
       // Create a new Barbell and add it to the list
       barbells
-          .add(Barbell(name: 'My first Barbell', weight: 20.0, width: '30mm'));
+          .add(Barbell(name: 'My first Barbell', weight: 20.0, width: 'Standard'));
 
       // Encode the updated list to a string
       final String encodedData = Barbell.encode(barbells);
@@ -164,7 +164,7 @@ class _AddBarbellState extends State<AddBarbell> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
 
-  List<String> widthList = <String>['30 mm', '50 mm'];
+  List<String> widthList = <String>['Standard', 'Olympic'];
   late String dropdownValue;
 
   void saveBarbell() async {
@@ -182,7 +182,7 @@ class _AddBarbellState extends State<AddBarbell> {
         Barbell(
             name: nameController.text,
             weight: double.parse(weightController.text),
-            width: '30mm'));
+            width: dropdownValue));
 
     // Encode the updated list to a string
     final String encodedData = Barbell.encode(barbells);
