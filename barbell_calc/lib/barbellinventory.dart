@@ -15,8 +15,8 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
 
   @override
   void initState() {
-    super.initState();
     getBarbells();
+    super.initState();
   }
 
   void getBarbells() async {
@@ -86,6 +86,7 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    getBarbells();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Barbell Inventory'),
