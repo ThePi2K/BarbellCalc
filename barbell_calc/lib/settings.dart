@@ -93,6 +93,37 @@ class _SettingsPageState extends State<SettingsPage> {
     });
   }
 
+  Color darkenColor(Color color, [double factor = 0.1]) {
+    int red = color.red;
+    int green = color.green;
+    int blue = color.blue;
+
+    print(color.red.toString() +
+        " " +
+        color.green.toString() +
+        " " +
+        color.blue.toString());
+
+    if (((color.red == 0) &
+            (color.green == 0) &
+            (color.blue == 0)) | // if black
+        ((color.red == 63) &
+            (color.green == 81) &
+            (color.blue == 181)) | // or dark blue
+        ((color.red == 103) &
+            (color.green == 58) &
+            (color.blue == 183))) // or violet
+    {
+      return Colors.white;
+    } else {
+      red = (red * (1 - factor)).round().clamp(0, 255);
+      green = (green * (1 - factor)).round().clamp(0, 255);
+      blue = (blue * (1 - factor)).round().clamp(0, 255);
+
+      return Color.fromARGB(color.alpha, red, green, blue);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,7 +196,7 @@ class _SettingsPageState extends State<SettingsPage> {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(appColor),
                 foregroundColor:
-                    MaterialStateProperty.all(Colors.white.withOpacity(0.75)),
+                    MaterialStateProperty.all(darkenColor(appColor, 0.5)),
               ),
             ),
           ),
