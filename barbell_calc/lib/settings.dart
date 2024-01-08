@@ -61,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void toggleSystemTheme(bool value) async {
     // set bool value
     await prefs.setBool('systemThemeEnabled', value);
-    widget.updateTheme(value); // Notify main app to update theme
+    widget.followSystemTheme(value); // Notify main app to update theme
     setState(() {
       systemTheme = value;
     });
