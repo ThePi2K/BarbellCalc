@@ -7,34 +7,25 @@ class SettingsPage extends StatefulWidget {
   // final Function(bool) followSystemTheme;
   // final Function(Color) updateColor;
 
-  const SettingsPage(
-      {super.key,
-      // required this.updateTheme,
-      // required this.updateColor,
-      // required this.followSystemTheme
-      });
+  const SettingsPage({
+    super.key,
+    // required this.updateTheme,
+    // required this.updateColor,
+    // required this.followSystemTheme
+  });
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool darkMode = false;
-  bool systemTheme = false;
-  Color currentColor = Colors.blue;
-
   late SharedPreferences prefs;
 
   bool standardBarbells = true;
   bool olympicBarbells = false;
-
-  // void changeColor(Color color) {
-  //   setState(() => currentColor = color);
-  //   // Save the selected color to SharedPreferences
-  //   prefs.setInt('selectedColor', color.value);
-  //
-  //   // widget.updateColor(currentColor); // Notify main app to update color
-  // }
+  bool darkMode = false;
+  bool followSystemTheme = false;
+  Color appColor = Colors.blue;
 
   // starting loadSharedPreference()
   @override
@@ -46,18 +37,12 @@ class _SettingsPageState extends State<SettingsPage> {
   void loadSharedPreference() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
-      // reading darkModeEnabled and save value to variable
-      darkMode = prefs.getBool('darkModeEnabled') ?? false;
-
-      // reading systemThemeEnabled and save value to variable
-      systemTheme = prefs.getBool('systemThemeEnabled') ?? false;
-
-      // reading selectedColor and save value to variable
-      currentColor = Color(prefs.getInt('selectedColor') ?? Colors.blue.value);
-
-      // reading standardBarbells and olympicBarbells and save the values to the variables
+      // reading SharedPreferences and save the values to the variables
       standardBarbells = prefs.getBool('standardBarbells') ?? true;
       olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
+      darkMode = prefs.getBool('darkMode') ?? false;
+      followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
+      appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
     });
   }
 
@@ -81,23 +66,30 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
-  // void toggleDarkMode(bool value) async {
-  //   // set bool value
-  //   await prefs.setBool('darkModeEnabled', value);
-  //   // widget.updateTheme(value); // Notify main app to update theme
-  //   setState(() {
-  //     darkMode = value;
-  //   });
-  // }
-  //
-  // void toggleSystemTheme(bool value) async {
-  //   // set bool value
-  //   await prefs.setBool('systemThemeEnabled', value);
-  //   // widget.followSystemTheme(value); // Notify main app to update theme
-  //   setState(() {
-  //     systemTheme = value;
-  //   });
-  // }
+  void toggleDarkMode(bool value) async {
+    // set bool value
+    await prefs.setBool('darkMode', value);
+    setState(() {
+      darkMode = value;
+    });
+  }
+
+  void toggleFollowSystemTheme(bool value) async {
+    // set bool value
+    await prefs.setBool('followSystemTheme', value);
+    setState(() {
+      followSystemTheme = value;
+      darkMode = false;
+    });
+  }
+
+  void changeColor(Color value) async {
+    // set Color value
+    await prefs.setInt('appColor', value.value);
+    setState(() {
+      appColor = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,12 +109,12 @@ class _SettingsPageState extends State<SettingsPage> {
           ListTile(
             title: const Text('Follow System Theme'),
             trailing: Switch(
-              onChanged: toggleSystemTheme,
-              value: systemTheme,
+              onChanged: toggleFollowSystemTheme,
+              value: followSystemTheme,
             ),
           ),
           Visibility(
-            visible: !systemTheme,
+            visible: !followSystemTheme,
             child: ListTile(
               title: const Text('Dark Mode'),
               trailing: Switch(
@@ -142,9 +134,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       title: const Text('Pick a color'),
                       content: SingleChildScrollView(
                           child: BlockPicker(
-                        pickerColor: currentColor,
+                        pickerColor: appColor,
                         onColorChanged: (Color color) {
-                          currentColor = color;
+                          appColor = color;
                         },
                       )),
                       actions: <Widget>[
@@ -157,7 +149,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         TextButton(
                           child: const Text('Save'),
                           onPressed: () {
-                            changeColor(currentColor);
+                            changeColor(appColor);
                             Navigator.of(context).pop();
                           },
                         ),
@@ -167,9 +159,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 );
               },
               icon: const Icon(Icons.color_lens_outlined),
-              color: currentColor,
+              color: appColor,
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(currentColor),
+                backgroundColor: MaterialStateProperty.all(appColor),
                 foregroundColor:
                     MaterialStateProperty.all(Colors.white.withOpacity(0.75)),
               ),
