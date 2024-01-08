@@ -33,13 +33,13 @@ class _MyAppState extends State<MyApp> {
   void loadSharedPreference() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
-      // reading darkModeEnabled and save value to variable
+      // reading darkModeEnabled and save value to variable - if not existing disable dark mode
       darkMode = prefs.getBool('darkModeEnabled') ?? false;
 
-      // reading darkModeEnabled and save value to variable
+      // reading darkModeEnabled and save value to variable - if not existing disable system theme
       followSystem = prefs.getBool('systemThemeEnabled') ?? false;
 
-      // reading selectedColor and save value to variable
+      // reading selectedColor and save value to variable - if not existing set color blue
       savedColor = Color(prefs.getInt('selectedColor') ?? Colors.blue.value);
 
       // set theme based of bool
