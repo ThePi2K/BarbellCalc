@@ -8,38 +8,15 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'BarbellCalc',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        useMaterial3: true,
-      ),
-      home: const HomePage(),
-    );
-  }
+  State<MyApp> createState() => _MyAppState();
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class _MyAppState extends State<MyApp> {
   late SharedPreferences prefs;
-  int currentPageIndex = 0;
-  final List<Widget> pages = [
-    const MainPage(),
-    const InventoryPage(),
-    const SettingsPage(),
-  ];
   bool darkMode = false;
   bool followSystemTheme = false;
   Color appColor = Colors.blue;
@@ -60,6 +37,35 @@ class _HomePageState extends State<HomePage> {
       appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
     });
   }
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'BarbellCalc',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: appColor),
+        useMaterial3: true,
+      ),
+      home: const HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int currentPageIndex = 0;
+  final List<Widget> pages = [
+    const MainPage(),
+    const InventoryPage(),
+    const SettingsPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
