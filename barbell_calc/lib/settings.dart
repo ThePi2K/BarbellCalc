@@ -155,14 +155,16 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Text('Sleeve Diameters', style: TextStyle(fontSize: 20)),
           ),
           ListTile(
-            title: const Text('Standard Barbells (Ø 30 mm)'),
+            title: const Text('Standard Barbells'),
+            subtitle: const Text('Ø 30 mm'),
             trailing: Switch(
               onChanged: (value){},
               value: standardBarbells,
             ),
           ),
           ListTile(
-            title: const Text('Olympic Barbells (Ø 50 mm)'),
+            title: const Text('Olympic Barbells'),
+            subtitle: const Text('Ø 50 mm'),
             trailing: Switch(
               onChanged: (value){},
               value: olympicBarbells,
