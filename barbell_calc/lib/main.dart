@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'homepage.dart';
 import 'inventory.dart';
 import 'settings.dart';
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'BarbellCalc',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
@@ -33,12 +33,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late SharedPreferences prefs;
   int currentPageIndex = 0;
   final List<Widget> pages = [
     const MainPage(),
     const InventoryPage(),
     const SettingsPage(),
   ];
+  bool darkMode = false;
+  bool followSystemTheme = false;
+  Color appColor = Colors.blue;
+
+  // starting loadSharedPreference()
+  @override
+  void initState() {
+    super.initState();
+    loadSharedPreference();
+  }
+
+  void loadSharedPreference() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // reading SharedPreferences and save the values to the variables
+      darkMode = prefs.getBool('darkMode') ?? false;
+      followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
+      appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
