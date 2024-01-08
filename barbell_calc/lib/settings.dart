@@ -71,7 +71,6 @@ class _SettingsPageState extends State<SettingsPage> {
           ListTile(
             title: const Text('Pick a color'),
             trailing: IconButton(
-              icon: const Icon(Icons.color_lens_outlined),
               onPressed: () {
                 showDialog(
                   context: context,
@@ -90,9 +89,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           child: const Text('Done'),
                           onPressed: () {
                             Navigator.of(context).pop();
-                            // Save the selected color to SharedPreferences or use it as needed
-                            // For example:
-                            // prefs.setInt('selectedColor', currentColor.value);
                           },
                         ),
                       ],
@@ -100,6 +96,19 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 );
               },
+              icon: const Icon(Icons.color_lens_outlined),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                    return currentColor;
+                  },
+                ),
+                foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                    return Colors.black38;
+                  },
+                ),
+              ),
             ),
           ),
           const Divider(),
