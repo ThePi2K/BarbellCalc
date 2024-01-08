@@ -60,19 +60,23 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void toggleStandardBarbells(bool value) async {
-    // set bool value
-    await prefs.setBool('standardBarbells', value);
-    setState(() {
-      standardBarbells = value;
-    });
+    if (olympicBarbells) {
+      // set bool value
+      await prefs.setBool('standardBarbells', value);
+      setState(() {
+        standardBarbells = value;
+      });
+    }
   }
 
   void toggleOlympicBarbells(bool value) async {
-    // set bool value
-    await prefs.setBool('olympicBarbells', value);
-    setState(() {
-      olympicBarbells = value;
-    });
+    if (standardBarbells) {
+      // set bool value
+      await prefs.setBool('olympicBarbells', value);
+      setState(() {
+        olympicBarbells = value;
+      });
+    }
   }
 
   void toggleDarkMode(bool value) async {
