@@ -41,12 +41,25 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    ThemeMode themeMode;
+
+    if (followSystemTheme) {
+      themeMode = ThemeMode.system;
+    } else {
+      themeMode = darkMode ? ThemeMode.dark : ThemeMode.light;
+    }
+
     return MaterialApp(
       title: 'BarbellCalc',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: appColor),
         useMaterial3: true,
       ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: appColor, brightness: Brightness.dark),
+      ),
+      themeMode: themeMode,
       home: const HomePage(),
     );
   }
