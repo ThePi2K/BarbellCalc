@@ -40,8 +40,8 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
       // List<Barbell> barbells = [];
 
       // Create a new Barbell and add it to the list
-      barbells
-          .add(Barbell(name: 'My first Barbell', weight: 20.0, width: 'Standard'));
+      barbells.add(
+          Barbell(name: 'My first Barbell', weight: 20.0, width: 'Standard'));
 
       // Encode the updated list to a string
       final String encodedData = Barbell.encode(barbells);
@@ -94,7 +94,11 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
         itemCount: barbells.length,
         itemBuilder: (BuildContext context, int index) {
           return BarbellListItem(
-              barbell: barbells[index], index: index, onDelete: deleteBarbell);
+            barbell: barbells[index],
+            index: index,
+            onDelete: deleteBarbell,
+            barbellListLength: barbells.length,
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -116,10 +120,12 @@ class BarbellListItem extends StatelessWidget {
     required this.barbell,
     required this.index,
     required this.onDelete,
+    required this.barbellListLength,
   });
 
   final Barbell barbell;
   final int index;
+  final int barbellListLength;
   final Function(int) onDelete;
 
   @override
@@ -143,7 +149,27 @@ class BarbellListItem extends StatelessWidget {
         trailing: IconButton(
           icon: const Icon(Icons.delete),
           onPressed: () {
-            onDelete(index);
+            if (barbellListLength==1) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title:  const Text('Attention'),
+                    content: const Text('You need at least one barbell!'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else {
+              onDelete(index);
+            }
           },
         ),
       ),
