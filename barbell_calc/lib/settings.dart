@@ -56,20 +56,21 @@ class _SettingsPageState extends State<SettingsPage> {
         title: const Text('Settings'),
         leading: const Icon(Icons.settings),
       ),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const Text(
-              'Dark Mode',
-            ),
-            SwitchListTile(
-              title: const Text('Enable Dark Mode'),
+        children: <Widget>[
+          const Divider(),
+          ListTile(
+            title: const Text('Dark Mode'),
+            trailing: Switch(
               onChanged: toggleDarkMode,
               value: darkMode,
             ),
-            ElevatedButton(
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text('Pick a color'),
+            trailing: ElevatedButton(
               onPressed: () {
                 showDialog(
                   context: context,
@@ -98,10 +99,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 );
               },
-              child: const Text('Pick a color'),
+              child: const Text('Choose'),
             ),
-          ],
-        ),
+          ),
+          const Divider(),
+        ],
       ),
     );
   }
