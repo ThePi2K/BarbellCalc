@@ -12,7 +12,6 @@ class Barbell {
 
   factory Barbell.fromJson(Map<String, dynamic> jsonData) {
     return Barbell(
-      // id: jsonData['id'],
       name: jsonData['name'],
       width: jsonData['width'],
       weight: jsonData['weight'],
