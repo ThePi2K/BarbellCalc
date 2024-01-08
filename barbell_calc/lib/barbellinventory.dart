@@ -11,7 +11,7 @@ class BarbellInventoryPage extends StatefulWidget {
 }
 
 class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
-  late List<Barbell> barbells;
+  late List<Barbell> barbells = [];
 
   @override
   void initState() {
@@ -32,11 +32,13 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
         // save the barbells into the List "barbells"
         barbells = Barbell.decode(barbellsString);
       });
-    } else {
-      // no Items in the Barbell List
+    }
+
+    // if 0 barbells
+    if (barbells.isEmpty) {
 
       // initialise the list
-      List<Barbell> barbells = [];
+      // List<Barbell> barbells = [];
 
       // Create a new Barbell and add it to the list
       barbells
