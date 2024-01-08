@@ -56,17 +56,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   void updateTheme(bool value) {
-    setState(() {
-      darkMode = value;
-      theme = value ? ThemeMode.dark : ThemeMode.light;
-    });
+    darkMode = value;
+    loadSharedPreference();
+    setState(() {});
   }
 
   void setSystemTheme(bool value) {
-    setState(() {
-      followSystem = value;
-      theme = value ? ThemeMode.dark : ThemeMode.light;
-    });
+    followSystem = value;
+    loadSharedPreference();
+    setState(() {});
   }
 
   void updateColor(Color value) {
