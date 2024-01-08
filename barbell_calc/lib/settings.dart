@@ -21,19 +21,20 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool darkMode = false;
   bool systemTheme = false;
-  late SharedPreferences prefs;
   Color currentColor = Colors.blue;
+
+  late SharedPreferences prefs;
 
   bool standardBarbells = true;
   bool olympicBarbells = false;
 
-  void changeColor(Color color) {
-    setState(() => currentColor = color);
-    // Save the selected color to SharedPreferences
-    prefs.setInt('selectedColor', color.value);
-
-    // widget.updateColor(currentColor); // Notify main app to update color
-  }
+  // void changeColor(Color color) {
+  //   setState(() => currentColor = color);
+  //   // Save the selected color to SharedPreferences
+  //   prefs.setInt('selectedColor', color.value);
+  //
+  //   // widget.updateColor(currentColor); // Notify main app to update color
+  // }
 
   // starting loadSharedPreference()
   @override
@@ -80,23 +81,23 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
-  void toggleDarkMode(bool value) async {
-    // set bool value
-    await prefs.setBool('darkModeEnabled', value);
-    // widget.updateTheme(value); // Notify main app to update theme
-    setState(() {
-      darkMode = value;
-    });
-  }
-
-  void toggleSystemTheme(bool value) async {
-    // set bool value
-    await prefs.setBool('systemThemeEnabled', value);
-    // widget.followSystemTheme(value); // Notify main app to update theme
-    setState(() {
-      systemTheme = value;
-    });
-  }
+  // void toggleDarkMode(bool value) async {
+  //   // set bool value
+  //   await prefs.setBool('darkModeEnabled', value);
+  //   // widget.updateTheme(value); // Notify main app to update theme
+  //   setState(() {
+  //     darkMode = value;
+  //   });
+  // }
+  //
+  // void toggleSystemTheme(bool value) async {
+  //   // set bool value
+  //   await prefs.setBool('systemThemeEnabled', value);
+  //   // widget.followSystemTheme(value); // Notify main app to update theme
+  //   setState(() {
+  //     systemTheme = value;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
