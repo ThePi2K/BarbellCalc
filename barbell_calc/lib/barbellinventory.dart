@@ -36,7 +36,6 @@ class _BarbellInventoryPageState extends State<BarbellInventoryPage> {
 
     // if 0 barbells
     if (barbells.isEmpty) {
-
       // initialise the list
       // List<Barbell> barbells = [];
 
@@ -127,6 +126,18 @@ class BarbellListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        leading: Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          child: Text(
+            barbell.width,
+            style: const TextStyle(
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ),
         title: Text(barbell.name),
         subtitle: Text(barbell.weight.toString()),
         trailing: IconButton(
