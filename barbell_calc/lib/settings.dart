@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class SettingsPage extends StatefulWidget {
   final Function(bool) updateTheme;
@@ -13,6 +14,16 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool darkMode = false;
   late SharedPreferences prefs;
+  Color currentColor = Colors.blue; // Default color
+
+  void changeColor(Color color) {
+    setState(() => currentColor = color);
+    // Save the selected color to SharedPreferences or use it as needed
+    // For example:
+    // prefs.setInt('selectedColor', color.value);
+    // Then retrieve it later using:
+    // Color savedColor = Color(prefs.getInt('selectedColor') ?? Colors.blue.value);
+  }
 
   // starting loadSharedPreference()
   @override
@@ -57,6 +68,37 @@ class _SettingsPageState extends State<SettingsPage> {
               title: const Text('Enable Dark Mode'),
               onChanged: toggleDarkMode,
               value: darkMode,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Pick a color'),
+                      content: SingleChildScrollView(
+                        child: ColorPicker(
+                          pickerColor: currentColor,
+                          onColorChanged: changeColor,
+                          pickerAreaHeightPercent: 0.8,
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('Done'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            // Save the selected color to SharedPreferences or use it as needed
+                            // For example:
+                            // prefs.setInt('selectedColor', currentColor.value);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: const Text('Pick a color'),
             ),
           ],
         ),
