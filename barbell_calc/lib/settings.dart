@@ -22,8 +22,6 @@ class _SettingsPageState extends State<SettingsPage> {
     // Save the selected color to SharedPreferences
     prefs.setInt('selectedColor', color.value);
 
-    // hier updatecolor theme
-
     widget.updateColor(currentColor); // Notify main app to update color
   }
 
@@ -74,7 +72,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           const Divider(),
           ListTile(
-            title: const Text('Pick a color'),
+            title: const Text('App Color'),
             trailing: IconButton(
               onPressed: () {
                 showDialog(
