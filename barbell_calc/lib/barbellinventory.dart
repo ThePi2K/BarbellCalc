@@ -167,6 +167,12 @@ class _AddBarbellState extends State<AddBarbell> {
   List<String> widthList = <String>['Standard', 'Olympic'];
   late String dropdownValue;
 
+  @override
+  void initState() {
+    super.initState();
+    dropdownValue = widthList.first;
+  }
+
   void saveBarbell() async {
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -213,7 +219,6 @@ class _AddBarbellState extends State<AddBarbell> {
 
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = widthList.first;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Barbell'),
