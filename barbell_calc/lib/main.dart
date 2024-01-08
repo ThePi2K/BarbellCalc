@@ -82,7 +82,8 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
-        brightness: Brightness.dark,
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: savedColor, brightness: Brightness.dark),
       ),
       themeMode: theme,
       home: MyHomePage(
