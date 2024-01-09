@@ -138,8 +138,13 @@ class _InventoryPageState extends State<InventoryPage> {
           title: const Text('Inventory'),
           leading: const Icon(Icons.inventory),
         ),
-        body: BarbellListView(
-            deleteBarbell: deleteBarbell, barbellList: barbellsStandard),
+        body: ExpansionTile(
+          title: const Text('Olympic'),
+          children: [
+            BarbellListView(
+                barbellList: barbellsOlympic, deleteBarbell: deleteBarbell)
+          ],
+        ),
         floatingActionButton: NewPlateBarbellButton(
             onSavePlate: updatePlates, onSaveBarbell: updateBarbells));
   }
@@ -714,6 +719,8 @@ class BarbellListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      //scrollDirection: Axis.vertical,
+      shrinkWrap: true,
       itemCount: barbellList.length,
       itemBuilder: (BuildContext context, int index) {
         return BarbellListItem(
