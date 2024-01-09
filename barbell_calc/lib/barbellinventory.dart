@@ -205,7 +205,8 @@ class _AddBarbellState extends State<AddBarbell> {
     getBarbellWidths().then((_) {
       if (widthList.isNotEmpty) {
         dropdownValue = widthList.first;
-        setState(() {}); // Trigger a rebuild to update the UI after dropdownValue is set
+        setState(
+            () {}); // Trigger a rebuild to update the UI after dropdownValue is set
       }
     });
   }
