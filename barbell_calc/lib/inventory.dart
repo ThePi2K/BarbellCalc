@@ -33,6 +33,36 @@ class InventoryPage extends StatelessWidget {
           ],
         ),
       ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        leading: Icon(Icons.ac_unit),
+                        title: Text('Aktion 1'),
+                        onTap: () {
+                          // Führen Sie Aktion 1 aus
+                          Navigator.pop(context); // Schließen Sie das PopupMenu
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.access_alarm),
+                        title: Text('Aktion 2'),
+                        onTap: () {
+                          // Führen Sie Aktion 2 aus
+                          Navigator.pop(context); // Schließen Sie das PopupMenu
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: const Icon(Icons.add))
     );
   }
 }
