@@ -141,67 +141,81 @@ class _InventoryPageState extends State<InventoryPage> {
             );
           },
         ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return Padding(
-                    padding: const EdgeInsets.all(25),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                            borderRadius: BorderRadius.circular(17.0),
-                          ),
-                          child: ListTile(
-                            leading: const Icon(Icons.fitness_center),
-                            title: const Text('Add Barbell'),
-                            onTap: () {
-                              // Closing PopupMenu
-                              Navigator.pop(context);
+        floatingActionButton: NewPlateBarbellButton(
+            onSavePlate: updatePlates, onSaveBarbell: updateBarbells));
+  }
+}
 
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return CreateBarbell(onSave: updateBarbells);
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                            borderRadius: BorderRadius.circular(17.0),
-                          ),
-                          child: ListTile(
-                            leading: const Icon(Icons.radio_button_off),
-                            title: const Text('Add Plate'),
-                            onTap: () {
-                              // Closing PopupMenu
-                              Navigator.pop(context);
+class NewPlateBarbellButton extends StatelessWidget {
+  const NewPlateBarbellButton(
+      {super.key, required this.onSavePlate, required this.onSaveBarbell});
 
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return CreatePlate(onSave: updatePlates);
-                                },
-                              );
+  final Function() onSavePlate;
+  final Function() onSaveBarbell;
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (BuildContext context) {
+              return Padding(
+                padding: const EdgeInsets.all(25),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        borderRadius: BorderRadius.circular(17.0),
+                      ),
+                      child: ListTile(
+                        leading: const Icon(Icons.fitness_center),
+                        title: const Text('Add Barbell'),
+                        onTap: () {
+                          // Closing PopupMenu
+                          Navigator.pop(context);
+
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CreateBarbell(onSave: onSaveBarbell);
                             },
-                          ),
-                        ),
-                      ],
+                          );
+                        },
+                      ),
                     ),
-                  );
-                },
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        borderRadius: BorderRadius.circular(17.0),
+                      ),
+                      child: ListTile(
+                        leading: const Icon(Icons.radio_button_off),
+                        title: const Text('Add Plate'),
+                        onTap: () {
+                          // Closing PopupMenu
+                          Navigator.pop(context);
+
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CreatePlate(onSave: onSavePlate);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               );
             },
-            child: const Icon(Icons.add)));
+          );
+        },
+        child: const Icon(Icons.add));
   }
 }
 
