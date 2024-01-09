@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'barbellinventory.dart';
+import 'platesinventory.dart';
 
 class InventoryPage extends StatelessWidget {
   const InventoryPage({super.key});
@@ -27,7 +28,7 @@ class InventoryPage extends StatelessWidget {
               title: 'Plates',
               image: 'assets/plates_bing.jpeg',
               inventoryPage: () => MaterialPageRoute(
-                  builder: (context) => const PlateInventoryPage()),
+                  builder: (context) => const PlatesInventoryPage()),
             ),
           ],
         ),
@@ -102,22 +103,6 @@ class InventoryButton extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class PlateInventoryPage extends StatelessWidget {
-  const PlateInventoryPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Plate Inventory'),
-      ),
-      body: const Placeholder(),
-      floatingActionButton:
-          const FloatingActionButton(onPressed: null, child: Icon(Icons.add)),
     );
   }
 }
