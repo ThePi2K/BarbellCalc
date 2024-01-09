@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'barbell.dart';
 import 'plate.dart';
 
 class PlateInventoryPage extends StatefulWidget {
@@ -88,16 +87,15 @@ class _PlateInventoryPageState extends State<PlateInventoryPage> {
       appBar: AppBar(
         title: const Text('Plate Inventory'),
       ),
-      body: ListView.builder(
-        itemCount: plates.length,
-        itemBuilder: (BuildContext context, int index) {
-          return PlateListItem(
-            plate: plates[index],
-            index: index,
-            onDelete: deletePlate,
-            plateListLength: plates.length,
-          );
-        },
+      body: ListView(
+        children: [
+          ExpansionTile(title: Text('50'), children: [
+            PlateListView(plates: plates, deletePlate: deletePlate)
+          ]),
+          ExpansionTile(title: Text('50'), children: [
+            PlateListView(plates: plates, deletePlate: deletePlate)
+          ]),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -106,8 +104,35 @@ class _PlateInventoryPageState extends State<PlateInventoryPage> {
               MaterialPageRoute(
                   builder: (context) => AddPlate(onSave: updatePlates)),
             );
+
+
           },
           child: const Icon(Icons.add)),
+    );
+  }
+}
+
+class PlateListView extends StatelessWidget {
+  const PlateListView(
+      {super.key, required this.plates, required this.deletePlate});
+
+  final List<Plate> plates;
+  final Function(int) deletePlate;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+
+      itemCount: plates.length,
+      itemBuilder: (BuildContext context, int index) {
+        return PlateListItem(
+          plate: plates[index],
+          index: index,
+          onDelete: deletePlate,
+          plateListLength: plates.length,
+        );
+      },
     );
   }
 }
