@@ -129,10 +129,7 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           const Divider(),
-          const Padding(
-            padding: EdgeInsets.all(5.0),
-            child: Text('Design', style: TextStyle(fontSize: 20)),
-          ),
+          const SettingsTitle(title: 'App Design', subtitle: 'Customize the app theme'),
           ListTile(
             title: const Text('Follow System Theme'),
             trailing: Switch(
@@ -195,10 +192,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           const Divider(),
-          const Padding(
-            padding: EdgeInsets.all(5.0),
-            child: Text('Barbell Sleeve Diameters', style: TextStyle(fontSize: 20)),
-          ),
+          const SettingsTitle(title: 'Barbell Sleeve Diameters', subtitle: 'Choose at least one barbell type'),
           ListTile(
             title: const Text('Standard Barbells'),
             subtitle: const Text('Ø 30 mm'),
@@ -222,6 +216,36 @@ class _SettingsPageState extends State<SettingsPage> {
           const Divider(),
         ],
       ),
+    );
+  }
+}
+
+class SettingsTitle extends StatelessWidget {
+  const SettingsTitle({super.key, required this.title, required this.subtitle});
+
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+              child: Text(title, style: const TextStyle(fontSize: 20)),
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+              child: Text(subtitle, style: const TextStyle(fontSize: 12)),
+            ),
+          ),
+        ],
+
     );
   }
 }
