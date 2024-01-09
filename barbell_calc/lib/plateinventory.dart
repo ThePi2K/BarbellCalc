@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'barbell.dart';
+import 'plate.dart';
 
 class PlateInventoryPage extends StatefulWidget {
   const PlateInventoryPage({super.key});
@@ -11,94 +12,91 @@ class PlateInventoryPage extends StatefulWidget {
 }
 
 class _PlateInventoryPageState extends State<PlateInventoryPage> {
-  late List<Barbell> barbells = [];
+  late List<Plate> plates = [];
 
   @override
   void initState() {
-    getBarbells();
+    getPlates();
     super.initState();
   }
 
-  void getBarbells() async {
+  void getPlates() async {
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // get barbells from SharedPreferences
-    final String? barbellsString = prefs.getString('barbells_key');
+    // get plates from SharedPreferences
+    final String? platesString = prefs.getString('plates_key');
 
     // check if Items in List
-    if (barbellsString != null) {
+    if (platesString != null) {
       setState(() {
-        // save the barbells into the List "barbells"
-        barbells = Barbell.decode(barbellsString);
+        // save the plates into the List "plates"
+        plates = Plate.decode(platesString);
       });
     }
 
-    // if 0 barbells
-    if (barbells.isEmpty) {
-      // initialise the list
-      // List<Barbell> barbells = [];
-
-      // Create a new Barbell and add it to the list
-      barbells.add(
-          Barbell(name: 'My first Barbell', weight: 20.0, width: 'Standard'));
+    // if 0 plates
+    if (plates.isEmpty) {
+      // Create a new Plate and add it to the list
+      plates.add(
+          Plate(weight: 20.0, width: 'Standard'));
 
       // Encode the updated list to a string
-      final String encodedData = Barbell.encode(barbells);
+      final String encodedData = Plate.encode(plates);
 
-      // Write the updated string to 'barbells_key'
-      await prefs.setString('barbells_key', encodedData);
+      // Write the updated string to 'plates_key'
+      await prefs.setString('plates_key', encodedData);
     }
   }
 
-  void updateBarbells() {
-    getBarbells();
+  void updatePlates() {
+    getPlates();
     setState(() {});
   }
 
-  Future<void> deleteBarbell(int index) async {
+  Future<void> deletePlate(int index) async {
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // get barbells from SharedPreferences
-    final String? barbellsString = prefs.getString('barbells_key');
+    // get plates from SharedPreferences
+    final String? platesString = prefs.getString('plates_key');
 
     // check if Items in List
-    if (barbellsString != null) {
+    if (platesString != null) {
       setState(() {
-        // save the barbells into the List "barbells"
-        barbells = Barbell.decode(barbellsString);
+        // save the plates into the List "plates"
+        plates = Plate.decode(platesString);
       });
     }
 
-    // remove barbell from array
-    barbells.remove(barbells[index]);
+    // remove plate from array
+    plates.remove(plates[index]);
 
     // Encode the updated list to a string
-    final String encodedData = Barbell.encode(barbells);
+    final String encodedData = Plate.encode(plates);
 
-    // Write the updated string to 'barbells_key'
-    await prefs.setString('barbells_key', encodedData);
+    // Write the updated string to 'plates_key'
+    await prefs.setString('plates_key', encodedData);
 
     // refresh the list
-    updateBarbells();
+    updatePlates();
   }
 
   @override
   Widget build(BuildContext context) {
-    getBarbells();
+    getPlates();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Barbell Inventory'),
+        title: const Text('Plate Inventory'),
       ),
       body: ListView.builder(
-        itemCount: barbells.length,
+        itemCount: plates.length,
         itemBuilder: (BuildContext context, int index) {
           return PlateListItem(
-            barbell: barbells[index],
+            plate: plates[index],
             index: index,
-            onDelete: deleteBarbell,
-            barbellListLength: barbells.length,
+            onDelete: deletePlate,
+            plateListLength: plates.length,
           );
         },
       ),
@@ -107,7 +105,7 @@ class _PlateInventoryPageState extends State<PlateInventoryPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => AddPlate(onSave: updateBarbells)),
+                  builder: (context) => AddPlate(onSave: updatePlates)),
             );
           },
           child: const Icon(Icons.add)),
@@ -118,15 +116,15 @@ class _PlateInventoryPageState extends State<PlateInventoryPage> {
 class PlateListItem extends StatelessWidget {
   const PlateListItem({
     super.key,
-    required this.barbell,
+    required this.plate,
     required this.index,
     required this.onDelete,
-    required this.barbellListLength,
+    required this.plateListLength,
   });
 
-  final Barbell barbell;
+  final Plate plate;
   final int index;
-  final int barbellListLength;
+  final int plateListLength;
   final Function(int) onDelete;
 
   @override
@@ -139,24 +137,23 @@ class PlateListItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(5.0),
           ),
           child: Text(
-            barbell.width,
+            plate.width,
             style: const TextStyle(
               fontStyle: FontStyle.italic,
             ),
           ),
         ),
-        title: Text(barbell.name),
-        subtitle: Text(barbell.weight.toString()),
+        title: Text(plate.weight.toString()),
         trailing: IconButton(
           icon: const Icon(Icons.delete),
           onPressed: () {
-            if (barbellListLength == 1) {
+            if (plateListLength == 1) {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text('Attention'),
-                    content: const Text('You need at least one barbell!'),
+                    content: const Text('You need at least one plate!'),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -225,28 +222,27 @@ class _AddPlateState extends State<AddPlate> {
     }
   }
 
-  void saveBarbell() async {
+  void savePlate() async {
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // get barbells from SharedPreferences and save them into the List "barbells"
-    final String? barbellsString = prefs.getString('barbells_key');
-    List<Barbell> barbells = [];
-    barbells = Barbell.decode(barbellsString!);
+    // get plates from SharedPreferences and save them into the List "plates"
+    final String? platesString = prefs.getString('plates_key');
+    List<Plate> plates = [];
+    plates = Plate.decode(platesString!);
 
-    // add barbell to List (on top)
-    barbells.insert(
+    // add plate to List (on top)
+    plates.insert(
         0,
-        Barbell(
-            name: nameController.text,
+        Plate(
             weight: double.parse(weightController.text),
             width: dropdownValue));
 
     // Encode the updated list to a string
-    final String encodedData = Barbell.encode(barbells);
+    final String encodedData = Plate.encode(plates);
 
-    // Write the updated string to 'barbells_key'
-    await prefs.setString('barbells_key', encodedData);
+    // Write the updated string to 'plates_key'
+    await prefs.setString('plates_key', encodedData);
 
     closeWindow();
     widget.onSave();
@@ -273,7 +269,7 @@ class _AddPlateState extends State<AddPlate> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Barbell'),
+        title: const Text('Add Plate'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -281,19 +277,10 @@ class _AddPlateState extends State<AddPlate> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Barbell Name',
-                icon: Icon(Icons.tag),
-              ),
-            ),
-            const SizedBox(height: 20),
-            TextField(
               controller: weightController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Barbell Weight',
+                labelText: 'Plate Weight',
                 icon: Icon(Icons.scale),
               ),
               keyboardType: TextInputType.number,
@@ -350,7 +337,7 @@ class _AddPlateState extends State<AddPlate> {
             } else {
               // check if weight is valid
               if (checkWeightDouble()) {
-                saveBarbell();
+                savePlate();
               } else {
                 showDialog(
                   context: context,
