@@ -3,6 +3,7 @@ import 'barbellinventory.dart';
 import 'plateinventory.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'plate.dart';
+import 'barbell.dart';
 
 class InventoryPage extends StatefulWidget {
   const InventoryPage({super.key});
@@ -13,11 +14,22 @@ class InventoryPage extends StatefulWidget {
 
 class _InventoryPageState extends State<InventoryPage> {
   late List<Plate> plates = [];
+  late List<Barbell> barbells = [];
 
   @override
   void initState() {
     getPlates();
     super.initState();
+  }
+
+  void updatePlates() {
+    getPlates();
+    setState(() {});
+  }
+
+  void updateBarbells() {
+    getBarbells();
+    setState(() {});
   }
 
   void getPlates() async {
@@ -48,10 +60,38 @@ class _InventoryPageState extends State<InventoryPage> {
     }
   }
 
-  void updatePlates() {
-    getPlates();
-    setState(() {});
+  void getBarbells() async {
+    // connect to SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // get barbells from SharedPreferences
+    final String? barbellsString = prefs.getString('barbells_key');
+
+    // check if Items in List
+    if (barbellsString != null) {
+      setState(() {
+        // save the barbells into the List "barbells"
+        barbells = Barbell.decode(barbellsString);
+      });
+    }
+
+    // if 0 barbells
+    if (barbells.isEmpty) {
+      // initialise the list
+      // List<Barbell> barbells = [];
+
+      // Create a new Barbell and add it to the list
+      barbells.add(
+          Barbell(name: 'My first Barbell', weight: 20.0, width: 'Standard'));
+
+      // Encode the updated list to a string
+      final String encodedData = Barbell.encode(barbells);
+
+      // Write the updated string to 'barbells_key'
+      await prefs.setString('barbells_key', encodedData);
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,27 +132,32 @@ class _InventoryPageState extends State<InventoryPage> {
                         leading: const Icon(Icons.fitness_center),
                         title: const Text('add Barbell'),
                         onTap: () {
-                          // Start BarbellInventoryPage
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const BarbellInventoryPage());
                           // Closing PopupMenu
                           Navigator.pop(context);
+
+                          // Start AddBarbell
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    AddBarbell(onSave: updateBarbells,)),
+                          );
                         },
                       ),
                       ListTile(
                         leading: const Icon(Icons.radio_button_checked),
                         title: const Text('add Plate'),
                         onTap: () {
-                          // Start PlateInventoryPage
+                          // Closing PopupMenu
+                          Navigator.pop(context);
 
+                          // Start AddPlate
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AddPlate(onSave: updatePlates)),
+                                builder: (context) =>
+                                    AddPlate(onSave: updatePlates)),
                           );
-                          // Closing PopupMenu
-                          Navigator.pop(context);
                         },
                       ),
                     ],
