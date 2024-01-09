@@ -136,13 +136,11 @@ class _InventoryPageState extends State<InventoryPage> {
                           // Closing PopupMenu
                           Navigator.pop(context);
 
-                          // Start AddBarbell
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddBarbell(
-                                      onSave: updateBarbells,
-                                    )),
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CreateBarbell(onSave: updateBarbells);
+                            },
                           );
                         },
                       ),
@@ -159,14 +157,6 @@ class _InventoryPageState extends State<InventoryPage> {
                               return CreatePlate(onSave: updatePlates);
                             },
                           );
-
-                          // Start AddPlate
-                          //Navigator.push(
-                          //  context,
-                          //     MaterialPageRoute(
-                          //            builder: (context) =>
-                          //                AddPlate(onSave: updatePlates)),
-                          //            );
                         },
                       ),
                     ],
@@ -383,7 +373,6 @@ class _CreatePlateState extends State<CreatePlate> {
       actions: [
         TextButton(
           onPressed: () {
-
             // reformatting text inputs (remove spaces and minus, replace , with .)
             weightController.text = weightController.text
                 .replaceAll(" ", "")
@@ -407,7 +396,8 @@ class _CreatePlateState extends State<CreatePlate> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return const ErrorDialog(errorMessage: 'Weight is invalid!');
+                    return const ErrorDialog(
+                        errorMessage: 'Weight is invalid!');
                   },
                 );
               }
@@ -418,14 +408,214 @@ class _CreatePlateState extends State<CreatePlate> {
       ],
     );
   }
+
+  @override
+  void dispose() {
+    weightController.dispose();
+    super.dispose();
+  }
 }
 
-class CreateBarbell extends StatelessWidget {
-  const CreateBarbell({super.key});
+class CreateBarbell extends StatefulWidget {
+  const CreateBarbell({super.key, required this.onSave});
+
+  final Function() onSave;
+
+  @override
+  State<CreateBarbell> createState() => _CreateBarbellState();
+}
+
+class _CreateBarbellState extends State<CreateBarbell> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController weightController = TextEditingController();
+
+  bool standardBarbells = true;
+  bool olympicBarbells = false;
+
+  List<String> widthList = [];
+
+  // List<String> widthList = <String>['Standard', 'Olympic'];
+  late String dropdownValue;
+
+  @override
+  void initState() {
+    super.initState();
+    getBarbellWidths().then((_) {
+      if (widthList.isNotEmpty) {
+        dropdownValue = widthList.first;
+        setState(
+            () {}); // Trigger a rebuild to update the UI after dropdownValue is set
+      }
+    });
+  }
+
+  getBarbellWidths() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // reading SharedPreferences and save the values to the variables
+    standardBarbells = prefs.getBool('standardBarbells') ?? true;
+    olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
+
+    if (standardBarbells) {
+      widthList.add('Standard');
+    }
+    if (olympicBarbells) {
+      widthList.add('Olympic');
+    }
+  }
+
+  void saveBarbell() async {
+    // connect to SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // get barbells from SharedPreferences and save them into the List "barbells"
+    final String? barbellsString = prefs.getString('barbells_key');
+    List<Barbell> barbells = [];
+    barbells = Barbell.decode(barbellsString!);
+
+    // add barbell to List (on top)
+    barbells.insert(
+        0,
+        Barbell(
+            name: nameController.text,
+            weight: double.parse(weightController.text),
+            width: dropdownValue));
+
+    // Encode the updated list to a string
+    final String encodedData = Barbell.encode(barbells);
+
+    // Write the updated string to 'barbells_key'
+    await prefs.setString('barbells_key', encodedData);
+
+    closeWindow();
+    widget.onSave();
+  }
+
+  void closeWindow() {
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    } else {
+      SystemNavigator.pop();
+    }
+  }
+
+  bool checkWeightDouble() {
+    try {
+      double.parse(weightController.text);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return AlertDialog(
+      title: const Text('Add Barbell'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextField(
+            onTapOutside: (event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            controller: nameController,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Barbell Name',
+              icon: Icon(Icons.tag),
+            ),
+          ),
+          const SizedBox(height: 20),
+          TextField(
+            onTapOutside: (event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            controller: weightController,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Barbell Weight',
+              icon: Icon(Icons.scale),
+            ),
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 20),
+          DropdownButtonFormField<String>(
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Select Width',
+              icon: Icon(Icons.straighten),
+            ),
+            value: dropdownValue,
+            onChanged: (String? value) {
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+            items: widthList.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            // reformatting text inputs (remove spaces and minus, replace , with .)
+            weightController.text = weightController.text
+                .replaceAll(" ", "")
+                .replaceAll("-", "")
+                .replaceAll(",", ".");
+
+            // check if name is empty
+            if (nameController.text.isEmpty) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const ErrorDialog(
+                      errorMessage: 'Name cannot be empty!');
+                },
+              );
+            } else {
+              // check if weight is empty
+              if (weightController.text.isEmpty) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const ErrorDialog(
+                        errorMessage: 'Weight cannot be empty!');
+                  },
+                );
+              } else {
+                // check if weight is valid
+                if (checkWeightDouble()) {
+                  saveBarbell();
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const ErrorDialog(
+                          errorMessage: 'Weight is invalid!');
+                    },
+                  );
+                }
+              }
+            }
+          },
+          child: const Text('SAVE'),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    weightController.dispose();
+    super.dispose();
   }
 }
 
@@ -450,4 +640,3 @@ class ErrorDialog extends StatelessWidget {
     );
   }
 }
-
