@@ -1,38 +1,85 @@
 import 'package:flutter/material.dart';
 import 'barbellinventory.dart';
 import 'plateinventory.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'plate.dart';
 
-class InventoryPage extends StatelessWidget {
+class InventoryPage extends StatefulWidget {
   const InventoryPage({super.key});
 
   @override
+  State<InventoryPage> createState() => _InventoryPageState();
+}
+
+class _InventoryPageState extends State<InventoryPage> {
+  late List<Plate> plates = [];
+
+  @override
+  void initState() {
+    getPlates();
+    super.initState();
+  }
+
+  void getPlates() async {
+    // connect to SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // get plates from SharedPreferences
+    final String? platesString = prefs.getString('plates_key');
+
+    // check if Items in List
+    if (platesString != null) {
+      setState(() {
+        // save the plates into the List "plates"
+        plates = Plate.decode(platesString);
+      });
+    }
+
+    // if 0 plates
+    if (plates.isEmpty) {
+      // Create a new Plate and add it to the list
+      plates.add(Plate(weight: 20.0, width: 'Standard'));
+
+      // Encode the updated list to a string
+      final String encodedData = Plate.encode(plates);
+
+      // Write the updated string to 'plates_key'
+      await prefs.setString('plates_key', encodedData);
+    }
+  }
+
+  void updatePlates() {
+    getPlates();
+    setState(() {});
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Inventory'),
-        leading: const Icon(Icons.inventory),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            InventoryButton(
-              title: 'Barbells',
-              image: 'assets/barbell_bing.jpeg',
-              inventoryPage: () => MaterialPageRoute(
-                  builder: (context) => const BarbellInventoryPage()),
-            ),
-            const SizedBox(height: 15),
-            InventoryButton(
-              title: 'Plates',
-              image: 'assets/plates_bing.jpeg',
-              inventoryPage: () => MaterialPageRoute(
-                  builder: (context) => const PlateInventoryPage()),
-            ),
-          ],
+        appBar: AppBar(
+          title: const Text('Inventory'),
+          leading: const Icon(Icons.inventory),
         ),
-      ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              InventoryButton(
+                title: 'Barbells',
+                image: 'assets/barbell_bing.jpeg',
+                inventoryPage: () => MaterialPageRoute(
+                    builder: (context) => const BarbellInventoryPage()),
+              ),
+              const SizedBox(height: 15),
+              InventoryButton(
+                title: 'Plates',
+                image: 'assets/plates_bing.jpeg',
+                inventoryPage: () => MaterialPageRoute(
+                    builder: (context) => const PlateInventoryPage()),
+              ),
+            ],
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               showModalBottomSheet(
@@ -42,19 +89,30 @@ class InventoryPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
-                        leading: Icon(Icons.ac_unit),
-                        title: Text('Aktion 1'),
+                        leading: const Icon(Icons.fitness_center),
+                        title: const Text('add Barbell'),
                         onTap: () {
-                          // Führen Sie Aktion 1 aus
-                          Navigator.pop(context); // Schließen Sie das PopupMenu
+                          // Start BarbellInventoryPage
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const BarbellInventoryPage());
+                          // Closing PopupMenu
+                          Navigator.pop(context);
                         },
                       ),
                       ListTile(
-                        leading: Icon(Icons.access_alarm),
-                        title: Text('Aktion 2'),
+                        leading: const Icon(Icons.radio_button_checked),
+                        title: const Text('add Plate'),
                         onTap: () {
-                          // Führen Sie Aktion 2 aus
-                          Navigator.pop(context); // Schließen Sie das PopupMenu
+                          // Start PlateInventoryPage
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddPlate(onSave: updatePlates)),
+                          );
+                          // Closing PopupMenu
+                          Navigator.pop(context);
                         },
                       ),
                     ],
@@ -62,8 +120,7 @@ class InventoryPage extends StatelessWidget {
                 },
               );
             },
-            child: const Icon(Icons.add))
-    );
+            child: const Icon(Icons.add)));
   }
 }
 
