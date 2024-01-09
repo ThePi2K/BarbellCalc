@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'barbellwidget.dart';
+import 'barbell.dart';
+import 'plate.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -13,6 +16,69 @@ class _MainPageState extends State<MainPage> {
   final trainingWeightController = TextEditingController();
   final barbellWeightController = TextEditingController();
   bool calculated = false;
+
+  late List<Plate> plates = [];
+  late List<Barbell> barbells = [];
+
+  void getPlates() async {
+    // connect to SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // get plates from SharedPreferences
+    final String? platesString = prefs.getString('plates_key');
+
+    // check if Items in List
+    if (platesString != null) {
+      setState(() {
+        // save the plates into the List "plates"
+        plates = Plate.decode(platesString);
+      });
+    }
+
+    // if 0 plates
+    if (plates.isEmpty) {
+      // Create a new Plate and add it to the list
+      plates.add(Plate(weight: 20.0, width: 'Standard'));
+
+      // Encode the updated list to a string
+      final String encodedData = Plate.encode(plates);
+
+      // Write the updated string to 'plates_key'
+      await prefs.setString('plates_key', encodedData);
+    }
+  }
+
+  void getBarbells() async {
+    // connect to SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // get barbells from SharedPreferences
+    final String? barbellsString = prefs.getString('barbells_key');
+
+    // check if Items in List
+    if (barbellsString != null) {
+      setState(() {
+        // save the barbells into the List "barbells"
+        barbells = Barbell.decode(barbellsString);
+      });
+    }
+
+    // if 0 barbells
+    if (barbells.isEmpty) {
+      // initialise the list
+      // List<Barbell> barbells = [];
+
+      // Create a new Barbell and add it to the list
+      barbells.add(
+          Barbell(name: 'My first Barbell', weight: 20.0, width: 'Standard'));
+
+      // Encode the updated list to a string
+      final String encodedData = Barbell.encode(barbells);
+
+      // Write the updated string to 'barbells_key'
+      await prefs.setString('barbells_key', encodedData);
+    }
+  }
 
   void calculateWeight() {
     setState(() {
@@ -77,6 +143,7 @@ class _MainPageState extends State<MainPage> {
                         keyboardType: TextInputType.number,
                       ),
                       const SizedBox(height: 20),
+                      BarbellDropdown(barbellList: barbells),
                     ],
                   ),
                   // ElevatedButton(
@@ -114,6 +181,42 @@ class _MainPageState extends State<MainPage> {
         onPressed: calculateWeight,
         child: const Icon(Icons.calculate_rounded),
       ),
+    );
+  }
+}
+
+
+
+class BarbellDropdown extends StatefulWidget {
+  final List<Barbell> barbellList;
+
+  const BarbellDropdown({super.key, required this.barbellList});
+
+  @override
+  State<BarbellDropdown> createState() => _BarbellDropdownState();
+}
+
+class _BarbellDropdownState extends State<BarbellDropdown> {
+  String? selectedBarbell;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      hint: const Text('Select a Barbell'),
+      value: selectedBarbell,
+      onChanged: (String? newValue) {
+        setState(() {
+          selectedBarbell = newValue;
+        });
+      },
+      items: widget.barbellList.map((Barbell barbell) {
+        return DropdownMenuItem<String>(
+          value: barbell.name,
+          // Hier kannst du die Anzeige des Dropdown-Menüs anpassen
+          child: Text(
+              '${barbell.name} (${barbell.weight})'), // Hier die Anzeige im Dropdown-Menü anpassen
+        );
+      }).toList(),
     );
   }
 }
