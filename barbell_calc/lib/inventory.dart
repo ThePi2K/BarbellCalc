@@ -159,7 +159,7 @@ class _InventoryPageState extends State<InventoryPage> {
                           ),
                           child: ListTile(
                             leading: const Icon(Icons.fitness_center),
-                            title: const Text('add Barbell'),
+                            title: const Text('Add Barbell'),
                             onTap: () {
                               // Closing PopupMenu
                               Navigator.pop(context);
@@ -181,7 +181,7 @@ class _InventoryPageState extends State<InventoryPage> {
                           ),
                           child: ListTile(
                             leading: const Icon(Icons.radio_button_off),
-                            title: const Text('add Plate'),
+                            title: const Text('Add Plate'),
                             onTap: () {
                               // Closing PopupMenu
                               Navigator.pop(context);
