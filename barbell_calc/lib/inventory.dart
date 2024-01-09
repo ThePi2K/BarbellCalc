@@ -17,7 +17,8 @@ class _InventoryPageState extends State<InventoryPage> {
 
   @override
   void initState() {
-    getPlates();
+    updatePlates();
+    updateBarbells();
     super.initState();
   }
 
@@ -91,14 +92,55 @@ class _InventoryPageState extends State<InventoryPage> {
     }
   }
 
+  Future<void> deleteBarbell(int index) async {
+    // connect to SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // get barbells from SharedPreferences
+    final String? barbellsString = prefs.getString('barbells_key');
+
+    // check if Items in List
+    if (barbellsString != null) {
+      setState(() {
+        // save the barbells into the List "barbells"
+        barbells = Barbell.decode(barbellsString);
+      });
+    }
+
+    // remove barbell from array
+    barbells.remove(barbells[index]);
+
+    // Encode the updated list to a string
+    final String encodedData = Barbell.encode(barbells);
+
+    // Write the updated string to 'barbells_key'
+    await prefs.setString('barbells_key', encodedData);
+
+    // refresh the list
+    updateBarbells();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // first run
+    updatePlates();
+    updateBarbells();
     return Scaffold(
         appBar: AppBar(
           title: const Text('Inventory'),
           leading: const Icon(Icons.inventory),
         ),
-        body: Placeholder(),
+        body: ListView.builder(
+          itemCount: barbells.length,
+          itemBuilder: (BuildContext context, int index) {
+            return BarbellListItem(
+              barbell: barbells[index],
+              index: index,
+              onDelete: deleteBarbell,
+              barbellListLength: barbells.length,
+            );
+          },
+        ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               showModalBottomSheet(
@@ -368,6 +410,12 @@ class _CreatePlateState extends State<CreatePlate> {
       actions: [
         TextButton(
           onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('CANCEL'),
+        ),
+        TextButton(
+          onPressed: () {
             // reformatting text inputs (remove spaces and minus, replace , with .)
             weightController.text = weightController.text
                 .replaceAll(" ", "")
@@ -559,6 +607,12 @@ class _CreateBarbellState extends State<CreateBarbell> {
       actions: [
         TextButton(
           onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('CANCEL'),
+        ),
+        TextButton(
+          onPressed: () {
             // reformatting text inputs (remove spaces and minus, replace , with .)
             weightController.text = weightController.text
                 .replaceAll(" ", "")
@@ -632,6 +686,69 @@ class ErrorDialog extends StatelessWidget {
           child: const Text('OK'),
         ),
       ],
+    );
+  }
+}
+
+class BarbellListItem extends StatelessWidget {
+  const BarbellListItem({
+    super.key,
+    required this.barbell,
+    required this.index,
+    required this.onDelete,
+    required this.barbellListLength,
+  });
+
+  final Barbell barbell;
+  final int index;
+  final int barbellListLength;
+  final Function(int) onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        leading: Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          child: Text(
+            barbell.width,
+            style: const TextStyle(
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ),
+        title: Text(barbell.name),
+        subtitle: Text(barbell.weight.toString()),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () {
+            if (barbellListLength == 1) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Attention'),
+                    content: const Text('You need at least one barbell!'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else {
+              onDelete(index);
+            }
+          },
+        ),
+      ),
     );
   }
 }
