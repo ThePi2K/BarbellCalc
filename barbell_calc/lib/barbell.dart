@@ -24,14 +24,14 @@ class Barbell {
         'weight': barbell.weight,
       };
 
-  static String encode(List<Barbell> musics) => json.encode(
-        musics
-            .map<Map<String, dynamic>>((music) => Barbell.toMap(music))
+  static String encode(List<Barbell> barbells) => json.encode(
+    barbells
+            .map<Map<String, dynamic>>((barbell) => Barbell.toMap(barbell))
             .toList(),
       );
 
-  static List<Barbell> decode(String musics) =>
-      (json.decode(musics) as List<dynamic>)
+  static List<Barbell> decode(String barbells) =>
+      (json.decode(barbells) as List<dynamic>)
           .map<Barbell>((item) => Barbell.fromJson(item))
           .toList();
 }
