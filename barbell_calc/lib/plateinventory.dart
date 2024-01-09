@@ -38,8 +38,7 @@ class _PlateInventoryPageState extends State<PlateInventoryPage> {
     // if 0 plates
     if (plates.isEmpty) {
       // Create a new Plate and add it to the list
-      plates.add(
-          Plate(weight: 20.0, width: 'Standard'));
+      plates.add(Plate(weight: 20.0, width: 'Standard'));
 
       // Encode the updated list to a string
       final String encodedData = Plate.encode(plates);
@@ -230,12 +229,13 @@ class _AddPlateState extends State<AddPlate> {
     List<Plate> plates = [];
     plates = Plate.decode(platesString!);
 
-    // add plate to List (on top)
-    plates.insert(
-        0,
-        Plate(
-            weight: double.parse(weightController.text),
-            width: dropdownValue));
+    // add plate to List ()
+    plates.add(Plate(
+        weight: double.parse(weightController.text), width: dropdownValue));
+
+    // sort plates by weight
+    //plates.sort((a, b) => a.weight.compareTo(b.weight));
+    plates.sort((a, b) => b.weight.compareTo(a.weight));
 
     // Encode the updated list to a string
     final String encodedData = Plate.encode(plates);
@@ -315,30 +315,28 @@ class _AddPlateState extends State<AddPlate> {
               .replaceAll("-", "")
               .replaceAll(",", ".");
 
-            // check if weight is empty
-            if (weightController.text.isEmpty) {
+          // check if weight is empty
+          if (weightController.text.isEmpty) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const ErrorDialog(
+                    errorMessage: 'Weight cannot be empty!');
+              },
+            );
+          } else {
+            // check if weight is valid
+            if (checkWeightDouble()) {
+              savePlate();
+            } else {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return const ErrorDialog(
-                      errorMessage: 'Weight cannot be empty!');
+                  return const ErrorDialog(errorMessage: 'Weight is invalid!');
                 },
               );
-            } else {
-              // check if weight is valid
-              if (checkWeightDouble()) {
-                savePlate();
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const ErrorDialog(
-                        errorMessage: 'Weight is invalid!');
-                  },
-                );
-              }
             }
-
+          }
         },
         child: const Icon(Icons.check),
       ),
