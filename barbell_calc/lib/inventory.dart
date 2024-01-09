@@ -110,35 +110,48 @@ class _InventoryPageState extends State<InventoryPage> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        ListTile(
-                          leading: const Icon(Icons.fitness_center),
-                          title: const Text('add Barbell'),
-                          onTap: () {
-                            // Closing PopupMenu
-                            Navigator.pop(context);
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                            borderRadius: BorderRadius.circular(17.0),
+                          ),
+                          child: ListTile(
+                            leading: const Icon(Icons.fitness_center),
+                            title: const Text('add Barbell'),
+                            onTap: () {
+                              // Closing PopupMenu
+                              Navigator.pop(context);
 
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return CreateBarbell(onSave: updateBarbells);
-                              },
-                            );
-                          },
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CreateBarbell(onSave: updateBarbells);
+                                },
+                              );
+                            },
+                          ),
                         ),
-                        ListTile(
-                          leading: const Icon(Icons.radio_button_off),
-                          title: const Text('add Plate'),
-                          onTap: () {
-                            // Closing PopupMenu
-                            Navigator.pop(context);
+                        const SizedBox(height: 10),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                            borderRadius: BorderRadius.circular(17.0),
+                          ),
+                          child: ListTile(
+                            leading: const Icon(Icons.radio_button_off),
+                            title: const Text('add Plate'),
+                            onTap: () {
+                              // Closing PopupMenu
+                              Navigator.pop(context);
 
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return CreatePlate(onSave: updatePlates);
-                              },
-                            );
-                          },
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CreatePlate(onSave: updatePlates);
+                                },
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),
