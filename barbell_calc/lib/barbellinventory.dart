@@ -281,6 +281,9 @@ class _AddBarbellState extends State<AddBarbell> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
+              onTapOutside: (event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               controller: nameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -290,6 +293,9 @@ class _AddBarbellState extends State<AddBarbell> {
             ),
             const SizedBox(height: 20),
             TextField(
+              onTapOutside: (event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               controller: weightController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),

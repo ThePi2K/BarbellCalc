@@ -54,6 +54,9 @@ class _MainPageState extends State<MainPage> {
                     children: [
                       const SizedBox(height: 20),
                       TextField(
+                        onTapOutside: (event) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
                         controller: trainingWeightController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
@@ -63,6 +66,9 @@ class _MainPageState extends State<MainPage> {
                       ),
                       const SizedBox(height: 20),
                       TextField(
+                        onTapOutside: (event) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
                         controller: barbellWeightController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),

@@ -301,6 +301,9 @@ class _AddPlateState extends State<AddPlate> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
+              onTapOutside: (event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               controller: weightController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
