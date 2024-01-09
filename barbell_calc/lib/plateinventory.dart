@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'barbell.dart';
 
-class PlatesInventoryPage extends StatefulWidget {
-  const PlatesInventoryPage({super.key});
+class PlateInventoryPage extends StatefulWidget {
+  const PlateInventoryPage({super.key});
 
   @override
-  State<PlatesInventoryPage> createState() => _PlatesInventoryPageState();
+  State<PlateInventoryPage> createState() => _PlateInventoryPageState();
 }
 
-class _PlatesInventoryPageState extends State<PlatesInventoryPage> {
+class _PlateInventoryPageState extends State<PlateInventoryPage> {
   late List<Barbell> barbells = [];
 
   @override

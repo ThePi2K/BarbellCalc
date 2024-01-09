@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'barbellinventory.dart';
-import 'platesinventory.dart';
+import 'plateinventory.dart';
 
 class InventoryPage extends StatelessWidget {
   const InventoryPage({super.key});
@@ -28,7 +28,7 @@ class InventoryPage extends StatelessWidget {
               title: 'Plates',
               image: 'assets/plates_bing.jpeg',
               inventoryPage: () => MaterialPageRoute(
-                  builder: (context) => const PlatesInventoryPage()),
+                  builder: (context) => const PlateInventoryPage()),
             ),
           ],
         ),
