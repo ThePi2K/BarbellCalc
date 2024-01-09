@@ -21,7 +21,6 @@ class _MyAppState extends State<MyApp> {
   bool followSystemTheme = false;
   Color appColor = Colors.blue;
 
-  // starting loadSharedPreference()
   @override
   void initState() {
     super.initState();
@@ -38,7 +37,6 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     ThemeMode themeMode;
