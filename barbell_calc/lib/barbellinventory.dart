@@ -150,12 +150,12 @@ class BarbellListItem extends StatelessWidget {
         trailing: IconButton(
           icon: const Icon(Icons.delete),
           onPressed: () {
-            if (barbellListLength==1) {
+            if (barbellListLength == 1) {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title:  const Text('Attention'),
+                    title: const Text('Attention'),
                     content: const Text('You need at least one barbell!'),
                     actions: [
                       TextButton(
@@ -191,13 +191,37 @@ class _AddBarbellState extends State<AddBarbell> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
 
-  List<String> widthList = <String>['Standard', 'Olympic'];
+  bool standardBarbells = true;
+  bool olympicBarbells = false;
+
+  List<String> widthList = [];
+
+  // List<String> widthList = <String>['Standard', 'Olympic'];
   late String dropdownValue;
 
   @override
   void initState() {
     super.initState();
-    dropdownValue = widthList.first;
+    getBarbellWidths().then((_) {
+      if (widthList.isNotEmpty) {
+        dropdownValue = widthList.first;
+        setState(() {}); // Trigger a rebuild to update the UI after dropdownValue is set
+      }
+    });
+  }
+
+  getBarbellWidths() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // reading SharedPreferences and save the values to the variables
+    standardBarbells = prefs.getBool('standardBarbells') ?? true;
+    olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
+
+    if (standardBarbells) {
+      widthList.add('Standard');
+    }
+    if (olympicBarbells) {
+      widthList.add('Olympic');
+    }
   }
 
   void saveBarbell() async {
