@@ -341,53 +341,79 @@ class _CreatePlateState extends State<CreatePlate> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Error'),
-      content: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              onTapOutside: (event) {
-                FocusManager.instance.primaryFocus?.unfocus();
-              },
-              controller: weightController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Plate Weight',
-                icon: Icon(Icons.scale),
-              ),
-              keyboardType: TextInputType.number,
+      title: const Text('Add Plate'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextField(
+            onTapOutside: (event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            controller: weightController,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Plate Weight',
+              icon: Icon(Icons.scale),
             ),
-            const SizedBox(height: 20),
-            DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Select Width',
-                icon: Icon(Icons.straighten),
-              ),
-              value: dropdownValue,
-              onChanged: (String? value) {
-                setState(() {
-                  dropdownValue = value!;
-                });
-              },
-              items: widthList.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 20),
+          DropdownButtonFormField<String>(
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Select Width',
+              icon: Icon(Icons.straighten),
             ),
-          ],
-        ),
+            value: dropdownValue,
+            onChanged: (String? value) {
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+            items: widthList.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ],
       ),
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop();
+
+            // reformatting text inputs (remove spaces and minus, replace , with .)
+            weightController.text = weightController.text
+                .replaceAll(" ", "")
+                .replaceAll("-", "")
+                .replaceAll(",", ".");
+
+            // check if weight is empty
+            if (weightController.text.isEmpty) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const ErrorDialog(
+                      errorMessage: 'Weight cannot be empty!');
+                },
+              );
+            } else {
+              // check if weight is valid
+              if (checkWeightDouble()) {
+                savePlate();
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const ErrorDialog(errorMessage: 'Weight is invalid!');
+                  },
+                );
+              }
+            }
           },
-          child: const Text('OK'),
+          child: const Text('SAVE'),
         ),
       ],
     );
@@ -402,3 +428,26 @@ class CreateBarbell extends StatelessWidget {
     return const Placeholder();
   }
 }
+
+class ErrorDialog extends StatelessWidget {
+  const ErrorDialog({super.key, required this.errorMessage});
+
+  final String errorMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Error'),
+      content: Text(errorMessage),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('OK'),
+        ),
+      ],
+    );
+  }
+}
+
