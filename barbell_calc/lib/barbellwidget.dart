@@ -103,8 +103,8 @@ class BarWidget extends StatelessWidget {
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [
-                  Theme.of(context).colorScheme.secondary.withOpacity(0.0),
-                  Theme.of(context).colorScheme.secondary.withOpacity(1.0),
+                  Theme.of(context).colorScheme.inversePrimary.withOpacity(0.0),
+                  Theme.of(context).colorScheme.inversePrimary.withOpacity(1.0),
                 ],
                 stops: const [0.0, 0.017],
               ),
@@ -136,7 +136,7 @@ class BarWidget extends StatelessWidget {
               height: 50.0,
               width: 17.0,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.inversePrimary,
                 borderRadius: BorderRadius.circular(5.0),
                 border: Border.all(
                   color: Colors.black,
