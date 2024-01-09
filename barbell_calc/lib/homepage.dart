@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'barbellwidget.dart';
 import 'barbell.dart';
 import 'plate.dart';
+import 'inventory.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -108,6 +109,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    getBarbells();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -185,8 +187,6 @@ class _MainPageState extends State<MainPage> {
   }
 }
 
-
-
 class BarbellDropdown extends StatefulWidget {
   final List<Barbell> barbellList;
 
@@ -213,8 +213,7 @@ class _BarbellDropdownState extends State<BarbellDropdown> {
         return DropdownMenuItem<String>(
           value: barbell.name,
           // Hier kannst du die Anzeige des Dropdown-Menüs anpassen
-          child: Text(
-              '${barbell.name} (${barbell.weight})'), // Hier die Anzeige im Dropdown-Menü anpassen
+          child: Text('${barbell.name} (${barbell.weight})'),
         );
       }).toList(),
     );
