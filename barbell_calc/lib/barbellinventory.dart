@@ -334,18 +334,7 @@ class _AddBarbellState extends State<AddBarbell> {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Error'),
-                  content: const Text('Name cannot be empty!'),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('OK'),
-                    ),
-                  ],
-                );
+                return const ErrorDialog(errorMessage: 'Name cannot be empty!');
               },
             );
           } else {
@@ -354,18 +343,8 @@ class _AddBarbellState extends State<AddBarbell> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Error'),
-                    content: const Text('Weight cannot be empty!'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
+                  return const ErrorDialog(
+                      errorMessage: 'Weight cannot be empty!');
                 },
               );
             } else {
@@ -376,18 +355,8 @@ class _AddBarbellState extends State<AddBarbell> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Error'),
-                      content: const Text('Weight is invalid!'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('OK'),
-                        ),
-                      ],
-                    );
+                    return const ErrorDialog(
+                        errorMessage: 'Weight is invalid!');
                   },
                 );
               }
@@ -404,5 +373,27 @@ class _AddBarbellState extends State<AddBarbell> {
     nameController.dispose();
     weightController.dispose();
     super.dispose();
+  }
+}
+
+class ErrorDialog extends StatelessWidget {
+  const ErrorDialog({super.key, required this.errorMessage});
+
+  final String errorMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Error'),
+      content: Text(errorMessage),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('OK'),
+        ),
+      ],
+    );
   }
 }
