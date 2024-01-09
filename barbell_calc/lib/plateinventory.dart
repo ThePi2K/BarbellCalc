@@ -185,7 +185,6 @@ class AddPlate extends StatefulWidget {
 }
 
 class _AddPlateState extends State<AddPlate> {
-  final TextEditingController nameController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
 
   bool standardBarbells = true;
@@ -316,15 +315,6 @@ class _AddPlateState extends State<AddPlate> {
               .replaceAll("-", "")
               .replaceAll(",", ".");
 
-          // check if name is empty
-          if (nameController.text.isEmpty) {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const ErrorDialog(errorMessage: 'Name cannot be empty!');
-              },
-            );
-          } else {
             // check if weight is empty
             if (weightController.text.isEmpty) {
               showDialog(
@@ -348,7 +338,7 @@ class _AddPlateState extends State<AddPlate> {
                 );
               }
             }
-          }
+
         },
         child: const Icon(Icons.check),
       ),
@@ -357,7 +347,6 @@ class _AddPlateState extends State<AddPlate> {
 
   @override
   void dispose() {
-    nameController.dispose();
     weightController.dispose();
     super.dispose();
   }
