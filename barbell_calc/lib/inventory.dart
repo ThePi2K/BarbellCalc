@@ -14,6 +14,8 @@ class InventoryPage extends StatefulWidget {
 class _InventoryPageState extends State<InventoryPage> {
   late List<Plate> plates = [];
   late List<Barbell> barbells = [];
+  late List<Barbell> barbellsOlympic = [];
+  late List<Barbell> barbellsStandard = [];
 
   @override
   void initState() {
@@ -90,6 +92,12 @@ class _InventoryPageState extends State<InventoryPage> {
       // Write the updated string to 'barbells_key'
       await prefs.setString('barbells_key', encodedData);
     }
+
+    // add all barbells to their own list
+    barbellsOlympic =
+        barbells.where((barbell) => barbell.width == 'Olympic').toList();
+    barbellsStandard =
+        barbells.where((barbell) => barbell.width == 'Standard').toList();
   }
 
   Future<void> deleteBarbell(int index) async {
@@ -130,17 +138,8 @@ class _InventoryPageState extends State<InventoryPage> {
           title: const Text('Inventory'),
           leading: const Icon(Icons.inventory),
         ),
-        body: ListView.builder(
-          itemCount: barbells.length,
-          itemBuilder: (BuildContext context, int index) {
-            return BarbellListItem(
-              barbell: barbells[index],
-              index: index,
-              onDelete: deleteBarbell,
-              barbellListLength: barbells.length,
-            );
-          },
-        ),
+        body: BarbellListView(
+            deleteBarbell: deleteBarbell, barbellList: barbellsStandard),
         floatingActionButton: NewPlateBarbellButton(
             onSavePlate: updatePlates, onSaveBarbell: updateBarbells));
   }
@@ -700,6 +699,30 @@ class ErrorDialog extends StatelessWidget {
           child: const Text('OK'),
         ),
       ],
+    );
+  }
+}
+
+class BarbellListView extends StatelessWidget {
+  const BarbellListView(
+      {super.key, required this.barbellList, required this.deleteBarbell});
+
+  final List<Barbell> barbellList;
+
+  final Function(int) deleteBarbell;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: barbellList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return BarbellListItem(
+          barbell: barbellList[index],
+          index: index,
+          onDelete: deleteBarbell,
+          barbellListLength: barbellList.length,
+        );
+      },
     );
   }
 }
