@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'barbellinventory.dart';
-import 'plateinventory.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'plate.dart';
 import 'barbell.dart';
@@ -100,27 +98,7 @@ class _InventoryPageState extends State<InventoryPage> {
           title: const Text('Inventory'),
           leading: const Icon(Icons.inventory),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              InventoryButton(
-                title: 'Barbells',
-                image: 'assets/barbell_bing.jpeg',
-                inventoryPage: () => MaterialPageRoute(
-                    builder: (context) => const BarbellInventoryPage()),
-              ),
-              const SizedBox(height: 15),
-              InventoryButton(
-                title: 'Plates',
-                image: 'assets/plates_bing.jpeg',
-                inventoryPage: () => MaterialPageRoute(
-                    builder: (context) => const PlateInventoryPage()),
-              ),
-            ],
-          ),
-        ),
+        body: Placeholder(),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               showModalBottomSheet(
