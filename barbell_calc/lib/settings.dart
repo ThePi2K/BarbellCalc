@@ -197,7 +197,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const Divider(),
           const Padding(
             padding: EdgeInsets.all(5.0),
-            child: Text('Sleeve Diameters', style: TextStyle(fontSize: 20)),
+            child: Text('Barbell Sleeve Diameters', style: TextStyle(fontSize: 20)),
           ),
           ListTile(
             title: const Text('Standard Barbells'),
