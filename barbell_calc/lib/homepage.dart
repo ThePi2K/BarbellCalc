@@ -145,7 +145,6 @@ class _MainPageState extends State<MainPage> {
                         keyboardType: TextInputType.number,
                       ),
                       const SizedBox(height: 20),
-                      BarbellDropdown(barbellList: barbells),
                     ],
                   ),
                   // ElevatedButton(
@@ -183,39 +182,6 @@ class _MainPageState extends State<MainPage> {
         onPressed: calculateWeight,
         child: const Icon(Icons.calculate_rounded),
       ),
-    );
-  }
-}
-
-class BarbellDropdown extends StatefulWidget {
-  final List<Barbell> barbellList;
-
-  const BarbellDropdown({super.key, required this.barbellList});
-
-  @override
-  State<BarbellDropdown> createState() => _BarbellDropdownState();
-}
-
-class _BarbellDropdownState extends State<BarbellDropdown> {
-  String? selectedBarbell;
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      hint: const Text('Select a Barbell'),
-      value: selectedBarbell,
-      onChanged: (String? newValue) {
-        setState(() {
-          selectedBarbell = newValue;
-        });
-      },
-      items: widget.barbellList.map((Barbell barbell) {
-        return DropdownMenuItem<String>(
-          value: barbell.name,
-          // Hier kannst du die Anzeige des Dropdown-Menüs anpassen
-          child: Text('${barbell.name} (${barbell.weight})'),
-        );
-      }).toList(),
     );
   }
 }
