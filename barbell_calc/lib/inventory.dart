@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'barbellinventory.dart';
 import 'plateinventory.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -139,8 +140,9 @@ class _InventoryPageState extends State<InventoryPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    AddBarbell(onSave: updateBarbells,)),
+                                builder: (context) => AddBarbell(
+                                      onSave: updateBarbells,
+                                    )),
                           );
                         },
                       ),
@@ -151,13 +153,20 @@ class _InventoryPageState extends State<InventoryPage> {
                           // Closing PopupMenu
                           Navigator.pop(context);
 
-                          // Start AddPlate
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    AddPlate(onSave: updatePlates)),
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CreatePlate(onSave: updatePlates);
+                            },
                           );
+
+                          // Start AddPlate
+                          //Navigator.push(
+                          //  context,
+                          //     MaterialPageRoute(
+                          //            builder: (context) =>
+                          //                AddPlate(onSave: updatePlates)),
+                          //            );
                         },
                       ),
                     ],
@@ -236,5 +245,160 @@ class InventoryButton extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class CreatePlate extends StatefulWidget {
+  const CreatePlate({super.key, required this.onSave});
+
+  final Function() onSave;
+
+  @override
+  State<CreatePlate> createState() => _CreatePlateState();
+}
+
+class _CreatePlateState extends State<CreatePlate> {
+  final TextEditingController weightController = TextEditingController();
+
+  bool standardBarbells = true;
+  bool olympicBarbells = false;
+
+  List<String> widthList = [];
+
+  // List<String> widthList = <String>['Standard', 'Olympic'];
+  late String dropdownValue;
+
+  @override
+  void initState() {
+    super.initState();
+    getBarbellWidths().then((_) {
+      if (widthList.isNotEmpty) {
+        dropdownValue = widthList.first;
+        setState(
+            () {}); // Trigger a rebuild to update the UI after dropdownValue is set
+      }
+    });
+  }
+
+  getBarbellWidths() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // reading SharedPreferences and save the values to the variables
+    standardBarbells = prefs.getBool('standardBarbells') ?? true;
+    olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
+
+    if (standardBarbells) {
+      widthList.add('Standard');
+    }
+    if (olympicBarbells) {
+      widthList.add('Olympic');
+    }
+  }
+
+  void savePlate() async {
+    // connect to SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // get plates from SharedPreferences and save them into the List "plates"
+    final String? platesString = prefs.getString('plates_key');
+    List<Plate> plates = [];
+    plates = Plate.decode(platesString!);
+
+    // add plate to List ()
+    plates.add(Plate(
+        weight: double.parse(weightController.text), width: dropdownValue));
+
+    // sort plates by weight
+    //plates.sort((a, b) => a.weight.compareTo(b.weight));
+    plates.sort((a, b) => b.weight.compareTo(a.weight));
+
+    // Encode the updated list to a string
+    final String encodedData = Plate.encode(plates);
+
+    // Write the updated string to 'plates_key'
+    await prefs.setString('plates_key', encodedData);
+
+    closeWindow();
+    widget.onSave();
+  }
+
+  void closeWindow() {
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    } else {
+      SystemNavigator.pop();
+    }
+  }
+
+  bool checkWeightDouble() {
+    try {
+      double.parse(weightController.text);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Error'),
+      content: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              onTapOutside: (event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              controller: weightController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Plate Weight',
+                icon: Icon(Icons.scale),
+              ),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Select Width',
+                icon: Icon(Icons.straighten),
+              ),
+              value: dropdownValue,
+              onChanged: (String? value) {
+                setState(() {
+                  dropdownValue = value!;
+                });
+              },
+              items: widthList.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('OK'),
+        ),
+      ],
+    );
+  }
+}
+
+class CreateBarbell extends StatelessWidget {
+  const CreateBarbell({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
