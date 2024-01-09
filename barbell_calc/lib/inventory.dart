@@ -374,9 +374,9 @@ class _CreatePlateState extends State<CreatePlate> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextField(
-            onTapOutside: (event) {
-              FocusManager.instance.primaryFocus?.unfocus();
-            },
+            // onTapOutside: (event) {
+            //   FocusManager.instance.primaryFocus?.unfocus();
+            // },
             controller: weightController,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
@@ -559,9 +559,9 @@ class _CreateBarbellState extends State<CreateBarbell> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextField(
-            onTapOutside: (event) {
-              FocusManager.instance.primaryFocus?.unfocus();
-            },
+            // onTapOutside: (event) {
+            //   FocusManager.instance.primaryFocus?.unfocus();
+            // },
             controller: nameController,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
@@ -571,9 +571,9 @@ class _CreateBarbellState extends State<CreateBarbell> {
           ),
           const SizedBox(height: 20),
           TextField(
-            onTapOutside: (event) {
-              FocusManager.instance.primaryFocus?.unfocus();
-            },
+            // onTapOutside: (event) {
+            //   FocusManager.instance.primaryFocus?.unfocus();
+            // },
             controller: weightController,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
