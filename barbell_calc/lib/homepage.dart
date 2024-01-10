@@ -14,8 +14,8 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   double plateWeight = 0;
+  double barbellWeight = 0;
   final trainingWeightController = TextEditingController();
-  final barbellWeightController = TextEditingController();
   bool calculated = false;
 
   late List<Plate> plates = [];
@@ -86,21 +86,15 @@ class _MainPageState extends State<MainPage> {
       // close keyboard
       FocusManager.instance.primaryFocus?.unfocus();
 
-      // reformatting text inputs (remove spaces and minus, replace , with .)
-      void reformatTextInput(TextEditingController controller) {
-        controller.text = controller.text
-            .replaceAll(" ", "")
-            .replaceAll("-", "")
-            .replaceAll(",", ".");
-      }
-
-      reformatTextInput(trainingWeightController);
-      reformatTextInput(barbellWeightController);
+      // reformatting text input (remove spaces and minus, replace , with .)
+      trainingWeightController.text = trainingWeightController.text
+          .replaceAll(" ", "")
+          .replaceAll("-", "")
+          .replaceAll(",", ".");
 
       // calculate the weight for the plates
-      plateWeight = (double.parse(trainingWeightController.text) -
-              double.parse(barbellWeightController.text)) /
-          2;
+      plateWeight =
+          (double.parse(trainingWeightController.text) - barbellWeight) / 2;
 
       // set calculated true
       calculated = true;
@@ -108,7 +102,11 @@ class _MainPageState extends State<MainPage> {
   }
 
   void setSelectedBarbell(Barbell selectedBarbell) {
-    print("Selected Barbell: ${selectedBarbell.name}");
+    setState(() {
+      barbellWeight = selectedBarbell.weight;
+
+    });
+    calculateWeight();
   }
 
   @override
@@ -206,7 +204,8 @@ class SelectBarbellDialog extends StatelessWidget {
     return AlertDialog(
       title: const Text('Select Barbell'),
       content: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5, // Anpassen der Höhe nach Bedarf
+        height: MediaQuery.of(context).size.height *
+            0.5, // Anpassen der Höhe nach Bedarf
         width: double.maxFinite,
         child: ListView.builder(
           itemCount: barbellList.length,
