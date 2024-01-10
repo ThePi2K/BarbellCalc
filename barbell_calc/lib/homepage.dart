@@ -23,6 +23,8 @@ class _MainPageState extends State<MainPage> {
   late List<Plate> plates = [];
   late List<Barbell> barbells = [];
 
+  late List<PlateWidget> plateListOnBarbell;
+
   void getPlates() async {
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -109,6 +111,13 @@ class _MainPageState extends State<MainPage> {
 
       // set calculated true
       calculated = true;
+
+      // starting calculation
+
+      // DO KIMP DR CODE... er schaug ob die greste plate subtrahiert werden konn fa plateWeight
+      // wenn jo tuat er di hel zur liste platesonbarbelllist zui
+      //nor geat er weiter mit dr hem, wenns unter 0 geat geat er mit dr negsten kleanern weiter
+
     });
   }
 
