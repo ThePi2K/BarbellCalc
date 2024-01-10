@@ -133,18 +133,7 @@ class _MainPageState extends State<MainPage> {
                         keyboardType: TextInputType.number,
                       ),
                       const SizedBox(height: 20),
-                      TextField(
-                        onTapOutside: (event) {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                        },
-                        controller: barbellWeightController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Barbell Weight',
-                        ),
-                        keyboardType: TextInputType.number,
-                      ),
-                      const SizedBox(height: 20),
+                      ElevatedButton(onPressed: (){}, child: Text('Select Barbell'),)
                     ],
                   ),
                   // ElevatedButton(
