@@ -107,6 +107,10 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  void setSelectedBarbell(Barbell selectedBarbell) {
+    print("Selected Barbell: ${selectedBarbell.name}");
+  }
+
   @override
   Widget build(BuildContext context) {
     getBarbells();
@@ -138,7 +142,9 @@ class _MainPageState extends State<MainPage> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return SelectBarbellDialog(barbellList: barbells,);
+                              return SelectBarbellDialog(
+                                  barbellList: barbells,
+                                  setSelectedBarbell: setSelectedBarbell);
                             },
                           );
                         },
@@ -186,23 +192,34 @@ class _MainPageState extends State<MainPage> {
 }
 
 class SelectBarbellDialog extends StatelessWidget {
-  const SelectBarbellDialog({super.key, required this.barbellList});
+  const SelectBarbellDialog({
+    super.key,
+    required this.barbellList,
+    required this.setSelectedBarbell,
+  });
 
   final List<Barbell> barbellList;
+  final Function(Barbell) setSelectedBarbell;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Select Barbell'),
-      content: SelectBarbellListView(barbellList: barbellList),
+      content: SelectBarbellListView(
+          barbellList: barbellList, setSelectedBarbell: setSelectedBarbell),
     );
   }
 }
 
 class SelectBarbellListView extends StatelessWidget {
-  const SelectBarbellListView({super.key, required this.barbellList});
+  const SelectBarbellListView({
+    super.key,
+    required this.barbellList,
+    required this.setSelectedBarbell,
+  });
 
   final List<Barbell> barbellList;
+  final Function(Barbell) setSelectedBarbell;
 
   @override
   Widget build(BuildContext context) {
@@ -213,6 +230,7 @@ class SelectBarbellListView extends StatelessWidget {
           barbell: barbellList[index],
           index: index,
           barbellListLength: barbellList.length,
+          setSelectedBarbell: setSelectedBarbell,
         );
       },
     );
@@ -225,11 +243,13 @@ class SelectBarbellListItem extends StatelessWidget {
     required this.barbell,
     required this.index,
     required this.barbellListLength,
+    required this.setSelectedBarbell,
   });
 
   final Barbell barbell;
   final int index;
   final int barbellListLength;
+  final Function(Barbell) setSelectedBarbell;
 
   @override
   Widget build(BuildContext context) {
@@ -247,6 +267,7 @@ class SelectBarbellListItem extends StatelessWidget {
               ),
             ),
           ),
+          onTap: () {},
           title: Text(barbell.name),
           subtitle: Text(barbell.weight.toString())),
     );
