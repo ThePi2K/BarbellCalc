@@ -253,6 +253,7 @@ class SelectBarbellListItem extends StatelessWidget {
           ],
         ),
         onTap: () {
+          Navigator.of(context).pop();
           setSelectedBarbell(barbell);
         },
       ),
