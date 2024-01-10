@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'barbell-widget.dart';
 import 'barbell.dart';
 import 'plate.dart';
-import 'inventory.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -17,13 +16,12 @@ class _MainPageState extends State<MainPage> {
   double barbellWeight = 0;
   String barbellWidth = 'Standard';
   final trainingWeightController = TextEditingController();
-  bool calculated = false;
 
   late List<Plate> allPlates = [];
   late List<Plate> plates = [];
   late List<Barbell> barbells = [];
 
-  late List<PlateWidget> plateListOnBarbell;
+  late List<PlateWidget> plateListOnBarbell = [];
 
   void getPlates() async {
     // connect to SharedPreferences
@@ -54,12 +52,6 @@ class _MainPageState extends State<MainPage> {
 
     // add all available plates from allPlates (all from this width) to plates
     plates = allPlates.where((plate) => plate.width == barbellWidth).toList();
-
-    // print
-    for (int i = 0; i < plates.length; i++) {
-      print(barbellWidth);
-      print('Element $i: ${plates[i].weight.toString()} - ${plates[i].width}');
-    }
   }
 
   void getBarbells() async {
@@ -95,40 +87,56 @@ class _MainPageState extends State<MainPage> {
   }
 
   void calculateWeight() {
-    setState(() {
-      // close keyboard
-      FocusManager.instance.primaryFocus?.unfocus();
+    // clear plates on barbell
+    plateListOnBarbell = [];
 
-      // reformatting text input (remove spaces and minus, replace , with .)
-      trainingWeightController.text = trainingWeightController.text
-          .replaceAll(" ", "")
-          .replaceAll("-", "")
-          .replaceAll(",", ".");
+    // get plates
+    getPlates();
 
-      // calculate the weight for the plates
-      plateWeight =
-          (double.parse(trainingWeightController.text) - barbellWeight) / 2;
+    // close keyboard
+    FocusManager.instance.primaryFocus?.unfocus();
 
-      // set calculated true
-      calculated = true;
+    // reformatting text input (remove spaces and minus, replace , with .)
+    trainingWeightController.text = trainingWeightController.text
+        .replaceAll(" ", "")
+        .replaceAll("-", "")
+        .replaceAll(",", ".");
 
-      // starting calculation
+    // calculate the weight for the plates
+    plateWeight =
+        (double.parse(trainingWeightController.text) - barbellWeight) / 2;
 
-      // DO KIMP DR CODE... er schaug ob die greste plate subtrahiert werden konn fa plateWeight
-      // wenn jo tuat er di hel zur liste platesonbarbelllist zui
-      //nor geat er weiter mit dr hem, wenns unter 0 geat geat er mit dr negsten kleanern weiter
+    // starting calculation
 
-    });
+    bool whileFlow = true;
+
+    double plateWeightTemp = plateWeight;
+
+    while (whileFlow) {
+      if (plates.isEmpty) {
+        print('EMPTY');
+        break;
+      } else {
+        double difference = plateWeightTemp - plates.first.weight;
+        if (difference >= 0) {
+          print('difference ($difference) > 0');
+          plateListOnBarbell.add(PlateWidget(weightPlate: plates.first.weight));
+          plateWeightTemp = difference;
+        } else if (difference < 0) {
+          print('difference ($difference) < 0');
+          plates.remove(plates.first);
+        }
+      }
+    }
+    setState(() {});
   }
 
   void setSelectedBarbell(Barbell selectedBarbell) {
     setState(() {
       barbellWeight = selectedBarbell.weight;
       barbellWidth = selectedBarbell.width;
-
     });
     calculateWeight();
-    getPlates();
   }
 
   @override
@@ -172,34 +180,16 @@ class _MainPageState extends State<MainPage> {
                       )
                     ],
                   ),
-                  // ElevatedButton(
-                  //     onPressed: calculateWeight, child: const Text('CALC')),
-                  // const SizedBox(height: 10),
-                  Visibility(
-                    visible: calculated,
-                    child: Text(
-                      plateWeight.toString(),
-                      style: const TextStyle(fontSize: 40.0),
-                    ),
+                  Text(
+                    plateWeight.toString(),
+                    style: const TextStyle(fontSize: 40.0),
                   ),
                 ],
               ),
             ),
-            Visibility(
-              visible: calculated,
-              child: const BarbellWidget(
-                plateList: [
-                  PlateWidget(weightPlate: 25),
-                  PlateWidget(weightPlate: 20),
-                  PlateWidget(weightPlate: 15),
-                  PlateWidget(weightPlate: 10),
-                  PlateWidget(weightPlate: 5),
-                  PlateWidget(weightPlate: 2.5),
-                  PlateWidget(weightPlate: 1.25),
-                  PlateWidget(weightPlate: 1),
-                ],
-              ),
-            )
+            BarbellWidget(
+              plateList: plateListOnBarbell,
+            ),
           ],
         ),
       ),
@@ -227,7 +217,7 @@ class SelectBarbellDialog extends StatelessWidget {
       title: const Text('Select Barbell'),
       content: SizedBox(
         height: MediaQuery.of(context).size.height *
-            0.5, // Anpassen der Höhe nach Bedarf
+            0.5,
         width: double.maxFinite,
         child: ListView.builder(
           itemCount: barbellList.length,
