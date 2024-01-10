@@ -17,6 +17,9 @@ class _MainPageState extends State<MainPage> {
   String barbellWidth = 'Standard';
   final trainingWeightController = TextEditingController();
 
+  bool standardBarbells = true;
+  bool olympicBarbells = false;
+
   late List<Plate> allPlates = [];
   late List<Plate> plates = [];
   late List<Barbell> barbells = [];
@@ -83,52 +86,57 @@ class _MainPageState extends State<MainPage> {
 
       // Write the updated string to 'barbells_key'
       await prefs.setString('barbells_key', encodedData);
+
+      // get available widths
+      standardBarbells = prefs.getBool('standardBarbells') ?? true;
+      olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
+      print(prefs.getBool('standardBarbells'));
+      print(prefs.getBool('olympicBarbells'));
     }
   }
 
   void calculateWeight() {
-    // clear plates on barbell
-    plateListOnBarbell = [];
+    setState(() {
+      // clear plates on barbell
+      plateListOnBarbell = [];
 
-    // get plates
-    getPlates();
+      // get plates
+      getPlates();
 
-    // close keyboard
-    FocusManager.instance.primaryFocus?.unfocus();
+      // close keyboard
+      FocusManager.instance.primaryFocus?.unfocus();
 
-    // reformatting text input (remove spaces and minus, replace , with .)
-    trainingWeightController.text = trainingWeightController.text
-        .replaceAll(" ", "")
-        .replaceAll("-", "")
-        .replaceAll(",", ".");
+      // reformatting text input (remove spaces and minus, replace , with .)
+      trainingWeightController.text = trainingWeightController.text
+          .replaceAll(" ", "")
+          .replaceAll("-", "")
+          .replaceAll(",", ".");
 
-    // calculate the weight for the plates
-    plateWeight =
-        (double.parse(trainingWeightController.text) - barbellWeight) / 2;
+      // calculate the weight for the plates
+      plateWeight =
+          (double.parse(trainingWeightController.text) - barbellWeight) / 2;
 
-    // starting calculation
+      // starting calculation
 
-    bool whileFlow = true;
+      bool whileFlow = true;
 
-    double plateWeightTemp = plateWeight;
+      double plateWeightTemp = plateWeight;
 
-    while (whileFlow) {
-      if (plates.isEmpty) {
-        print('EMPTY');
-        break;
-      } else {
-        double difference = plateWeightTemp - plates.first.weight;
-        if (difference >= 0) {
-          print('difference ($difference) > 0');
-          plateListOnBarbell.add(PlateWidget(weightPlate: plates.first.weight));
-          plateWeightTemp = difference;
-        } else if (difference < 0) {
-          print('difference ($difference) < 0');
-          plates.remove(plates.first);
+      while (whileFlow) {
+        if (plates.isEmpty) {
+          break;
+        } else {
+          double difference = plateWeightTemp - plates.first.weight;
+          if (difference >= 0) {
+            plateListOnBarbell
+                .add(PlateWidget(weightPlate: plates.first.weight));
+            plateWeightTemp = difference;
+          } else if (difference < 0) {
+            plates.remove(plates.first);
+          }
         }
       }
-    }
-    setState(() {});
+    });
   }
 
   void setSelectedBarbell(Barbell selectedBarbell) {
@@ -171,8 +179,11 @@ class _MainPageState extends State<MainPage> {
                             context: context,
                             builder: (BuildContext context) {
                               return SelectBarbellDialog(
-                                  barbellList: barbells,
-                                  setSelectedBarbell: setSelectedBarbell);
+                                barbellList: barbells,
+                                setSelectedBarbell: setSelectedBarbell,
+                                standardBarbells: standardBarbells,
+                                olympicBarbells: olympicBarbells,
+                              );
                             },
                           );
                         },
@@ -206,8 +217,12 @@ class SelectBarbellDialog extends StatelessWidget {
     super.key,
     required this.barbellList,
     required this.setSelectedBarbell,
+    required this.olympicBarbells,
+    required this.standardBarbells,
   });
 
+  final bool olympicBarbells;
+  final bool standardBarbells;
   final List<Barbell> barbellList;
   final Function(Barbell) setSelectedBarbell;
 
@@ -216,8 +231,7 @@ class SelectBarbellDialog extends StatelessWidget {
     return AlertDialog(
       title: const Text('Select Barbell'),
       content: SizedBox(
-        height: MediaQuery.of(context).size.height *
-            0.5,
+        height: MediaQuery.of(context).size.height * 0.5,
         width: double.maxFinite,
         child: ListView.builder(
           itemCount: barbellList.length,
@@ -227,6 +241,8 @@ class SelectBarbellDialog extends StatelessWidget {
               index: index,
               barbellListLength: barbellList.length,
               setSelectedBarbell: setSelectedBarbell,
+              olympicBarbells: olympicBarbells,
+              standardBarbells: standardBarbells,
             );
           },
         ),
@@ -240,10 +256,14 @@ class SelectBarbellListItem extends StatelessWidget {
     super.key,
     required this.barbell,
     required this.index,
+    required this.olympicBarbells,
+    required this.standardBarbells,
     required this.barbellListLength,
     required this.setSelectedBarbell,
   });
 
+  final bool olympicBarbells;
+  final bool standardBarbells;
   final Barbell barbell;
   final int index;
   final int barbellListLength;
@@ -254,14 +274,10 @@ class SelectBarbellListItem extends StatelessWidget {
     return Card(
       child: ListTile(
         title: Text(barbell.name),
-        subtitle: Row(
-          children: [
-            Text(barbell.weight.toString()),
-            const SizedBox(
-              width: 20,
-            ),
-            Text(barbell.width),
-          ],
+        subtitle: SelectBarbellListItemSubtitle(
+          olympicBarbells: olympicBarbells,
+          standardBarbells: standardBarbells,
+          barbell: barbell,
         ),
         onTap: () {
           Navigator.of(context).pop();
@@ -269,5 +285,35 @@ class SelectBarbellListItem extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class SelectBarbellListItemSubtitle extends StatelessWidget {
+  const SelectBarbellListItemSubtitle({
+    super.key,
+    required this.olympicBarbells,
+    required this.standardBarbells,
+    required this.barbell,
+  });
+
+  final bool olympicBarbells;
+  final bool standardBarbells;
+  final Barbell barbell;
+
+  @override
+  Widget build(BuildContext context) {
+    if (olympicBarbells & standardBarbells) {
+      return Row(
+        children: [
+          Text(barbell.weight.toString()),
+          const SizedBox(
+            width: 20,
+          ),
+          Text(barbell.width),
+        ],
+      );
+    } else {
+      return Text(barbell.weight.toString());
+    }
   }
 }
