@@ -267,7 +267,9 @@ class SelectBarbellListItem extends StatelessWidget {
               ),
             ),
           ),
-          onTap: () {setSelectedBarbell(barbell);},
+          onTap: () {
+            setSelectedBarbell(barbell);
+          },
           title: Text(barbell.name),
           subtitle: Text(barbell.weight.toString())),
     );
