@@ -139,7 +139,7 @@ class _InventoryPageState extends State<InventoryPage> {
           leading: const Icon(Icons.inventory),
         ),
         body: BarbellListView(
-            barbellList: barbellsOlympic, deleteBarbell: deleteBarbell),
+            barbellList: barbellsStandard, deleteBarbell: deleteBarbell),
         floatingActionButton: NewPlateBarbellButton(
             onSavePlate: updatePlates, onSaveBarbell: updateBarbells));
   }
