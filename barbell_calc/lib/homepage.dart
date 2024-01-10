@@ -27,6 +27,7 @@ class _MainPageState extends State<MainPage> {
   late List<PlateWidget> plateListOnBarbell = [];
 
   void getPlates() async {
+
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -72,14 +73,21 @@ class _MainPageState extends State<MainPage> {
       });
     }
 
+    // get available widths
+    standardBarbells = prefs.getBool('standardBarbells') ?? true;
+    olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
+
     // if 0 barbells
     if (barbells.isEmpty) {
-      // initialise the list
-      // List<Barbell> barbells = [];
-
       // Create a new Barbell and add it to the list
-      barbells.add(
-          Barbell(name: 'My first Barbell', weight: 20.0, width: 'Standard'));
+      if (standardBarbells) {
+        barbells.add(
+            Barbell(name: 'My first Barbell', weight: 10.0, width: 'Standard'));
+      }
+      if (olympicBarbells) {
+        barbells.add(Barbell(
+            name: 'My first Olympic Barbell', weight: 20.0, width: 'Olympic'));
+      }
 
       // Encode the updated list to a string
       final String encodedData = Barbell.encode(barbells);
@@ -87,10 +95,6 @@ class _MainPageState extends State<MainPage> {
       // Write the updated string to 'barbells_key'
       await prefs.setString('barbells_key', encodedData);
     }
-
-    // get available widths
-    standardBarbells = prefs.getBool('standardBarbells') ?? true;
-    olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
 
     // remove barbells with unchecked width
     if (standardBarbells == false) {
