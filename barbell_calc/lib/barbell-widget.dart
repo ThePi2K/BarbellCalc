@@ -95,8 +95,7 @@ class BarWidget extends StatelessWidget {
       alignment: Alignment.centerLeft,
       children: [
         // bar
-        Expanded(
-          child: Container(
+         Container(
             height: 20.0,
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -128,7 +127,7 @@ class BarWidget extends StatelessWidget {
               ),
             ),
           ),
-        ),
+
         Row(
           children: [
             const SizedBox(width: 10.0),
