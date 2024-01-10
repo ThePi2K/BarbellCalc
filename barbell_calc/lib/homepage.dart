@@ -205,34 +205,17 @@ class SelectBarbellDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Select Barbell'),
-      content: SelectBarbellListView(
-          barbellList: barbellList, setSelectedBarbell: setSelectedBarbell),
-    );
-  }
-}
-
-class SelectBarbellListView extends StatelessWidget {
-  const SelectBarbellListView({
-    super.key,
-    required this.barbellList,
-    required this.setSelectedBarbell,
-  });
-
-  final List<Barbell> barbellList;
-  final Function(Barbell) setSelectedBarbell;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: barbellList.length,
-      itemBuilder: (BuildContext context, int index) {
-        return SelectBarbellListItem(
-          barbell: barbellList[index],
-          index: index,
-          barbellListLength: barbellList.length,
-          setSelectedBarbell: setSelectedBarbell,
-        );
-      },
+      content: ListView.builder(
+        itemCount: barbellList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return SelectBarbellListItem(
+            barbell: barbellList[index],
+            index: index,
+            barbellListLength: barbellList.length,
+            setSelectedBarbell: setSelectedBarbell,
+          );
+        },
+      ),
     );
   }
 }
