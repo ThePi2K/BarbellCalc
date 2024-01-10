@@ -89,10 +89,10 @@ class _PlateInventoryPageState extends State<PlateInventoryPage> {
       ),
       body: ListView(
         children: [
-          ExpansionTile(title: Text('50'), children: [
+          ExpansionTile(title: const Text('50'), children: [
             PlateListView(plates: plates, deletePlate: deletePlate)
           ]),
-          ExpansionTile(title: Text('50'), children: [
+          ExpansionTile(title: const Text('50'), children: [
             PlateListView(plates: plates, deletePlate: deletePlate)
           ]),
         ],
