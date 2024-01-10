@@ -17,8 +17,8 @@ class _MainPageState extends State<MainPage> {
   String barbellWidth = 'Standard';
   final trainingWeightController = TextEditingController();
 
-  bool standardBarbells = true;
-  bool olympicBarbells = false;
+  late bool standardBarbells;
+  late bool olympicBarbells;
 
   late List<Plate> allPlates = [];
   late List<Plate> plates = [];
@@ -86,13 +86,11 @@ class _MainPageState extends State<MainPage> {
 
       // Write the updated string to 'barbells_key'
       await prefs.setString('barbells_key', encodedData);
-
-      // get available widths
-      standardBarbells = prefs.getBool('standardBarbells') ?? true;
-      olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
-      print(prefs.getBool('standardBarbells'));
-      print(prefs.getBool('olympicBarbells'));
     }
+
+    // get available widths
+    standardBarbells = prefs.getBool('standardBarbells') ?? true;
+    olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
   }
 
   void calculateWeight() {
@@ -149,6 +147,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    getPlates();
     getBarbells();
     return Scaffold(
       body: SingleChildScrollView(
