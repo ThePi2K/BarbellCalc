@@ -91,6 +91,15 @@ class _MainPageState extends State<MainPage> {
     // get available widths
     standardBarbells = prefs.getBool('standardBarbells') ?? true;
     olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
+
+    // remove barbells with unchecked width
+    if (standardBarbells == false) {
+      barbells =
+          barbells.where((barbells) => barbells.width == 'Olympic').toList();
+    } else if (olympicBarbells == false) {
+      barbells =
+          barbells.where((barbells) => barbells.width == 'Standard').toList();
+    }
   }
 
   void calculateWeight() {
