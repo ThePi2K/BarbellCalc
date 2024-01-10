@@ -133,7 +133,17 @@ class _MainPageState extends State<MainPage> {
                         keyboardType: TextInputType.number,
                       ),
                       const SizedBox(height: 20),
-                      ElevatedButton(onPressed: (){}, child: Text('Select Barbell'),)
+                      ElevatedButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SelectBarbellDialog(barbellList: barbells,);
+                            },
+                          );
+                        },
+                        child: const Text('Select Barbell'),
+                      )
                     ],
                   ),
                   // ElevatedButton(
@@ -171,6 +181,74 @@ class _MainPageState extends State<MainPage> {
         onPressed: calculateWeight,
         child: const Icon(Icons.calculate_rounded),
       ),
+    );
+  }
+}
+
+class SelectBarbellDialog extends StatelessWidget {
+  const SelectBarbellDialog({super.key, required this.barbellList});
+
+  final List<Barbell> barbellList;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Select Barbell'),
+      content: SelectBarbellListView(barbellList: barbellList),
+    );
+  }
+}
+
+class SelectBarbellListView extends StatelessWidget {
+  const SelectBarbellListView({super.key, required this.barbellList});
+
+  final List<Barbell> barbellList;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: barbellList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return SelectBarbellListItem(
+          barbell: barbellList[index],
+          index: index,
+          barbellListLength: barbellList.length,
+        );
+      },
+    );
+  }
+}
+
+class SelectBarbellListItem extends StatelessWidget {
+  const SelectBarbellListItem({
+    super.key,
+    required this.barbell,
+    required this.index,
+    required this.barbellListLength,
+  });
+
+  final Barbell barbell;
+  final int index;
+  final int barbellListLength;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+          leading: Container(
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Text(
+              barbell.width,
+              style: const TextStyle(
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+          title: Text(barbell.name),
+          subtitle: Text(barbell.weight.toString())),
     );
   }
 }
