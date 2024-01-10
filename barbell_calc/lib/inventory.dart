@@ -306,7 +306,7 @@ class _CreatePlateState extends State<CreatePlate> {
   List<String> widthList = [];
 
   // List<String> widthList = <String>['Standard', 'Olympic'];
-  late String dropdownValue;
+  late String dropdownValue = '';
 
   @override
   void initState() {
