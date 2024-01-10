@@ -255,23 +255,20 @@ class SelectBarbellListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-          leading: Container(
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.0),
+        title: Text(barbell.name),
+        subtitle: Row(
+          children: [
+            Text(barbell.weight.toString()),
+            const SizedBox(
+              width: 20,
             ),
-            child: Text(
-              barbell.width,
-              style: const TextStyle(
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-          ),
-          onTap: () {
-            setSelectedBarbell(barbell);
-          },
-          title: Text(barbell.name),
-          subtitle: Text(barbell.weight.toString())),
+            Text(barbell.width),
+          ],
+        ),
+        onTap: () {
+          setSelectedBarbell(barbell);
+        },
+      ),
     );
   }
 }
