@@ -15,9 +15,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   double plateWeight = 0;
   double barbellWeight = 0;
+  String barbellWidth = 'Standard';
   final trainingWeightController = TextEditingController();
   bool calculated = false;
 
+  late List<Plate> allPlates = [];
   late List<Plate> plates = [];
   late List<Barbell> barbells = [];
 
@@ -32,20 +34,29 @@ class _MainPageState extends State<MainPage> {
     if (platesString != null) {
       setState(() {
         // save the plates into the List "plates"
-        plates = Plate.decode(platesString);
+        allPlates = Plate.decode(platesString);
       });
     }
 
     // if 0 plates
-    if (plates.isEmpty) {
+    if (allPlates.isEmpty) {
       // Create a new Plate and add it to the list
-      plates.add(Plate(weight: 20.0, width: 'Standard'));
+      allPlates.add(Plate(weight: 20.0, width: 'Standard'));
 
       // Encode the updated list to a string
-      final String encodedData = Plate.encode(plates);
+      final String encodedData = Plate.encode(allPlates);
 
       // Write the updated string to 'plates_key'
       await prefs.setString('plates_key', encodedData);
+    }
+
+    // add all available plates from allPlates (all from this width) to plates
+    plates = allPlates.where((plate) => plate.width == barbellWidth).toList();
+
+    // print
+    for (int i = 0; i < plates.length; i++) {
+      print(barbellWidth);
+      print('Element $i: ${plates[i].weight.toString()} - ${plates[i].width}');
     }
   }
 
@@ -104,9 +115,11 @@ class _MainPageState extends State<MainPage> {
   void setSelectedBarbell(Barbell selectedBarbell) {
     setState(() {
       barbellWeight = selectedBarbell.weight;
+      barbellWidth = selectedBarbell.width;
 
     });
     calculateWeight();
+    getPlates();
   }
 
   @override
