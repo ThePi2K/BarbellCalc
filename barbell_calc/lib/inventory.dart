@@ -712,7 +712,17 @@ class BarbellListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ListView.builder(
+      itemCount: barbellList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return BarbellListItem(
+          barbell: barbellList[index],
+          index: index,
+          barbellListLength: barbellList.length,
+          onDelete: deleteBarbell,
+        );
+      },
+    );
   }
 }
 

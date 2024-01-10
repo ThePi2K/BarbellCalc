@@ -205,16 +205,20 @@ class SelectBarbellDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Select Barbell'),
-      content: ListView.builder(
-        itemCount: barbellList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return SelectBarbellListItem(
-            barbell: barbellList[index],
-            index: index,
-            barbellListLength: barbellList.length,
-            setSelectedBarbell: setSelectedBarbell,
-          );
-        },
+      content: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.5, // Anpassen der Höhe nach Bedarf
+        width: double.maxFinite,
+        child: ListView.builder(
+          itemCount: barbellList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return SelectBarbellListItem(
+              barbell: barbellList[index],
+              index: index,
+              barbellListLength: barbellList.length,
+              setSelectedBarbell: setSelectedBarbell,
+            );
+          },
+        ),
       ),
     );
   }
