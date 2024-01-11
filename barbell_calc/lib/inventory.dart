@@ -259,11 +259,12 @@ class NewPlateBarbellButton extends StatelessWidget {
 }
 
 class InventoryButton extends StatelessWidget {
-  const InventoryButton(
-      {super.key,
-      required this.title,
-      required this.image,
-      required this.inventoryPage});
+  const InventoryButton({
+    super.key,
+    required this.title,
+    required this.image,
+    required this.inventoryPage,
+  });
 
   final String title;
   final String image;
