@@ -20,6 +20,9 @@ class _InventoryPageState extends State<InventoryPage> {
   late List<Plate> platesOlympic = [];
   late List<Plate> platesStandard = [];
 
+  late bool standardBarbells = true;
+  late bool olympicBarbells = false;
+
   @override
   void initState() {
     updatePlates();
@@ -35,6 +38,15 @@ class _InventoryPageState extends State<InventoryPage> {
   void updateBarbells() {
     getBarbells();
     setState(() {});
+  }
+
+  void getWidths() async {
+    // connect to SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // get available widths
+    standardBarbells = prefs.getBool('standardBarbells') ?? true;
+    olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
   }
 
   void getPlates() async {
@@ -69,6 +81,8 @@ class _InventoryPageState extends State<InventoryPage> {
         plates.where((plates) => plates.width == 'Olympic').toList();
     platesStandard =
         plates.where((plates) => plates.width == 'Standard').toList();
+
+    getWidths();
   }
 
   void getBarbells() async {
@@ -104,6 +118,8 @@ class _InventoryPageState extends State<InventoryPage> {
         barbells.where((barbell) => barbell.width == 'Olympic').toList();
     barbellsStandard =
         barbells.where((barbell) => barbell.width == 'Standard').toList();
+
+    getWidths();
   }
 
   Future<void> deleteBarbell(int index) async {
@@ -172,11 +188,13 @@ class _InventoryPageState extends State<InventoryPage> {
           title: const Text('Inventory'),
           leading: const Icon(Icons.inventory),
         ),
-        body: BarbellListView(
+        body: InventoryListView(
           barbellListStandard: barbellsStandard,
           barbellListOlympic: barbellsOlympic,
           plateListStandard: platesStandard,
           plateListOlympic: platesOlympic,
+          standardBarbells: standardBarbells,
+          olympicBarbells: olympicBarbells,
           deletePlate: deletePlate,
           deleteBarbell: deleteBarbell,
         ),
@@ -744,8 +762,8 @@ class ErrorDialog extends StatelessWidget {
   }
 }
 
-class BarbellListView extends StatelessWidget {
-  const BarbellListView({
+class InventoryListView extends StatelessWidget {
+  const InventoryListView({
     super.key,
     required this.barbellListStandard,
     required this.barbellListOlympic,
@@ -753,6 +771,8 @@ class BarbellListView extends StatelessWidget {
     required this.plateListOlympic,
     required this.deleteBarbell,
     required this.deletePlate,
+    required this.olympicBarbells,
+    required this.standardBarbells,
   });
 
   final List<Barbell> barbellListStandard;
@@ -763,14 +783,24 @@ class BarbellListView extends StatelessWidget {
   final Function(int) deleteBarbell;
   final Function(int) deletePlate;
 
+  final bool olympicBarbells;
+  final bool standardBarbells;
+
   @override
   Widget build(BuildContext context) {
+    if (!olympicBarbells) {
+      barbellListOlympic.clear();
+      plateListOlympic.clear();
+    }
+    if (!standardBarbells) {
+      barbellListStandard.clear();
+      plateListStandard.clear();
+    }
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ExpansionTile(
-            initiallyExpanded: true,
             collapsedShape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(50))),
             shape: const RoundedRectangleBorder(
@@ -786,6 +816,8 @@ class BarbellListView extends StatelessWidget {
                   barbellListLength: barbellListStandard.length,
                   onDelete: deleteBarbell,
                   index: index,
+                  olympicBarbells: olympicBarbells,
+                  standardBarbells: standardBarbells,
                 ),
               for (var index = 0; index < barbellListOlympic.length; index++)
                 BarbellListItem(
@@ -793,6 +825,8 @@ class BarbellListView extends StatelessWidget {
                   barbellListLength: barbellListOlympic.length,
                   onDelete: deleteBarbell,
                   index: index,
+                  olympicBarbells: olympicBarbells,
+                  standardBarbells: standardBarbells,
                 ),
             ],
           ),
@@ -813,6 +847,8 @@ class BarbellListView extends StatelessWidget {
                   plateListLength: plateListStandard.length,
                   onDelete: deletePlate,
                   index: index,
+                  olympicBarbells: olympicBarbells,
+                  standardBarbells: standardBarbells,
                 ),
               for (var index = 0; index < plateListOlympic.length; index++)
                 PlateListItem(
@@ -820,6 +856,8 @@ class BarbellListView extends StatelessWidget {
                   plateListLength: plateListOlympic.length,
                   onDelete: deletePlate,
                   index: index,
+                  olympicBarbells: olympicBarbells,
+                  standardBarbells: standardBarbells,
                 ),
             ],
           ),
@@ -836,31 +874,27 @@ class BarbellListItem extends StatelessWidget {
     required this.index,
     required this.onDelete,
     required this.barbellListLength,
+    required this.olympicBarbells,
+    required this.standardBarbells,
   });
 
   final Barbell barbell;
   final int index;
   final int barbellListLength;
   final Function(int) onDelete;
+  final bool olympicBarbells;
+  final bool standardBarbells;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        leading: Container(
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          child: Text(
-            barbell.width,
-            style: const TextStyle(
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-        ),
         title: Text(barbell.name),
-        subtitle: Text(barbell.weight.toString()),
+        subtitle: BarbellListItemSubtitle(
+          olympicBarbells: olympicBarbells,
+          standardBarbells: standardBarbells,
+          barbell: barbell,
+        ),
         trailing: IconButton(
           icon: const Icon(Icons.delete),
           onPressed: () {
@@ -900,11 +934,15 @@ class PlateListItem extends StatelessWidget {
     required this.index,
     required this.onDelete,
     required this.plateListLength,
+    required this.olympicBarbells,
+    required this.standardBarbells,
   });
 
   final Plate plate;
   final int index;
   final int plateListLength;
+  final bool olympicBarbells;
+  final bool standardBarbells;
 
   final Function(int) onDelete;
 
@@ -912,19 +950,12 @@ class PlateListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        leading: Container(
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          child: Text(
-            plate.width,
-            style: const TextStyle(
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-        ),
         title: Text(plate.weight.toString()),
+        subtitle: PlateListItemSubtitle(
+          olympicBarbells: olympicBarbells,
+          standardBarbells: standardBarbells,
+          plate: plate,
+        ),
         trailing: IconButton(
           icon: const Icon(Icons.delete),
           onPressed: () {
@@ -954,5 +985,65 @@ class PlateListItem extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class BarbellListItemSubtitle extends StatelessWidget {
+  const BarbellListItemSubtitle({
+    super.key,
+    required this.olympicBarbells,
+    required this.standardBarbells,
+    required this.barbell,
+  });
+
+  final bool olympicBarbells;
+  final bool standardBarbells;
+  final Barbell barbell;
+
+  @override
+  Widget build(BuildContext context) {
+    if (olympicBarbells & standardBarbells) {
+      return Row(
+        children: [
+          Text(barbell.weight.toString()),
+          const SizedBox(
+            width: 20,
+          ),
+          Text(barbell.width),
+        ],
+      );
+    } else {
+      return Text(barbell.weight.toString());
+    }
+  }
+}
+
+class PlateListItemSubtitle extends StatelessWidget {
+  const PlateListItemSubtitle({
+    super.key,
+    required this.olympicBarbells,
+    required this.standardBarbells,
+    required this.plate,
+  });
+
+  final bool olympicBarbells;
+  final bool standardBarbells;
+  final Plate plate;
+
+  @override
+  Widget build(BuildContext context) {
+    if (olympicBarbells & standardBarbells) {
+      return Row(
+        children: [
+          Text(plate.weight.toString()),
+          const SizedBox(
+            width: 20,
+          ),
+          Text(plate.width),
+        ],
+      );
+    } else {
+      return Text(plate.weight.toString());
+    }
   }
 }
