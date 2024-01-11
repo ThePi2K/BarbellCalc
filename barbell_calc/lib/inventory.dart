@@ -808,7 +808,7 @@ class BarbellListItem extends StatelessWidget {
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text('Attention'),
-                    content: const Text('You need at least one barbell!'),
+                    content: Text('You need at least one ${barbell.width} Barbell!'),
                     actions: [
                       TextButton(
                         onPressed: () {
