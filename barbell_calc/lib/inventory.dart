@@ -771,6 +771,10 @@ class BarbellListView extends StatelessWidget {
         children: [
           ExpansionTile(
             initiallyExpanded: true,
+            collapsedShape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(50))),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
             title: const Text(
               'Barbells:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -794,6 +798,10 @@ class BarbellListView extends StatelessWidget {
           ),
           ExpansionTile(
             initiallyExpanded: true,
+            collapsedShape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(50))),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
             title: const Text(
               'Plates:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
