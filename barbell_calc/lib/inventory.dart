@@ -798,69 +798,45 @@ class InventoryListView extends StatelessWidget {
     }
     return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ExpansionTile(
-            collapsedShape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(50))),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            title: const Text(
-              'Barbells:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          const InventoryListTitle(title: 'Barbells'),
+          for (var index = 0; index < barbellListStandard.length; index++)
+            BarbellListItem(
+              barbell: barbellListStandard[index],
+              barbellListLength: barbellListStandard.length,
+              onDelete: deleteBarbell,
+              index: index,
+              olympicBarbells: olympicBarbells,
+              standardBarbells: standardBarbells,
             ),
-            children: [
-              for (var index = 0; index < barbellListStandard.length; index++)
-                BarbellListItem(
-                  barbell: barbellListStandard[index],
-                  barbellListLength: barbellListStandard.length,
-                  onDelete: deleteBarbell,
-                  index: index,
-                  olympicBarbells: olympicBarbells,
-                  standardBarbells: standardBarbells,
-                ),
-              for (var index = 0; index < barbellListOlympic.length; index++)
-                BarbellListItem(
-                  barbell: barbellListOlympic[index],
-                  barbellListLength: barbellListOlympic.length,
-                  onDelete: deleteBarbell,
-                  index: index,
-                  olympicBarbells: olympicBarbells,
-                  standardBarbells: standardBarbells,
-                ),
-            ],
-          ),
-          ExpansionTile(
-            initiallyExpanded: true,
-            collapsedShape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(50))),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            title: const Text(
-              'Plates:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          for (var index = 0; index < barbellListOlympic.length; index++)
+            BarbellListItem(
+              barbell: barbellListOlympic[index],
+              barbellListLength: barbellListOlympic.length,
+              onDelete: deleteBarbell,
+              index: index,
+              olympicBarbells: olympicBarbells,
+              standardBarbells: standardBarbells,
             ),
-            children: [
-              for (var index = 0; index < plateListStandard.length; index++)
-                PlateListItem(
-                  plate: plateListStandard[index],
-                  plateListLength: plateListStandard.length,
-                  onDelete: deletePlate,
-                  index: index,
-                  olympicBarbells: olympicBarbells,
-                  standardBarbells: standardBarbells,
-                ),
-              for (var index = 0; index < plateListOlympic.length; index++)
-                PlateListItem(
-                  plate: plateListOlympic[index],
-                  plateListLength: plateListOlympic.length,
-                  onDelete: deletePlate,
-                  index: index,
-                  olympicBarbells: olympicBarbells,
-                  standardBarbells: standardBarbells,
-                ),
-            ],
-          ),
+          const InventoryListTitle(title: 'Plates'),
+          for (var index = 0; index < plateListStandard.length; index++)
+            PlateListItem(
+              plate: plateListStandard[index],
+              plateListLength: plateListStandard.length,
+              onDelete: deletePlate,
+              index: index,
+              olympicBarbells: olympicBarbells,
+              standardBarbells: standardBarbells,
+            ),
+          for (var index = 0; index < plateListOlympic.length; index++)
+            PlateListItem(
+              plate: plateListOlympic[index],
+              plateListLength: plateListOlympic.length,
+              onDelete: deletePlate,
+              index: index,
+              olympicBarbells: olympicBarbells,
+              standardBarbells: standardBarbells,
+            ),
         ],
       ),
     );
@@ -1052,6 +1028,24 @@ class PlateListItemIconButton extends StatelessWidget {
           onDelete(index);
         }
       },
+    );
+  }
+}
+
+class InventoryListTitle extends StatelessWidget {
+  const InventoryListTitle({super.key, required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 15, 15, 2),
+        child: Text(title,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      ),
     );
   }
 }
