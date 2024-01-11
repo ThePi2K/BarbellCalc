@@ -722,25 +722,34 @@ class BarbellListView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Hantelscheiben:',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          for (var plate in plateList)
-            Text('${plate.weight} kg - ${plate.width}',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          SizedBox(height: 20),
-          Text(
-            'Hanteln:',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          for (var index = 0; index < barbellList.length; index++)
-            BarbellListItem(
-              barbell: barbellList[index],
-              barbellListLength: barbellList.length,
-              onDelete: deleteBarbell,
-              index: index,
+          ExpansionTile(
+            title: Text(
+              'Hantelscheiben:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
+            children: [
+              for (var plate in plateList)
+                Text(
+                  '${plate.weight} kg - ${plate.width}',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+            ],
+          ),
+          ExpansionTile(
+            title: Text(
+              'Hanteln:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            children: [
+              for (var index = 0; index < barbellList.length; index++)
+                BarbellListItem(
+                  barbell: barbellList[index],
+                  barbellListLength: barbellList.length,
+                  onDelete: deleteBarbell,
+                  index: index,
+                ),
+            ],
+          ),
         ],
       ),
     );
