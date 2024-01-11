@@ -139,7 +139,9 @@ class _InventoryPageState extends State<InventoryPage> {
           leading: const Icon(Icons.inventory),
         ),
         body: BarbellListView(
-            barbellList: barbellsStandard, deleteBarbell: deleteBarbell),
+            barbellList: barbellsStandard,
+            plateList: plates,
+            deleteBarbell: deleteBarbell),
         floatingActionButton: NewPlateBarbellButton(
             onSavePlate: updatePlates, onSaveBarbell: updateBarbells));
   }
@@ -705,55 +707,43 @@ class ErrorDialog extends StatelessWidget {
 
 class BarbellListView extends StatelessWidget {
   const BarbellListView(
-      {super.key, required this.barbellList, required this.deleteBarbell});
+      {super.key,
+      required this.barbellList,
+      required this.plateList,
+      required this.deleteBarbell});
 
   final List<Barbell> barbellList;
+  final List<Plate> plateList;
   final Function(int) deleteBarbell;
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionPanelList(
-      expansionCallback: (int index, bool isExpanded) {},
-      children: [
-        ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(
-              title: Text('Item 1'),
-            );
-          },
-          body: ListTile(
-            title: Text('Item 1 child'),
-            subtitle: Text('Details goes here'),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Hantelscheiben:',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          isExpanded: true,
-        ),
-        ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(
-              title: Text('Item 2'),
-            );
-          },
-          body: ListTile(
-            title: Text('Item 2 child'),
-            subtitle: Text('Details goes here'),
+          for (var plate in plateList)
+            Text('${plate.weight} kg - ${plate.width}',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          SizedBox(height: 20),
+          Text(
+            'Hanteln:',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          isExpanded: false,
-        ),
-      ],
+          for (var index = 0; index < barbellList.length; index++)
+            BarbellListItem(
+              barbell: barbellList[index],
+              barbellListLength: barbellList.length,
+              onDelete: deleteBarbell,
+              index: index,
+            ),
+        ],
+      ),
     );
-
-
-    // ListView.builder(
-      // itemCount: barbellList.length,
-      // itemBuilder: (BuildContext context, int index) {
-      //   return BarbellListItem(
-      //     barbell: barbellList[index],
-      //     index: index,
-      //     barbellListLength: barbellList.length,
-      //     onDelete: deleteBarbell,
-      //   );
-      // },
-    // );
   }
 }
 
