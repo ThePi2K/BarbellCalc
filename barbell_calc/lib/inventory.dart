@@ -139,7 +139,8 @@ class _InventoryPageState extends State<InventoryPage> {
           leading: const Icon(Icons.inventory),
         ),
         body: BarbellListView(
-            barbellList: barbellsStandard,
+            barbellListStandard: barbellsStandard,
+            barbellListOlympic: barbellsOlympic,
             plateList: plates,
             deleteBarbell: deleteBarbell),
         floatingActionButton: NewPlateBarbellButton(
@@ -708,11 +709,13 @@ class ErrorDialog extends StatelessWidget {
 class BarbellListView extends StatelessWidget {
   const BarbellListView(
       {super.key,
-      required this.barbellList,
+        required this.barbellListStandard,
+        required this.barbellListOlympic,
       required this.plateList,
       required this.deleteBarbell});
 
-  final List<Barbell> barbellList;
+  final List<Barbell> barbellListStandard;
+  final List<Barbell> barbellListOlympic;
   final List<Plate> plateList;
   final Function(int) deleteBarbell;
 
@@ -729,10 +732,17 @@ class BarbellListView extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             children: [
-              for (var index = 0; index < barbellList.length; index++)
+              for (var index = 0; index < barbellListStandard.length; index++)
                 BarbellListItem(
-                  barbell: barbellList[index],
-                  barbellListLength: barbellList.length,
+                  barbell: barbellListStandard[index],
+                  barbellListLength: barbellListStandard.length,
+                  onDelete: deleteBarbell,
+                  index: index,
+                ),
+              for (var index = 0; index < barbellListOlympic.length; index++)
+                BarbellListItem(
+                  barbell: barbellListOlympic[index],
+                  barbellListLength: barbellListOlympic.length,
                   onDelete: deleteBarbell,
                   index: index,
                 ),
