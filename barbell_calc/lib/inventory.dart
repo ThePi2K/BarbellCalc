@@ -948,43 +948,36 @@ class PlateListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        title: Text(plate.weight.toString()),
-        subtitle: PlateListItemSubtitle(
-          olympicBarbells: olympicBarbells,
-          standardBarbells: standardBarbells,
-          plate: plate,
+    if (olympicBarbells & standardBarbells) {
+      return Card(
+        child: ListTile(
+          title: Text(plate.weight.toString()),
+          subtitle: Row(
+            children: [
+              Text(plate.width),
+            ],
+          ),
+          trailing: PlateListItemIconButton(
+            plate: plate,
+            onDelete: onDelete,
+            index: index,
+            plateListLength: plateListLength,
+          ),
         ),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete),
-          onPressed: () {
-            if (plateListLength == 1) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Attention'),
-                    content:
-                        Text('You need at least one ${plate.width} Plate!'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            } else {
-              onDelete(index);
-            }
-          },
+      );
+    } else {
+      return Card(
+        child: ListTile(
+          title: Text(plate.weight.toString()),
+          trailing: PlateListItemIconButton(
+            plate: plate,
+            onDelete: onDelete,
+            index: index,
+            plateListLength: plateListLength,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 }
 
@@ -1018,32 +1011,47 @@ class BarbellListItemSubtitle extends StatelessWidget {
   }
 }
 
-class PlateListItemSubtitle extends StatelessWidget {
-  const PlateListItemSubtitle({
+class PlateListItemIconButton extends StatelessWidget {
+  const PlateListItemIconButton({
     super.key,
-    required this.olympicBarbells,
-    required this.standardBarbells,
     required this.plate,
+    required this.index,
+    required this.onDelete,
+    required this.plateListLength,
   });
 
-  final bool olympicBarbells;
-  final bool standardBarbells;
   final Plate plate;
+  final int index;
+  final Function(int) onDelete;
+  final int plateListLength;
 
   @override
   Widget build(BuildContext context) {
-    if (olympicBarbells & standardBarbells) {
-      return Row(
-        children: [
-          Text(plate.weight.toString()),
-          const SizedBox(
-            width: 20,
-          ),
-          Text(plate.width),
-        ],
-      );
-    } else {
-      return Text(plate.weight.toString());
-    }
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: () {
+        if (plateListLength == 1) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Attention'),
+                content: Text('You need at least one ${plate.width} Plate!'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          onDelete(index);
+        }
+      },
+    );
   }
 }
