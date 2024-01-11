@@ -12,10 +12,13 @@ class InventoryPage extends StatefulWidget {
 }
 
 class _InventoryPageState extends State<InventoryPage> {
-  late List<Plate> plates = [];
   late List<Barbell> barbells = [];
   late List<Barbell> barbellsOlympic = [];
   late List<Barbell> barbellsStandard = [];
+
+  late List<Plate> plates = [];
+  late List<Plate> platesOlympic = [];
+  late List<Plate> platesStandard = [];
 
   @override
   void initState() {
@@ -60,6 +63,12 @@ class _InventoryPageState extends State<InventoryPage> {
       // Write the updated string to 'plates_key'
       await prefs.setString('plates_key', encodedData);
     }
+
+    // add all barbells to their own list
+    platesOlympic =
+        plates.where((plates) => plates.width == 'Olympic').toList();
+    platesStandard =
+        plates.where((plates) => plates.width == 'Standard').toList();
   }
 
   void getBarbells() async {
@@ -79,9 +88,6 @@ class _InventoryPageState extends State<InventoryPage> {
 
     // if 0 barbells
     if (barbells.isEmpty) {
-      // initialise the list
-      // List<Barbell> barbells = [];
-
       // Create a new Barbell and add it to the list
       barbells.add(
           Barbell(name: 'My first Barbell', weight: 20.0, width: 'Standard'));
@@ -141,7 +147,8 @@ class _InventoryPageState extends State<InventoryPage> {
         body: BarbellListView(
             barbellListStandard: barbellsStandard,
             barbellListOlympic: barbellsOlympic,
-            plateList: plates,
+            plateListStandard: platesStandard,
+            plateListOlympic: platesOlympic,
             deleteBarbell: deleteBarbell),
         floatingActionButton: NewPlateBarbellButton(
             onSavePlate: updatePlates, onSaveBarbell: updateBarbells));
@@ -709,14 +716,17 @@ class ErrorDialog extends StatelessWidget {
 class BarbellListView extends StatelessWidget {
   const BarbellListView(
       {super.key,
-        required this.barbellListStandard,
-        required this.barbellListOlympic,
-      required this.plateList,
+      required this.barbellListStandard,
+      required this.barbellListOlympic,
+      required this.plateListStandard,
+      required this.plateListOlympic,
       required this.deleteBarbell});
 
   final List<Barbell> barbellListStandard;
   final List<Barbell> barbellListOlympic;
-  final List<Plate> plateList;
+  final List<Plate> plateListStandard;
+  final List<Plate> plateListOlympic;
+
   final Function(int) deleteBarbell;
 
   @override
@@ -727,8 +737,8 @@ class BarbellListView extends StatelessWidget {
         children: [
           ExpansionTile(
             initiallyExpanded: true,
-            title: Text(
-              'Hanteln:',
+            title: const Text(
+              'Barbells:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             children: [
@@ -749,15 +759,25 @@ class BarbellListView extends StatelessWidget {
             ],
           ),
           ExpansionTile(
-            title: Text(
-              'Hantelscheiben:',
+            initiallyExpanded: true,
+            title: const Text(
+              'Plates:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             children: [
-              for (var plate in plateList)
-                Text(
-                  '${plate.weight} kg - ${plate.width}',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              for (var index = 0; index < plateListStandard.length; index++)
+                PlateListItem(
+                  plate: plateListStandard[index],
+                  plateListLength: barbellListStandard.length,
+                  // onDelete: deleteBarbell,
+                  index: index,
+                ),
+              for (var index = 0; index < plateListOlympic.length; index++)
+                PlateListItem(
+                  plate: plateListOlympic[index],
+                  plateListLength: plateListOlympic.length,
+                 // onDelete: deleteBarbell,
+                  index: index,
                 ),
             ],
           ),
@@ -808,7 +828,8 @@ class BarbellListItem extends StatelessWidget {
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text('Attention'),
-                    content: Text('You need at least one ${barbell.width} Barbell!'),
+                    content:
+                        Text('You need at least one ${barbell.width} Barbell!'),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -823,6 +844,70 @@ class BarbellListItem extends StatelessWidget {
             } else {
               onDelete(index);
             }
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class PlateListItem extends StatelessWidget {
+  const PlateListItem({
+    super.key,
+    required this.plate,
+    required this.index,
+    // required this.onDelete,
+    required this.plateListLength,
+  });
+
+  final Plate plate;
+  final int index;
+  final int plateListLength;
+  // final Function(int) onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        leading: Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          child: Text(
+            plate.width,
+            style: const TextStyle(
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ),
+        title: Text(plate.weight.toString()),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () {
+            if (plateListLength == 1) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Attention'),
+                    content:
+                        Text('You need at least one ${plate.width} Plate!'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+            // else {
+            //   onDelete(index);
+            // }
           },
         ),
       ),
