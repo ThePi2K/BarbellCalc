@@ -134,6 +134,34 @@ class _InventoryPageState extends State<InventoryPage> {
     updateBarbells();
   }
 
+  Future<void> deletePlate(int index) async {
+    // connect to SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // get barbells from SharedPreferences
+    final String? platesString = prefs.getString('plates_key');
+
+    // check if Items in List
+    if (platesString != null) {
+      setState(() {
+        // save the plates into the List "plates"
+        plates = Plate.decode(platesString);
+      });
+    }
+
+    // remove plate from array
+    plates.remove(plates[index]);
+
+    // Encode the updated list to a string
+    final String encodedData = Plate.encode(plates);
+
+    // Write the updated string to 'barbells_key'
+    await prefs.setString('plates_key', encodedData);
+
+    // refresh the list
+    updatePlates();
+  }
+
   @override
   Widget build(BuildContext context) {
     // first run
@@ -145,11 +173,13 @@ class _InventoryPageState extends State<InventoryPage> {
           leading: const Icon(Icons.inventory),
         ),
         body: BarbellListView(
-            barbellListStandard: barbellsStandard,
-            barbellListOlympic: barbellsOlympic,
-            plateListStandard: platesStandard,
-            plateListOlympic: platesOlympic,
-            deleteBarbell: deleteBarbell),
+          barbellListStandard: barbellsStandard,
+          barbellListOlympic: barbellsOlympic,
+          plateListStandard: platesStandard,
+          plateListOlympic: platesOlympic,
+          deletePlate: deletePlate,
+          deleteBarbell: deleteBarbell,
+        ),
         floatingActionButton: NewPlateBarbellButton(
             onSavePlate: updatePlates, onSaveBarbell: updateBarbells));
   }
@@ -714,13 +744,15 @@ class ErrorDialog extends StatelessWidget {
 }
 
 class BarbellListView extends StatelessWidget {
-  const BarbellListView(
-      {super.key,
-      required this.barbellListStandard,
-      required this.barbellListOlympic,
-      required this.plateListStandard,
-      required this.plateListOlympic,
-      required this.deleteBarbell});
+  const BarbellListView({
+    super.key,
+    required this.barbellListStandard,
+    required this.barbellListOlympic,
+    required this.plateListStandard,
+    required this.plateListOlympic,
+    required this.deleteBarbell,
+    required this.deletePlate,
+  });
 
   final List<Barbell> barbellListStandard;
   final List<Barbell> barbellListOlympic;
@@ -728,6 +760,7 @@ class BarbellListView extends StatelessWidget {
   final List<Plate> plateListOlympic;
 
   final Function(int) deleteBarbell;
+  final Function(int) deletePlate;
 
   @override
   Widget build(BuildContext context) {
@@ -768,15 +801,15 @@ class BarbellListView extends StatelessWidget {
               for (var index = 0; index < plateListStandard.length; index++)
                 PlateListItem(
                   plate: plateListStandard[index],
-                  plateListLength: barbellListStandard.length,
-                  // onDelete: deleteBarbell,
+                  plateListLength: plateListStandard.length,
+                  onDelete: deletePlate,
                   index: index,
                 ),
               for (var index = 0; index < plateListOlympic.length; index++)
                 PlateListItem(
                   plate: plateListOlympic[index],
                   plateListLength: plateListOlympic.length,
-                 // onDelete: deleteBarbell,
+                  onDelete: deletePlate,
                   index: index,
                 ),
             ],
@@ -856,14 +889,15 @@ class PlateListItem extends StatelessWidget {
     super.key,
     required this.plate,
     required this.index,
-    // required this.onDelete,
+    required this.onDelete,
     required this.plateListLength,
   });
 
   final Plate plate;
   final int index;
   final int plateListLength;
-  // final Function(int) onDelete;
+
+  final Function(int) onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -904,10 +938,9 @@ class PlateListItem extends StatelessWidget {
                   );
                 },
               );
+            } else {
+              onDelete(index);
             }
-            // else {
-            //   onDelete(index);
-            // }
           },
         ),
       ),
