@@ -129,7 +129,8 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           const Divider(),
-          const SettingsTitle(title: 'App Design', subtitle: 'Customize the app theme'),
+          const SettingsTitle(
+              title: 'App Design', subtitle: 'Customize the app theme'),
           ListTile(
             title: const Text('Follow System Theme'),
             trailing: Switch(
@@ -192,7 +193,9 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           const Divider(),
-          const SettingsTitle(title: 'Barbell Sleeve Diameters', subtitle: 'Choose at least one barbell type'),
+          const SettingsTitle(
+              title: 'Barbell Sleeve Diameters',
+              subtitle: 'Choose at least one barbell type'),
           ListTile(
             title: const Text('Standard Barbells'),
             subtitle: const Text('Ø 30 mm'),
@@ -229,23 +232,24 @@ class SettingsTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
-              child: Text(title, style: const TextStyle(fontSize: 20)),
-            ),
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+            child: Text(title,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-              child: Text(subtitle, style: const TextStyle(fontSize: 12)),
-            ),
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+            child: Text(subtitle, style: const TextStyle(fontSize: 12)),
           ),
-        ],
-
+        ),
+      ],
     );
   }
 }
