@@ -723,19 +723,7 @@ class BarbellListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ExpansionTile(
-            title: Text(
-              'Hantelscheiben:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            children: [
-              for (var plate in plateList)
-                Text(
-                  '${plate.weight} kg - ${plate.width}',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-            ],
-          ),
-          ExpansionTile(
+            initiallyExpanded: true,
             title: Text(
               'Hanteln:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -747,6 +735,19 @@ class BarbellListView extends StatelessWidget {
                   barbellListLength: barbellList.length,
                   onDelete: deleteBarbell,
                   index: index,
+                ),
+            ],
+          ),
+          ExpansionTile(
+            title: Text(
+              'Hantelscheiben:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            children: [
+              for (var plate in plateList)
+                Text(
+                  '${plate.weight} kg - ${plate.width}',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
             ],
           ),
