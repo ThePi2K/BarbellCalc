@@ -31,8 +31,9 @@ class PlateWidget extends StatelessWidget {
     return Container(
       height: heightPlate,
       width: 32.0,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+      decoration: BoxDecoration(color:
+        Theme.of(context).colorScheme.inversePrimary.withOpacity(1.0),
+        // color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(7.0),
         border: Border.all(
           color: Colors.black,
@@ -103,7 +104,11 @@ class BarWidget extends StatelessWidget {
                 end: Alignment.centerRight,
                 colors: [
                   Theme.of(context).colorScheme.inversePrimary.withOpacity(0.0),
-                  Theme.of(context).colorScheme.inversePrimary.withOpacity(1.0),
+
+                  Theme.of(context)
+                      .colorScheme
+                      .inversePrimary
+                      .withOpacity(0.4),
                 ],
                 stops: const [0.0, 0.017],
               ),
