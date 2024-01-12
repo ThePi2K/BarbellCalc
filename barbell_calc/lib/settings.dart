@@ -67,7 +67,7 @@ class _SettingsPageState extends State<SettingsPage> {
     });
 
     // set theme in main
-    widget.updateTheme;
+    widget.updateTheme();
   }
 
   void toggleFollowSystemTheme(bool value) async {
@@ -77,6 +77,9 @@ class _SettingsPageState extends State<SettingsPage> {
       followSystemTheme = value;
       darkMode = false;
     });
+
+    // set theme in main
+    widget.updateTheme();
   }
 
   void changeColor(Color value) async {
@@ -85,6 +88,9 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       appColor = value;
     });
+
+    // set theme in main
+    widget.updateTheme();
   }
 
   Color darkenColor(Color color, [double factor = 0.1]) {

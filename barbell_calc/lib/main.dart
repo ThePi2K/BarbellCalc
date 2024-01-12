@@ -40,13 +40,11 @@ class _MyAppState extends State<MyApp> {
 
   void updateTheme() {
     print('Theme aktualisiert');
-   setState(() {
-     loadSharedPreference();
-   });
+    loadSharedPreference();
+    setState(() {});
   }
 
-@override
-  Widget build(BuildContext context) {
+  MaterialApp buildMyApp() {
     ThemeMode themeMode;
 
     if (followSystemTheme) {
@@ -63,11 +61,18 @@ class _MyAppState extends State<MyApp> {
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: appColor, brightness: Brightness.dark),
+          seedColor: appColor,
+          brightness: Brightness.dark,
+        ),
       ),
       themeMode: themeMode,
       home: HomePage(updateTheme: updateTheme),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return buildMyApp();
   }
 }
 
