@@ -47,6 +47,7 @@ class _MainPageState extends State<MainPage> {
     if (allPlates.isEmpty) {
       // Create a new Plate and add it to the list
       allPlates.add(Plate(weight: 20.0, width: 'Standard'));
+      allPlates.add(Plate(weight: 20.0, width: 'Olympic'));
 
       // Encode the updated list to a string
       final String encodedData = Plate.encode(allPlates);
@@ -81,14 +82,12 @@ class _MainPageState extends State<MainPage> {
     // if 0 barbells
     if (barbells.isEmpty) {
       // Create a new Barbell and add it to the list
-      if (standardBarbells) {
-        barbells.add(
-            Barbell(name: 'My first Barbell', weight: 10.0, width: 'Standard'));
-      }
-      if (olympicBarbells) {
-        barbells.add(Barbell(
-            name: 'My first Olympic Barbell', weight: 20.0, width: 'Olympic'));
-      }
+      // if (standardBarbells) {
+      barbells.add(
+          Barbell(name: 'My first Barbell', weight: 10.0, width: 'Standard'));
+      barbells.add(
+          Barbell(name: 'My first Olympic Barbell', weight: 20.0, width: 'Olympic'));
+      // }
 
       // Encode the updated list to a string
       final String encodedData = Barbell.encode(barbells);
@@ -266,12 +265,12 @@ class SelectBarbellDialog extends StatelessWidget {
                   setSelectedBarbell: setSelectedBarbell,
                 ),
               if (olympicBarbells)
-              SelectBarbellList(
-                standardBarbells: standardBarbells,
-                olympicBarbells: olympicBarbells,
-                barbellList: barbellListOlympic,
-                setSelectedBarbell: setSelectedBarbell,
-              ),
+                SelectBarbellList(
+                  standardBarbells: standardBarbells,
+                  olympicBarbells: olympicBarbells,
+                  barbellList: barbellListOlympic,
+                  setSelectedBarbell: setSelectedBarbell,
+                ),
             ],
           ),
         ),
