@@ -258,12 +258,14 @@ class SelectBarbellDialog extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SelectBarbellList(
-                standardBarbells: standardBarbells,
-                olympicBarbells: olympicBarbells,
-                barbellList: barbellListStandard,
-                setSelectedBarbell: setSelectedBarbell,
-              ),
+              if (standardBarbells)
+                SelectBarbellList(
+                  standardBarbells: standardBarbells,
+                  olympicBarbells: olympicBarbells,
+                  barbellList: barbellListStandard,
+                  setSelectedBarbell: setSelectedBarbell,
+                ),
+              if (olympicBarbells)
               SelectBarbellList(
                 standardBarbells: standardBarbells,
                 olympicBarbells: olympicBarbells,
