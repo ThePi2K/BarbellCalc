@@ -255,21 +255,23 @@ class SelectBarbellDialog extends StatelessWidget {
       content: SizedBox(
         height: MediaQuery.of(context).size.height * 0.5,
         width: double.maxFinite,
-        child: Column(
-          children: [
-            SelectBarbellList(
-              standardBarbells: standardBarbells,
-              olympicBarbells: olympicBarbells,
-              barbellList: barbellListStandard,
-              setSelectedBarbell: setSelectedBarbell,
-            ),
-            SelectBarbellList(
-              standardBarbells: standardBarbells,
-              olympicBarbells: olympicBarbells,
-              barbellList: barbellListStandard,
-              setSelectedBarbell: setSelectedBarbell,
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SelectBarbellList(
+                standardBarbells: standardBarbells,
+                olympicBarbells: olympicBarbells,
+                barbellList: barbellListStandard,
+                setSelectedBarbell: setSelectedBarbell,
+              ),
+              SelectBarbellList(
+                standardBarbells: standardBarbells,
+                olympicBarbells: olympicBarbells,
+                barbellList: barbellListOlympic,
+                setSelectedBarbell: setSelectedBarbell,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -292,6 +294,7 @@ class SelectBarbellList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         for (var index = 0; index < barbellList.length; index++)
