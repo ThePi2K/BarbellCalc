@@ -23,6 +23,8 @@ class _InventoryPageState extends State<InventoryPage> {
   late bool standardBarbells = true;
   late bool olympicBarbells = false;
 
+  late bool metricSystem = true;
+
   @override
   void initState() {
     updatePlates();
@@ -47,6 +49,9 @@ class _InventoryPageState extends State<InventoryPage> {
     // get available widths
     standardBarbells = prefs.getBool('standardBarbells') ?? true;
     olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
+
+    // get unit system
+    metricSystem = prefs.getBool('metricSystem') ?? true;
   }
 
   void getPlates() async {
@@ -183,6 +188,7 @@ class _InventoryPageState extends State<InventoryPage> {
           plateListOlympic: platesOlympic,
           standardBarbells: standardBarbells,
           olympicBarbells: olympicBarbells,
+          metricSystem: metricSystem,
           deletePlate: deletePlate,
           deleteBarbell: deleteBarbell,
         ),
@@ -817,6 +823,7 @@ class InventoryListView extends StatelessWidget {
     required this.deletePlate,
     required this.olympicBarbells,
     required this.standardBarbells,
+    required this.metricSystem,
   });
 
   final List<Barbell> barbellListStandard;
@@ -829,6 +836,8 @@ class InventoryListView extends StatelessWidget {
 
   final bool olympicBarbells;
   final bool standardBarbells;
+
+  final bool metricSystem;
 
   @override
   Widget build(BuildContext context) {
@@ -854,6 +863,7 @@ class InventoryListView extends StatelessWidget {
                 onDelete: deleteBarbell,
                 olympicBarbells: olympicBarbells,
                 standardBarbells: standardBarbells,
+                metricSystem: metricSystem,
               ),
             for (var index = 0; index < barbellListOlympic.length; index++)
               BarbellListItem(
@@ -862,6 +872,7 @@ class InventoryListView extends StatelessWidget {
                 onDelete: deleteBarbell,
                 olympicBarbells: olympicBarbells,
                 standardBarbells: standardBarbells,
+                metricSystem: metricSystem,
               ),
             const SizedBox(height: 5),
             const Divider(),
@@ -873,6 +884,7 @@ class InventoryListView extends StatelessWidget {
                 onDelete: deletePlate,
                 olympicBarbells: olympicBarbells,
                 standardBarbells: standardBarbells,
+                metricSystem: metricSystem,
               ),
             for (var index = 0; index < plateListOlympic.length; index++)
               PlateListItem(
@@ -881,6 +893,7 @@ class InventoryListView extends StatelessWidget {
                 onDelete: deletePlate,
                 olympicBarbells: olympicBarbells,
                 standardBarbells: standardBarbells,
+                metricSystem: metricSystem,
               ),
             const SizedBox(height: 5),
             const Divider(),
@@ -899,6 +912,7 @@ class BarbellListItem extends StatelessWidget {
     required this.barbellListLength,
     required this.olympicBarbells,
     required this.standardBarbells,
+    required this.metricSystem,
   });
 
   final Barbell barbell;
@@ -906,6 +920,7 @@ class BarbellListItem extends StatelessWidget {
   final Function(Barbell) onDelete;
   final bool olympicBarbells;
   final bool standardBarbells;
+  final bool metricSystem;
 
   @override
   Widget build(BuildContext context) {
@@ -915,6 +930,7 @@ class BarbellListItem extends StatelessWidget {
         subtitle: BarbellListItemSubtitle(
           olympicBarbells: olympicBarbells,
           standardBarbells: standardBarbells,
+          metricSystem: metricSystem,
           barbell: barbell,
         ),
         trailing: IconButton(
@@ -957,21 +973,24 @@ class PlateListItem extends StatelessWidget {
     required this.plateListLength,
     required this.olympicBarbells,
     required this.standardBarbells,
+    required this.metricSystem,
   });
 
   final Plate plate;
   final int plateListLength;
   final bool olympicBarbells;
   final bool standardBarbells;
+  final bool metricSystem;
 
   final Function(Plate) onDelete;
 
   @override
   Widget build(BuildContext context) {
+    String weightString = '${plate.weight} ${metricSystem ? 'kg' : 'lb'}';
     if (olympicBarbells & standardBarbells) {
       return Card(
         child: ListTile(
-          title: Text(plate.weight.toString()),
+          title: Text(weightString),
           subtitle: Row(
             children: [
               Text(plate.width),
@@ -987,7 +1006,7 @@ class PlateListItem extends StatelessWidget {
     } else {
       return Card(
         child: ListTile(
-          title: Text(plate.weight.toString()),
+          title: Text(weightString),
           trailing: PlateListItemIconButton(
             plate: plate,
             onDelete: onDelete,
@@ -1005,18 +1024,21 @@ class BarbellListItemSubtitle extends StatelessWidget {
     required this.olympicBarbells,
     required this.standardBarbells,
     required this.barbell,
+    required this.metricSystem,
   });
 
   final bool olympicBarbells;
   final bool standardBarbells;
+  final bool metricSystem;
   final Barbell barbell;
 
   @override
   Widget build(BuildContext context) {
+    String weightString = '${barbell.weight} ${metricSystem ? 'kg' : 'lb'}';
     if (olympicBarbells & standardBarbells) {
       return Row(
         children: [
-          Text(barbell.weight.toString()),
+          Text(weightString),
           const SizedBox(
             width: 20,
           ),
@@ -1024,7 +1046,7 @@ class BarbellListItemSubtitle extends StatelessWidget {
         ],
       );
     } else {
-      return Text(barbell.weight.toString());
+      return Text(weightString);
     }
   }
 }
