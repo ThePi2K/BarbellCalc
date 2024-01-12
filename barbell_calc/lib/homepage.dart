@@ -27,7 +27,6 @@ class _MainPageState extends State<MainPage> {
   late List<PlateWidget> plateListOnBarbell = [];
 
   void getPlates() async {
-
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
