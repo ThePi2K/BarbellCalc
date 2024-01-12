@@ -98,13 +98,13 @@ class _MainPageState extends State<MainPage> {
     }
 
     // remove barbells with unchecked width
-   // if (standardBarbells == false) {
-   //   barbells =
-  //        barbells.where((barbells) => barbells.width == 'Olympic').toList();
-  //  } else if (olympicBarbells == false) {
-   //   barbells =
-   //       barbells.where((barbells) => barbells.width == 'Standard').toList();
-   // }
+    // if (standardBarbells == false) {
+    //   barbells =
+    //        barbells.where((barbells) => barbells.width == 'Olympic').toList();
+    //  } else if (olympicBarbells == false) {
+    //   barbells =
+    //       barbells.where((barbells) => barbells.width == 'Standard').toList();
+    // }
 
     // add all barbells to their own list
     barbellsOlympic =
@@ -292,18 +292,22 @@ class SelectBarbellList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: barbellList.length,
-      itemBuilder: (BuildContext context, int index) {
-        return SelectBarbellListItem(
-          barbell: barbellList[index],
-          index: index,
-          barbellListLength: barbellList.length,
-          setSelectedBarbell: setSelectedBarbell,
-          olympicBarbells: olympicBarbells,
-          standardBarbells: standardBarbells,
-        );
-      },
+    return Column(
+      children: [
+        for (var index = 0; index < barbellList.length; index++)
+          ListTile(
+            title: Text(barbellList[index].name),
+            subtitle: SelectBarbellListItemSubtitle(
+              olympicBarbells: olympicBarbells,
+              standardBarbells: standardBarbells,
+              barbell: barbellList[index],
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              setSelectedBarbell(barbellList[index]);
+            },
+          )
+      ],
     );
   }
 }
