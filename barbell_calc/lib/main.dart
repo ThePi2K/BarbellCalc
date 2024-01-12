@@ -29,6 +29,7 @@ class _MyAppState extends State<MyApp> {
 
   void loadSharedPreference() async {
     prefs = await SharedPreferences.getInstance();
+
     setState(() {
       // reading SharedPreferences and save the values to the variables
       darkMode = prefs.getBool('darkMode') ?? false;
@@ -37,7 +38,14 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  @override
+  void updateTheme() {
+    print('Theme aktualisiert');
+   setState(() {
+     loadSharedPreference();
+   });
+  }
+
+@override
   Widget build(BuildContext context) {
     ThemeMode themeMode;
 
@@ -58,13 +66,18 @@ class _MyAppState extends State<MyApp> {
             seedColor: appColor, brightness: Brightness.dark),
       ),
       themeMode: themeMode,
-      home: const HomePage(),
+      home: HomePage(updateTheme: updateTheme),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+    required this.updateTheme,
+  });
+
+  final VoidCallback updateTheme;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -72,11 +85,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentPageIndex = 0;
-  final List<Widget> pages = [
-    const MainPage(),
-    const InventoryPage(),
-    const SettingsPage(),
-  ];
+
+  late List<Widget> pages; // Declare pages as a late variable
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize pages in initState
+    pages = [
+      const MainPage(),
+      const InventoryPage(),
+      SettingsPage(updateTheme: widget.updateTheme),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -3,18 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  const SettingsPage({super.key, required this.updateTheme,});
 
-  // final Function(bool) updateTheme;
-  // final Function(bool) followSystemTheme;
-  // final Function(Color) updateColor;
-
-  // const SettingsPage({
-  //   super.key,
-  //   // required this.updateTheme,
-  //   // required this.updateColor,
-  //   // required this.followSystemTheme
-  // });
+   final VoidCallback updateTheme;
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -74,6 +65,9 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       darkMode = value;
     });
+
+    // set theme in main
+    widget.updateTheme;
   }
 
   void toggleFollowSystemTheme(bool value) async {
