@@ -187,16 +187,27 @@ class _InventoryPageState extends State<InventoryPage> {
           deleteBarbell: deleteBarbell,
         ),
         floatingActionButton: NewPlateBarbellButton(
-            onSavePlate: updatePlates, onSaveBarbell: updateBarbells));
+          onSavePlate: updatePlates,
+          onSaveBarbell: updateBarbells,
+          plates: plates,
+          barbells: barbells,
+        ));
   }
 }
 
 class NewPlateBarbellButton extends StatelessWidget {
-  const NewPlateBarbellButton(
-      {super.key, required this.onSavePlate, required this.onSaveBarbell});
+  const NewPlateBarbellButton({
+    super.key,
+    required this.onSavePlate,
+    required this.onSaveBarbell,
+    required this.plates,
+    required this.barbells,
+  });
 
   final Function() onSavePlate;
   final Function() onSaveBarbell;
+  final List<Plate> plates;
+  final List<Barbell> barbells;
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +237,10 @@ class NewPlateBarbellButton extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return CreateBarbell(onSave: onSaveBarbell);
+                              return CreateBarbell(
+                                onSave: onSaveBarbell,
+                                barbells: barbells,
+                              );
                             },
                           );
                         },
@@ -248,7 +262,10 @@ class NewPlateBarbellButton extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return CreatePlate(onSave: onSavePlate);
+                              return CreatePlate(
+                                onSave: onSavePlate,
+                                plates: plates,
+                              );
                             },
                           );
                         },
@@ -336,9 +353,10 @@ class InventoryButton extends StatelessWidget {
 }
 
 class CreatePlate extends StatefulWidget {
-  const CreatePlate({super.key, required this.onSave});
+  const CreatePlate({super.key, required this.onSave, required this.plates});
 
   final Function() onSave;
+  final List<Plate> plates;
 
   @override
   State<CreatePlate> createState() => _CreatePlateState();
@@ -393,27 +411,19 @@ class _CreatePlateState extends State<CreatePlate> {
     Plate plateToAdd = Plate(
         weight: double.parse(weightController.text), width: dropdownValue);
 
-    // check if plate is already saved
-    bool isPlateDouble = plates.any((plate) =>
-        plate.weight == plateToAdd.weight && plate.width == plateToAdd.width);
+    plates.add(plateToAdd);
 
-    if (isPlateDouble) {
-      // PLATE IS EXISTING!
-    } else {
-      plates.add(plateToAdd);
+    // sort plates by weight
+    plates.sort((a, b) => b.weight.compareTo(a.weight));
 
-      // sort plates by weight
-      plates.sort((a, b) => b.weight.compareTo(a.weight));
+    // Encode the updated list to a string
+    final String encodedData = Plate.encode(plates);
 
-      // Encode the updated list to a string
-      final String encodedData = Plate.encode(plates);
+    // Write the updated string to 'plates_key'
+    await prefs.setString('plates_key', encodedData);
 
-      // Write the updated string to 'plates_key'
-      await prefs.setString('plates_key', encodedData);
-
-      closeWindow();
-      widget.onSave();
-    }
+    closeWindow();
+    widget.onSave();
   }
 
   void closeWindow() {
@@ -502,7 +512,26 @@ class _CreatePlateState extends State<CreatePlate> {
             } else {
               // check if weight is valid
               if (checkWeightDouble()) {
-                savePlate();
+                Plate plateToAdd = Plate(
+                    weight: double.parse(weightController.text),
+                    width: dropdownValue);
+
+                // check if plate is already saved
+                bool isPlateDouble = widget.plates.any((plate) =>
+                    plate.weight == plateToAdd.weight &&
+                    plate.width == plateToAdd.width);
+
+                if (isPlateDouble) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const ErrorDialog(
+                          errorMessage: 'Plate is already existing!');
+                    },
+                  );
+                } else {
+                  savePlate();
+                }
               } else {
                 showDialog(
                   context: context,
@@ -528,9 +557,11 @@ class _CreatePlateState extends State<CreatePlate> {
 }
 
 class CreateBarbell extends StatefulWidget {
-  const CreateBarbell({super.key, required this.onSave});
+  const CreateBarbell(
+      {super.key, required this.onSave, required this.barbells});
 
   final Function() onSave;
+  final List<Barbell> barbells;
 
   @override
   State<CreateBarbell> createState() => _CreateBarbellState();
@@ -588,27 +619,17 @@ class _CreateBarbellState extends State<CreateBarbell> {
         weight: double.parse(weightController.text),
         width: dropdownValue);
 
-    // check if plate is already saved
-    bool isBarbellDouble = barbells.any((barbell) =>
-        barbell.weight == barbellToAdd.weight &&
-        barbell.width == barbellToAdd.width &&
-        barbell.name == barbellToAdd.name);
+    // add barbell to List (on top)
+    barbells.insert(0, barbellToAdd);
 
-    if (isBarbellDouble) {
-      // BARBELL IS EXISTING!
-    } else {
-      // add barbell to List (on top)
-      barbells.insert(0, barbellToAdd);
+    // Encode the updated list to a string
+    final String encodedData = Barbell.encode(barbells);
 
-      // Encode the updated list to a string
-      final String encodedData = Barbell.encode(barbells);
+    // Write the updated string to 'barbells_key'
+    await prefs.setString('barbells_key', encodedData);
 
-      // Write the updated string to 'barbells_key'
-      await prefs.setString('barbells_key', encodedData);
-
-      closeWindow();
-      widget.onSave();
-    }
+    closeWindow();
+    widget.onSave();
   }
 
   void closeWindow() {
@@ -719,7 +740,27 @@ class _CreateBarbellState extends State<CreateBarbell> {
               } else {
                 // check if weight is valid
                 if (checkWeightDouble()) {
-                  saveBarbell();
+                  Barbell barbellToAdd = Barbell(
+                      name: nameController.text,
+                      weight: double.parse(weightController.text),
+                      width: dropdownValue);
+
+                  // check if plate is already saved
+                  bool isBarbellDouble = widget.barbells.any((barbell) =>
+                      barbell.weight == barbellToAdd.weight &&
+                      barbell.width == barbellToAdd.width &&
+                      barbell.name == barbellToAdd.name);
+                  if (isBarbellDouble) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const ErrorDialog(
+                            errorMessage: 'Barbell is already existing!');
+                      },
+                    );
+                  } else {
+                    saveBarbell();
+                  }
                 } else {
                   showDialog(
                     context: context,
