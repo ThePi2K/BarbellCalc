@@ -3,9 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key, required this.updateTheme,});
+  const SettingsPage({
+    super.key,
+    required this.updateTheme,
+  });
 
-   final VoidCallback updateTheme;
+  final VoidCallback updateTheme;
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -17,6 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
   bool standardBarbells = true;
   bool olympicBarbells = false;
   bool darkMode = false;
+  bool metricSystem = true;
   bool followSystemTheme = false;
   Color appColor = Colors.blue;
 
@@ -35,6 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
       olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
       darkMode = prefs.getBool('darkMode') ?? false;
       followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
+      metricSystem = prefs.getBool('metricSystem') ?? true;
       appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
     });
   }
@@ -94,6 +99,17 @@ class _SettingsPageState extends State<SettingsPage> {
     widget.updateTheme();
   }
 
+  void toggleUnit(bool value) async {
+    // set bool value
+    await prefs.setBool('metricSystem', value);
+    setState(() {
+      metricSystem = value;
+    });
+
+    // set theme in main
+    widget.updateTheme();
+  }
+
   Color darkenColor(Color color, [double factor = 0.1]) {
     int red = color.red;
     int green = color.green;
@@ -127,7 +143,7 @@ class _SettingsPageState extends State<SettingsPage> {
         leading: const Icon(Icons.settings),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16,0,16,0),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
         children: <Widget>[
           const Divider(),
           const SettingsTitle(
@@ -195,11 +211,27 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           const Divider(),
           const SettingsTitle(
+              title: 'Unit System',
+              subtitle: 'Choose between metric and Imperial/US units'),
+          ListTile(
+            title:
+                metricSystem ? const Text('Metric System') : const Text('US System'),
+            subtitle:
+                metricSystem ? const Text('mm/kg') : const Text('inch/pounds'),
+            trailing: Switch(
+              onChanged: (value) {
+                toggleUnit(value);
+              },
+              value: metricSystem,
+            ),
+          ),
+          const Divider(),
+          const SettingsTitle(
               title: 'Barbell Sleeve Diameters',
               subtitle: 'Choose at least one barbell type'),
           ListTile(
             title: const Text('Standard Barbells'),
-            subtitle: const Text('Ø 30 mm'),
+            subtitle: metricSystem ? const Text('Ø 30 mm') : const Text('Ø 1.18"'),
             trailing: Switch(
               onChanged: (value) {
                 toggleStandardBarbells(value);
@@ -209,7 +241,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           ListTile(
             title: const Text('Olympic Barbells'),
-            subtitle: const Text('Ø 50 mm'),
+            subtitle: metricSystem ? const Text('Ø 50 mm') : const Text('Ø 2"'),
             trailing: Switch(
               onChanged: (value) {
                 toggleOlympicBarbells(value);
