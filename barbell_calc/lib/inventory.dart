@@ -122,7 +122,7 @@ class _InventoryPageState extends State<InventoryPage> {
     getWidths();
   }
 
-  Future<void> deleteBarbell(int index) async {
+  Future<void> deleteBarbell(Barbell barbellToDelete) async {
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -138,7 +138,14 @@ class _InventoryPageState extends State<InventoryPage> {
     }
 
     // remove barbell from array
-    barbells.remove(barbells[index]);
+    for (int i = barbells.length - 1; i >= 0; i--) {
+      Barbell barbell = barbells[i];
+      if (barbell.weight == barbellToDelete.weight &&
+          barbell.name == barbellToDelete.name &&
+          barbell.width == barbellToDelete.width) {
+        barbells.removeAt(i);
+      }
+    }
 
     // Encode the updated list to a string
     final String encodedData = Barbell.encode(barbells);
@@ -780,7 +787,7 @@ class InventoryListView extends StatelessWidget {
   final List<Plate> plateListStandard;
   final List<Plate> plateListOlympic;
 
-  final Function(int) deleteBarbell;
+  final Function(Barbell) deleteBarbell;
   final Function(int) deletePlate;
 
   final bool olympicBarbells;
@@ -857,7 +864,7 @@ class BarbellListItem extends StatelessWidget {
   final Barbell barbell;
   final int index;
   final int barbellListLength;
-  final Function(int) onDelete;
+  final Function(Barbell) onDelete;
   final bool olympicBarbells;
   final bool standardBarbells;
 
@@ -894,7 +901,7 @@ class BarbellListItem extends StatelessWidget {
                 },
               );
             } else {
-              onDelete(index);
+              onDelete(barbell);
             }
           },
         ),
