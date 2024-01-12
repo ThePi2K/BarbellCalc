@@ -415,22 +415,38 @@ class _CreatePlateState extends State<CreatePlate> {
     List<Plate> plates = [];
     plates = Plate.decode(platesString!);
 
-    // add plate to List ()
-    plates.add(Plate(
-        weight: double.parse(weightController.text), width: dropdownValue));
+    Plate plateToAdd = Plate(
+        weight: double.parse(weightController.text), width: dropdownValue);
 
-    // sort plates by weight
-    //plates.sort((a, b) => a.weight.compareTo(b.weight));
-    plates.sort((a, b) => b.weight.compareTo(a.weight));
+    bool isPlateDouble = false;
 
-    // Encode the updated list to a string
-    final String encodedData = Plate.encode(plates);
+    // check if plate is already saved
+    for (int i = plates.length - 1; i >= 0; i--) {
+      Plate plate = plates[i];
+      if (plate.weight == plateToAdd.weight &&
+          plate.width == plateToAdd.width) {
+        isPlateDouble = true;
+      }
+    }
 
-    // Write the updated string to 'plates_key'
-    await prefs.setString('plates_key', encodedData);
+    if (isPlateDouble) {
+      // PLATE IS EXISTING!
+    } else {
+      plates.add(plateToAdd);
 
-    closeWindow();
-    widget.onSave();
+      // sort plates by weight
+      //plates.sort((a, b) => a.weight.compareTo(b.weight));
+      plates.sort((a, b) => b.weight.compareTo(a.weight));
+
+      // Encode the updated list to a string
+      final String encodedData = Plate.encode(plates);
+
+      // Write the updated string to 'plates_key'
+      await prefs.setString('plates_key', encodedData);
+
+      closeWindow();
+      widget.onSave();
+    }
   }
 
   void closeWindow() {
