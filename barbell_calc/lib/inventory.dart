@@ -818,7 +818,6 @@ class InventoryListView extends StatelessWidget {
               barbell: barbellListStandard[index],
               barbellListLength: barbellListStandard.length,
               onDelete: deleteBarbell,
-              index: index,
               olympicBarbells: olympicBarbells,
               standardBarbells: standardBarbells,
             ),
@@ -827,7 +826,6 @@ class InventoryListView extends StatelessWidget {
               barbell: barbellListOlympic[index],
               barbellListLength: barbellListOlympic.length,
               onDelete: deleteBarbell,
-              index: index,
               olympicBarbells: olympicBarbells,
               standardBarbells: standardBarbells,
             ),
@@ -837,7 +835,6 @@ class InventoryListView extends StatelessWidget {
               plate: plateListStandard[index],
               plateListLength: plateListStandard.length,
               onDelete: deletePlate,
-              index: index,
               olympicBarbells: olympicBarbells,
               standardBarbells: standardBarbells,
             ),
@@ -846,7 +843,6 @@ class InventoryListView extends StatelessWidget {
               plate: plateListOlympic[index],
               plateListLength: plateListOlympic.length,
               onDelete: deletePlate,
-              index: index,
               olympicBarbells: olympicBarbells,
               standardBarbells: standardBarbells,
             ),
@@ -860,7 +856,6 @@ class BarbellListItem extends StatelessWidget {
   const BarbellListItem({
     super.key,
     required this.barbell,
-    required this.index,
     required this.onDelete,
     required this.barbellListLength,
     required this.olympicBarbells,
@@ -868,7 +863,6 @@ class BarbellListItem extends StatelessWidget {
   });
 
   final Barbell barbell;
-  final int index;
   final int barbellListLength;
   final Function(Barbell) onDelete;
   final bool olympicBarbells;
@@ -920,7 +914,6 @@ class PlateListItem extends StatelessWidget {
   const PlateListItem({
     super.key,
     required this.plate,
-    required this.index,
     required this.onDelete,
     required this.plateListLength,
     required this.olympicBarbells,
@@ -928,7 +921,6 @@ class PlateListItem extends StatelessWidget {
   });
 
   final Plate plate;
-  final int index;
   final int plateListLength;
   final bool olympicBarbells;
   final bool standardBarbells;
@@ -949,7 +941,6 @@ class PlateListItem extends StatelessWidget {
           trailing: PlateListItemIconButton(
             plate: plate,
             onDelete: onDelete,
-            index: index,
             plateListLength: plateListLength,
           ),
         ),
@@ -961,7 +952,6 @@ class PlateListItem extends StatelessWidget {
           trailing: PlateListItemIconButton(
             plate: plate,
             onDelete: onDelete,
-            index: index,
             plateListLength: plateListLength,
           ),
         ),
@@ -1004,13 +994,11 @@ class PlateListItemIconButton extends StatelessWidget {
   const PlateListItemIconButton({
     super.key,
     required this.plate,
-    required this.index,
     required this.onDelete,
     required this.plateListLength,
   });
 
   final Plate plate;
-  final int index;
   final Function(Plate) onDelete;
   final int plateListLength;
 
