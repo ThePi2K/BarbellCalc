@@ -855,6 +855,7 @@ class InventoryListView extends StatelessWidget {
               olympicBarbells: olympicBarbells,
               standardBarbells: standardBarbells,
             ),
+          const SizedBox(height: 5),
           const Divider(),
           const InventoryListTitle(title: 'Plates'),
           for (var index = 0; index < plateListStandard.length; index++)
@@ -873,6 +874,7 @@ class InventoryListView extends StatelessWidget {
               olympicBarbells: olympicBarbells,
               standardBarbells: standardBarbells,
             ),
+          const SizedBox(height: 5),
           const Divider(),
         ],
       ),
@@ -1071,7 +1073,7 @@ class InventoryListTitle extends StatelessWidget {
     return Align(
       alignment: Alignment.topLeft,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 2, 15, 2),
+        padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
         child: Text(title,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
       ),

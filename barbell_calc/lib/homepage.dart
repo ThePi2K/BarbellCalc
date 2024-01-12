@@ -84,8 +84,8 @@ class _MainPageState extends State<MainPage> {
       // Create a new Barbell and add it to the list
       barbells.add(
           Barbell(name: 'My first Barbell', weight: 10.0, width: 'Standard'));
-      barbells.add(
-          Barbell(name: 'My first Olympic Barbell', weight: 20.0, width: 'Olympic'));
+      barbells.add(Barbell(
+          name: 'My first Olympic Barbell', weight: 20.0, width: 'Olympic'));
 
       // Encode the updated list to a string
       final String encodedData = Barbell.encode(barbells);
