@@ -157,7 +157,7 @@ class _InventoryPageState extends State<InventoryPage> {
     updateBarbells();
   }
 
-  Future<void> deletePlate(int index) async {
+  Future<void> deletePlate(Plate plateToDelete) async {
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -173,7 +173,13 @@ class _InventoryPageState extends State<InventoryPage> {
     }
 
     // remove plate from array
-    plates.remove(plates[index]);
+    for (int i = plates.length - 1; i >= 0; i--) {
+      Plate plate = plates[i];
+      if (plate.weight == plateToDelete.weight &&
+          plate.width == plateToDelete.width) {
+        plates.removeAt(i);
+      }
+    }
 
     // Encode the updated list to a string
     final String encodedData = Plate.encode(plates);
@@ -788,7 +794,7 @@ class InventoryListView extends StatelessWidget {
   final List<Plate> plateListOlympic;
 
   final Function(Barbell) deleteBarbell;
-  final Function(int) deletePlate;
+  final Function(Plate) deletePlate;
 
   final bool olympicBarbells;
   final bool standardBarbells;
@@ -927,7 +933,7 @@ class PlateListItem extends StatelessWidget {
   final bool olympicBarbells;
   final bool standardBarbells;
 
-  final Function(int) onDelete;
+  final Function(Plate) onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -1005,7 +1011,7 @@ class PlateListItemIconButton extends StatelessWidget {
 
   final Plate plate;
   final int index;
-  final Function(int) onDelete;
+  final Function(Plate) onDelete;
   final int plateListLength;
 
   @override
@@ -1032,7 +1038,7 @@ class PlateListItemIconButton extends StatelessWidget {
             },
           );
         } else {
-          onDelete(index);
+          onDelete(plate);
         }
       },
     );
