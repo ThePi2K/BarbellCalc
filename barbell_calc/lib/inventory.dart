@@ -224,7 +224,10 @@ class NewPlateBarbellButton extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.4),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .inversePrimary
+                            .withOpacity(0.4),
                         borderRadius: BorderRadius.circular(17.0),
                       ),
                       child: ListTile(
@@ -249,7 +252,10 @@ class NewPlateBarbellButton extends StatelessWidget {
                     const SizedBox(height: 10),
                     Container(
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.4),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .inversePrimary
+                            .withOpacity(0.4),
                         borderRadius: BorderRadius.circular(17.0),
                       ),
                       child: ListTile(
