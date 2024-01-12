@@ -39,7 +39,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   void updateTheme() {
-    print('Theme aktualisiert');
     loadSharedPreference();
     setState(() {});
   }
