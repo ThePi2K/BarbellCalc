@@ -262,6 +262,38 @@ class SelectBarbellDialog extends StatelessWidget {
   }
 }
 
+class SelectBarbellList extends StatelessWidget {
+  const SelectBarbellList({
+    super.key,
+    required this.barbellList,
+    required this.setSelectedBarbell,
+    required this.olympicBarbells,
+    required this.standardBarbells,
+  });
+
+  final bool olympicBarbells;
+  final bool standardBarbells;
+  final List<Barbell> barbellList;
+  final Function(Barbell) setSelectedBarbell;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: barbellList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return SelectBarbellListItem(
+          barbell: barbellList[index],
+          index: index,
+          barbellListLength: barbellList.length,
+          setSelectedBarbell: setSelectedBarbell,
+          olympicBarbells: olympicBarbells,
+          standardBarbells: standardBarbells,
+        );
+      },
+    );
+  }
+}
+
 class SelectBarbellListItem extends StatelessWidget {
   const SelectBarbellListItem({
     super.key,
