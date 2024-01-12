@@ -127,7 +127,7 @@ class _SettingsPageState extends State<SettingsPage> {
         leading: const Icon(Icons.settings),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(16,0,16,0),
         children: <Widget>[
           const Divider(),
           const SettingsTitle(

@@ -835,48 +835,51 @@ class InventoryListView extends StatelessWidget {
       plateListStandard.clear();
     }
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          const Divider(),
-          const InventoryListTitle(title: 'Barbells'),
-          for (var index = 0; index < barbellListStandard.length; index++)
-            BarbellListItem(
-              barbell: barbellListStandard[index],
-              barbellListLength: barbellListStandard.length,
-              onDelete: deleteBarbell,
-              olympicBarbells: olympicBarbells,
-              standardBarbells: standardBarbells,
-            ),
-          for (var index = 0; index < barbellListOlympic.length; index++)
-            BarbellListItem(
-              barbell: barbellListOlympic[index],
-              barbellListLength: barbellListOlympic.length,
-              onDelete: deleteBarbell,
-              olympicBarbells: olympicBarbells,
-              standardBarbells: standardBarbells,
-            ),
-          const SizedBox(height: 5),
-          const Divider(),
-          const InventoryListTitle(title: 'Plates'),
-          for (var index = 0; index < plateListStandard.length; index++)
-            PlateListItem(
-              plate: plateListStandard[index],
-              plateListLength: plateListStandard.length,
-              onDelete: deletePlate,
-              olympicBarbells: olympicBarbells,
-              standardBarbells: standardBarbells,
-            ),
-          for (var index = 0; index < plateListOlympic.length; index++)
-            PlateListItem(
-              plate: plateListOlympic[index],
-              plateListLength: plateListOlympic.length,
-              onDelete: deletePlate,
-              olympicBarbells: olympicBarbells,
-              standardBarbells: standardBarbells,
-            ),
-          const SizedBox(height: 5),
-          const Divider(),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+        child: Column(
+          children: [
+            const Divider(),
+            const InventoryListTitle(title: 'Barbells'),
+            for (var index = 0; index < barbellListStandard.length; index++)
+              BarbellListItem(
+                barbell: barbellListStandard[index],
+                barbellListLength: barbellListStandard.length,
+                onDelete: deleteBarbell,
+                olympicBarbells: olympicBarbells,
+                standardBarbells: standardBarbells,
+              ),
+            for (var index = 0; index < barbellListOlympic.length; index++)
+              BarbellListItem(
+                barbell: barbellListOlympic[index],
+                barbellListLength: barbellListOlympic.length,
+                onDelete: deleteBarbell,
+                olympicBarbells: olympicBarbells,
+                standardBarbells: standardBarbells,
+              ),
+            const SizedBox(height: 5),
+            const Divider(),
+            const InventoryListTitle(title: 'Plates'),
+            for (var index = 0; index < plateListStandard.length; index++)
+              PlateListItem(
+                plate: plateListStandard[index],
+                plateListLength: plateListStandard.length,
+                onDelete: deletePlate,
+                olympicBarbells: olympicBarbells,
+                standardBarbells: standardBarbells,
+              ),
+            for (var index = 0; index < plateListOlympic.length; index++)
+              PlateListItem(
+                plate: plateListOlympic[index],
+                plateListLength: plateListOlympic.length,
+                onDelete: deletePlate,
+                olympicBarbells: olympicBarbells,
+                standardBarbells: standardBarbells,
+              ),
+            const SizedBox(height: 5),
+            const Divider(),
+          ],
+        ),
       ),
     );
   }
@@ -1071,9 +1074,9 @@ class InventoryListTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.topLeft,
+      alignment: Alignment.centerLeft,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+        padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
         child: Text(title,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
       ),
