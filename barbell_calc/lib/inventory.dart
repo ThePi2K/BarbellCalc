@@ -837,6 +837,7 @@ class InventoryListView extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
+          const Divider(),
           const InventoryListTitle(title: 'Barbells'),
           for (var index = 0; index < barbellListStandard.length; index++)
             BarbellListItem(
@@ -854,6 +855,7 @@ class InventoryListView extends StatelessWidget {
               olympicBarbells: olympicBarbells,
               standardBarbells: standardBarbells,
             ),
+          const Divider(),
           const InventoryListTitle(title: 'Plates'),
           for (var index = 0; index < plateListStandard.length; index++)
             PlateListItem(
@@ -871,6 +873,7 @@ class InventoryListView extends StatelessWidget {
               olympicBarbells: olympicBarbells,
               standardBarbells: standardBarbells,
             ),
+          const Divider(),
         ],
       ),
     );
@@ -1068,7 +1071,7 @@ class InventoryListTitle extends StatelessWidget {
     return Align(
       alignment: Alignment.topLeft,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 15, 15, 2),
+        padding: const EdgeInsets.fromLTRB(15, 2, 15, 2),
         child: Text(title,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
       ),
