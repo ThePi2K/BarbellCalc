@@ -73,6 +73,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void toggleFollowSystemTheme(bool value) async {
     // set bool value
     await prefs.setBool('followSystemTheme', value);
+    await prefs.setBool('darkMode', false);
     setState(() {
       followSystemTheme = value;
       darkMode = false;
