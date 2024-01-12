@@ -393,16 +393,9 @@ class _CreatePlateState extends State<CreatePlate> {
     Plate plateToAdd = Plate(
         weight: double.parse(weightController.text), width: dropdownValue);
 
-    bool isPlateDouble = false;
-
     // check if plate is already saved
-    for (int i = plates.length - 1; i >= 0; i--) {
-      Plate plate = plates[i];
-      if (plate.weight == plateToAdd.weight &&
-          plate.width == plateToAdd.width) {
-        isPlateDouble = true;
-      }
-    }
+    bool isPlateDouble = plates.any((plate) =>
+    plate.weight == plateToAdd.weight && plate.width == plateToAdd.width);
 
     if (isPlateDouble) {
       // PLATE IS EXISTING!
@@ -595,17 +588,12 @@ class _CreateBarbellState extends State<CreateBarbell> {
         weight: double.parse(weightController.text),
         width: dropdownValue);
 
-    bool isBarbellDouble = false;
 
-    // check if barbell is already saved
-    for (int i = barbells.length - 1; i >= 0; i--) {
-      Barbell barbell = barbells[i];
-      if (barbell.weight == barbellToAdd.weight &&
-          barbell.name == barbellToAdd.name &&
-          barbell.width == barbellToAdd.width) {
-        isBarbellDouble = true;
-      }
-    }
+    // check if plate is already saved
+    bool isBarbellDouble = barbells.any((barbell) =>
+    barbell.weight == barbellToAdd.weight && barbell.width == barbellToAdd.width && barbell.name == barbellToAdd.name);
+
+
 
     if (isBarbellDouble) {
       // BARBELL IS EXISTING!
