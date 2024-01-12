@@ -23,6 +23,8 @@ class _MainPageState extends State<MainPage> {
   late List<Plate> allPlates = [];
   late List<Plate> plates = [];
   late List<Barbell> barbells = [];
+  late List<Barbell> barbellsOlympic = [];
+  late List<Barbell> barbellsStandard = [];
 
   late List<PlateWidget> plateListOnBarbell = [];
 
@@ -96,13 +98,19 @@ class _MainPageState extends State<MainPage> {
     }
 
     // remove barbells with unchecked width
-    if (standardBarbells == false) {
-      barbells =
-          barbells.where((barbells) => barbells.width == 'Olympic').toList();
-    } else if (olympicBarbells == false) {
-      barbells =
-          barbells.where((barbells) => barbells.width == 'Standard').toList();
-    }
+   // if (standardBarbells == false) {
+   //   barbells =
+  //        barbells.where((barbells) => barbells.width == 'Olympic').toList();
+  //  } else if (olympicBarbells == false) {
+   //   barbells =
+   //       barbells.where((barbells) => barbells.width == 'Standard').toList();
+   // }
+
+    // add all barbells to their own list
+    barbellsOlympic =
+        barbells.where((plates) => plates.width == 'Olympic').toList();
+    barbellsStandard =
+        barbells.where((plates) => plates.width == 'Standard').toList();
   }
 
   void calculateWeight() {
@@ -190,7 +198,8 @@ class _MainPageState extends State<MainPage> {
                             context: context,
                             builder: (BuildContext context) {
                               return SelectBarbellDialog(
-                                barbellList: barbells,
+                                barbellListOlympic: barbellsOlympic,
+                                barbellListStandard: barbellsStandard,
                                 setSelectedBarbell: setSelectedBarbell,
                                 standardBarbells: standardBarbells,
                                 olympicBarbells: olympicBarbells,
@@ -226,7 +235,8 @@ class _MainPageState extends State<MainPage> {
 class SelectBarbellDialog extends StatelessWidget {
   const SelectBarbellDialog({
     super.key,
-    required this.barbellList,
+    required this.barbellListStandard,
+    required this.barbellListOlympic,
     required this.setSelectedBarbell,
     required this.olympicBarbells,
     required this.standardBarbells,
@@ -234,7 +244,8 @@ class SelectBarbellDialog extends StatelessWidget {
 
   final bool olympicBarbells;
   final bool standardBarbells;
-  final List<Barbell> barbellList;
+  final List<Barbell> barbellListStandard;
+  final List<Barbell> barbellListOlympic;
   final Function(Barbell) setSelectedBarbell;
 
   @override
@@ -244,18 +255,21 @@ class SelectBarbellDialog extends StatelessWidget {
       content: SizedBox(
         height: MediaQuery.of(context).size.height * 0.5,
         width: double.maxFinite,
-        child: ListView.builder(
-          itemCount: barbellList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return SelectBarbellListItem(
-              barbell: barbellList[index],
-              index: index,
-              barbellListLength: barbellList.length,
-              setSelectedBarbell: setSelectedBarbell,
-              olympicBarbells: olympicBarbells,
+        child: Column(
+          children: [
+            SelectBarbellList(
               standardBarbells: standardBarbells,
-            );
-          },
+              olympicBarbells: olympicBarbells,
+              barbellList: barbellListStandard,
+              setSelectedBarbell: setSelectedBarbell,
+            ),
+            SelectBarbellList(
+              standardBarbells: standardBarbells,
+              olympicBarbells: olympicBarbells,
+              barbellList: barbellListStandard,
+              setSelectedBarbell: setSelectedBarbell,
+            ),
+          ],
         ),
       ),
     );
