@@ -435,7 +435,6 @@ class _CreatePlateState extends State<CreatePlate> {
       plates.add(plateToAdd);
 
       // sort plates by weight
-      //plates.sort((a, b) => a.weight.compareTo(b.weight));
       plates.sort((a, b) => b.weight.compareTo(a.weight));
 
       // Encode the updated list to a string
@@ -616,22 +615,39 @@ class _CreateBarbellState extends State<CreateBarbell> {
     List<Barbell> barbells = [];
     barbells = Barbell.decode(barbellsString!);
 
-    // add barbell to List (on top)
-    barbells.insert(
-        0,
-        Barbell(
-            name: nameController.text,
-            weight: double.parse(weightController.text),
-            width: dropdownValue));
+    Barbell barbellToAdd = Barbell(
+        name: nameController.text,
+        weight: double.parse(weightController.text),
+        width: dropdownValue);
 
-    // Encode the updated list to a string
-    final String encodedData = Barbell.encode(barbells);
+    bool isBarbellDouble = false;
 
-    // Write the updated string to 'barbells_key'
-    await prefs.setString('barbells_key', encodedData);
+    // check if barbell is already saved
+    for (int i = barbells.length - 1; i >= 0; i--) {
+      Barbell barbell = barbells[i];
+      if (barbell.weight == barbellToAdd.weight &&
+          barbell.name == barbellToAdd.name &&
+          barbell.width == barbellToAdd.width) {
+        isBarbellDouble = true;
+      }
+    }
 
-    closeWindow();
-    widget.onSave();
+    if (isBarbellDouble) {
+      // BARBELL IS EXISTING!
+    } else {
+      // add barbell to List (on top)
+      barbells.insert(
+          0,barbellToAdd);
+
+      // Encode the updated list to a string
+      final String encodedData = Barbell.encode(barbells);
+
+      // Write the updated string to 'barbells_key'
+      await prefs.setString('barbells_key', encodedData);
+
+      closeWindow();
+      widget.onSave();
+    }
   }
 
   void closeWindow() {
