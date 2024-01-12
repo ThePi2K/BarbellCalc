@@ -64,18 +64,6 @@ class _InventoryPageState extends State<InventoryPage> {
       });
     }
 
-    // if 0 plates
-    // if (plates.isEmpty) {
-    //   // Create a new Plate and add it to the list
-    //   plates.add(Plate(weight: 20.0, width: 'Standard'));
-    //
-    //   // Encode the updated list to a string
-    //   final String encodedData = Plate.encode(plates);
-    //
-    //   // Write the updated string to 'plates_key'
-    //   await prefs.setString('plates_key', encodedData);
-    // }
-
     // add all barbells to their own list
     platesOlympic =
         plates.where((plates) => plates.width == 'Olympic').toList();
@@ -99,19 +87,6 @@ class _InventoryPageState extends State<InventoryPage> {
         barbells = Barbell.decode(barbellsString);
       });
     }
-
-    // // if 0 barbells
-    // if (barbells.isEmpty) {
-    //   // Create a new Barbell and add it to the list
-    //   barbells.add(
-    //       Barbell(name: 'My first Barbell', weight: 20.0, width: 'Standard'));
-    //
-    //   // Encode the updated list to a string
-    //   final String encodedData = Barbell.encode(barbells);
-    //
-    //   // Write the updated string to 'barbells_key'
-    //   await prefs.setString('barbells_key', encodedData);
-    // }
 
     // add all barbells to their own list
     barbellsOlympic =

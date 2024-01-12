@@ -82,12 +82,10 @@ class _MainPageState extends State<MainPage> {
     // if 0 barbells
     if (barbells.isEmpty) {
       // Create a new Barbell and add it to the list
-      // if (standardBarbells) {
       barbells.add(
           Barbell(name: 'My first Barbell', weight: 10.0, width: 'Standard'));
       barbells.add(
           Barbell(name: 'My first Olympic Barbell', weight: 20.0, width: 'Olympic'));
-      // }
 
       // Encode the updated list to a string
       final String encodedData = Barbell.encode(barbells);
@@ -95,15 +93,6 @@ class _MainPageState extends State<MainPage> {
       // Write the updated string to 'barbells_key'
       await prefs.setString('barbells_key', encodedData);
     }
-
-    // remove barbells with unchecked width
-    // if (standardBarbells == false) {
-    //   barbells =
-    //        barbells.where((barbells) => barbells.width == 'Olympic').toList();
-    //  } else if (olympicBarbells == false) {
-    //   barbells =
-    //       barbells.where((barbells) => barbells.width == 'Standard').toList();
-    // }
 
     // add all barbells to their own list
     barbellsOlympic =
