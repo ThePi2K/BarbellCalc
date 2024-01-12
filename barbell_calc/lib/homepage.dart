@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'barbell-widget.dart';
 import 'barbell.dart';
 import 'plate.dart';
@@ -27,6 +28,9 @@ class _MainPageState extends State<MainPage> {
   late List<Barbell> barbellsStandard = [];
 
   late List<PlateWidget> plateListOnBarbell = [];
+
+  final Uri _url = Uri.parse(
+      'https://edition.cnn.com/2020/05/02/entertainment/hafthor-bjornsson-world-record-trnd/index.html');
 
   void getPlates() async {
     // connect to SharedPreferences
@@ -153,6 +157,12 @@ class _MainPageState extends State<MainPage> {
     calculateWeight();
   }
 
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     getPlates();
@@ -213,7 +223,37 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: calculateWeight,
+        onPressed: () {
+          if (double.parse(trainingWeightController.text) > 501) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Good Job Champ!'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text('You made a new world record!'),
+                      const SizedBox(height: 20,),
+                      Image.asset('assets/arnold-nice.png')
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        _launchUrl();
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('NICE'),
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            calculateWeight;
+          }
+        },
         child: const Icon(Icons.calculate_rounded),
       ),
     );
