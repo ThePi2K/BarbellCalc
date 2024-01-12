@@ -294,7 +294,6 @@ class SelectBarbellList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         for (var index = 0; index < barbellList.length; index++)
