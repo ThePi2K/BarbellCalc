@@ -956,7 +956,31 @@ class BarbellListItem extends StatelessWidget {
                 },
               );
             } else {
-              onDelete(barbell);
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Attention'),
+                    content:
+                        const Text('Do really want to remove this Barbell?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          onDelete(barbell);
+                        },
+                        child: const Text('YES'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('NO'),
+                      ),
+                    ],
+                  );
+                },
+              );
             }
           },
         ),
@@ -1087,7 +1111,30 @@ class PlateListItemIconButton extends StatelessWidget {
             },
           );
         } else {
-          onDelete(plate);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Attention'),
+                content: const Text('Do really want to remove this Plate?'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      onDelete(plate);
+                    },
+                    child: const Text('YES'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('NO'),
+                  ),
+                ],
+              );
+            },
+          );
         }
       },
     );
