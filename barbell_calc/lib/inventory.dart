@@ -636,8 +636,7 @@ class _CreateBarbellState extends State<CreateBarbell> {
       // BARBELL IS EXISTING!
     } else {
       // add barbell to List (on top)
-      barbells.insert(
-          0,barbellToAdd);
+      barbells.insert(0, barbellToAdd);
 
       // Encode the updated list to a string
       final String encodedData = Barbell.encode(barbells);
