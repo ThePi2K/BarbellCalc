@@ -20,6 +20,7 @@ class _MainPageState extends State<MainPage> {
 
   late bool standardBarbells;
   late bool olympicBarbells;
+  late bool metricSystem;
 
   late List<Plate> allPlates = [];
   late List<Plate> plates = [];
@@ -105,6 +106,14 @@ class _MainPageState extends State<MainPage> {
         barbells.where((plates) => plates.width == 'Standard').toList();
   }
 
+  void getMetricSystem() async {
+    // connect to SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // get bool from SharedPreferences
+    metricSystem = prefs.getBool('metricSystem') ?? true;
+  }
+
   void calculateWeight() {
     setState(() {
       // clear plates on barbell
@@ -167,6 +176,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     getPlates();
     getBarbells();
+    getMetricSystem();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -197,6 +207,7 @@ class _MainPageState extends State<MainPage> {
                             builder: (BuildContext context) {
                               return SelectBarbellDialog(
                                 barbellListOlympic: barbellsOlympic,
+                                metricSystem: metricSystem,
                                 barbellListStandard: barbellsStandard,
                                 setSelectedBarbell: setSelectedBarbell,
                                 standardBarbells: standardBarbells,
@@ -224,7 +235,8 @@ class _MainPageState extends State<MainPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (double.parse(trainingWeightController.text) > 501) {
+          double worldRecord = metricSystem ? 501 : 1104;
+          if (double.parse(trainingWeightController.text) > worldRecord) {
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -234,7 +246,9 @@ class _MainPageState extends State<MainPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Text('You made a new world record!'),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Image.asset('assets/arnold-nice.png')
                     ],
                   ),
@@ -268,8 +282,10 @@ class SelectBarbellDialog extends StatelessWidget {
     required this.setSelectedBarbell,
     required this.olympicBarbells,
     required this.standardBarbells,
+    required this.metricSystem,
   });
 
+  final bool metricSystem;
   final bool olympicBarbells;
   final bool standardBarbells;
   final List<Barbell> barbellListStandard;
@@ -288,6 +304,7 @@ class SelectBarbellDialog extends StatelessWidget {
             children: [
               if (standardBarbells)
                 SelectBarbellList(
+                  metricSystem: metricSystem,
                   standardBarbells: standardBarbells,
                   olympicBarbells: olympicBarbells,
                   barbellList: barbellListStandard,
@@ -295,6 +312,7 @@ class SelectBarbellDialog extends StatelessWidget {
                 ),
               if (olympicBarbells)
                 SelectBarbellList(
+                  metricSystem: metricSystem,
                   standardBarbells: standardBarbells,
                   olympicBarbells: olympicBarbells,
                   barbellList: barbellListOlympic,
@@ -315,10 +333,12 @@ class SelectBarbellList extends StatelessWidget {
     required this.setSelectedBarbell,
     required this.olympicBarbells,
     required this.standardBarbells,
+    required this.metricSystem,
   });
 
   final bool olympicBarbells;
   final bool standardBarbells;
+  final bool metricSystem;
   final List<Barbell> barbellList;
   final Function(Barbell) setSelectedBarbell;
 
@@ -332,6 +352,7 @@ class SelectBarbellList extends StatelessWidget {
             subtitle: SelectBarbellListItemSubtitle(
               olympicBarbells: olympicBarbells,
               standardBarbells: standardBarbells,
+              metricSystem: metricSystem,
               barbell: barbellList[index],
             ),
             onTap: () {
@@ -351,12 +372,14 @@ class SelectBarbellListItem extends StatelessWidget {
     required this.index,
     required this.olympicBarbells,
     required this.standardBarbells,
+    required this.metricSystem,
     required this.barbellListLength,
     required this.setSelectedBarbell,
   });
 
   final bool olympicBarbells;
   final bool standardBarbells;
+  final bool metricSystem;
   final Barbell barbell;
   final int index;
   final int barbellListLength;
@@ -370,6 +393,7 @@ class SelectBarbellListItem extends StatelessWidget {
         subtitle: SelectBarbellListItemSubtitle(
           olympicBarbells: olympicBarbells,
           standardBarbells: standardBarbells,
+          metricSystem: metricSystem,
           barbell: barbell,
         ),
         onTap: () {
@@ -386,19 +410,22 @@ class SelectBarbellListItemSubtitle extends StatelessWidget {
     super.key,
     required this.olympicBarbells,
     required this.standardBarbells,
+    required this.metricSystem,
     required this.barbell,
   });
 
   final bool olympicBarbells;
   final bool standardBarbells;
+  final bool metricSystem;
   final Barbell barbell;
 
   @override
   Widget build(BuildContext context) {
+    String weightString = '${barbell.weight} ${metricSystem ? 'kg' : 'lb'}';
     if (olympicBarbells & standardBarbells) {
       return Row(
         children: [
-          Text(barbell.weight.toString()),
+          Text(weightString),
           const SizedBox(
             width: 20,
           ),
@@ -406,7 +433,7 @@ class SelectBarbellListItemSubtitle extends StatelessWidget {
         ],
       );
     } else {
-      return Text(barbell.weight.toString());
+      return Text(weightString);
     }
   }
 }
