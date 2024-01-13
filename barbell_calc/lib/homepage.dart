@@ -389,46 +389,6 @@ class SelectBarbellList extends StatelessWidget {
   }
 }
 
-class SelectBarbellListItem extends StatelessWidget {
-  const SelectBarbellListItem({
-    super.key,
-    required this.barbell,
-    required this.index,
-    required this.olympicBarbells,
-    required this.standardBarbells,
-    required this.metricSystem,
-    required this.barbellListLength,
-    required this.setSelectedBarbell,
-  });
-
-  final bool olympicBarbells;
-  final bool standardBarbells;
-  final bool metricSystem;
-  final Barbell barbell;
-  final int index;
-  final int barbellListLength;
-  final Function(Barbell) setSelectedBarbell;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        title: Text(barbell.name),
-        subtitle: SelectBarbellListItemSubtitle(
-          olympicBarbells: olympicBarbells,
-          standardBarbells: standardBarbells,
-          metricSystem: metricSystem,
-          barbell: barbell,
-        ),
-        onTap: () {
-          Navigator.of(context).pop();
-          setSelectedBarbell(barbell);
-        },
-      ),
-    );
-  }
-}
-
 class SelectBarbellListItemSubtitle extends StatelessWidget {
   const SelectBarbellListItemSubtitle({
     super.key,
