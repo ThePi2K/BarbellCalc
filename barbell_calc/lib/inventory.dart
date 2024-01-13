@@ -886,7 +886,7 @@ class InventoryListView extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
         child: Column(
           children: [
-            const Divider(),
+            // const Divider(),
             const InventoryListTitle(title: 'Barbells'),
             for (var index = 0; index < barbellListStandard.length; index++)
               BarbellListItem(
@@ -927,8 +927,7 @@ class InventoryListView extends StatelessWidget {
                 standardBarbells: standardBarbells,
                 metricSystem: metricSystem,
               ),
-            const SizedBox(height: 5),
-            const Divider(),
+            const SizedBox(height: 80),
           ],
         ),
       ),

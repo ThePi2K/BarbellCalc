@@ -145,7 +145,7 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
         children: <Widget>[
-          const Divider(),
+          // const Divider(),
           const SettingsTitle(
               title: 'App Design', subtitle: 'Customize the app theme'),
           ListTile(
@@ -249,7 +249,7 @@ class _SettingsPageState extends State<SettingsPage> {
               value: olympicBarbells,
             ),
           ),
-          const Divider(),
+          // const Divider(),
         ],
       ),
     );
