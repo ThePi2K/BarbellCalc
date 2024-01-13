@@ -178,97 +178,100 @@ class _MainPageState extends State<MainPage> {
     getBarbells();
     getMetricSystem();
     return Scaffold(
+      appBar: AppBar(title: const Text('Settings')),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-              child: Column(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
                 children: [
-                  Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      TextField(
-                        onTapOutside: (event) {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                        },
-                        controller: trainingWeightController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Training Weight',
+                  Expanded(
+                    child: Column(
+                      children: [
+                        TextField(
+                          onTapOutside: (event) {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                          controller: trainingWeightController,
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            labelText:
+                                'Training Weight in ${metricSystem ? 'kg' : 'lb'}',
+                          ),
+                          keyboardType: TextInputType.number,
                         ),
-                        keyboardType: TextInputType.number,
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SelectBarbellDialog(
+                                  barbellListOlympic: barbellsOlympic,
+                                  metricSystem: metricSystem,
+                                  barbellListStandard: barbellsStandard,
+                                  setSelectedBarbell: setSelectedBarbell,
+                                  standardBarbells: standardBarbells,
+                                  olympicBarbells: olympicBarbells,
+                                );
+                              },
+                            );
+                          },
+                          child: const Text('Select Barbell'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  ButtonTheme(
+                    minWidth: 150.0, // Breite nach Bedarf ändern
+                    height: 100.0, // Höhe nach Bedarf ändern
+                    child: ElevatedButton(
+                      onPressed: () {
+                        double worldRecord = metricSystem ? 501 : 1104;
+                        if (double.parse(trainingWeightController.text) >
+                            worldRecord) {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return SelectBarbellDialog(
-                                barbellListOlympic: barbellsOlympic,
-                                metricSystem: metricSystem,
-                                barbellListStandard: barbellsStandard,
-                                setSelectedBarbell: setSelectedBarbell,
-                                standardBarbells: standardBarbells,
-                                olympicBarbells: olympicBarbells,
+                              return AlertDialog(
+                                title: const Text('Good Job Champ!'),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Text('You made a new world record!'),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Image.asset('assets/arnold-nice.png')
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      _launchUrl();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('NICE'),
+                                  ),
+                                ],
                               );
                             },
                           );
-                        },
-                        child: const Text('Select Barbell'),
-                      )
-                    ],
-                  ),
-                  Text(
-                    plateWeight.toString(),
-                    style: const TextStyle(fontSize: 40.0),
-                  ),
+                        } else {
+                          calculateWeight;
+                        }
+                      },
+                      child: Icon(Icons.calculate_rounded),
+                    ),
+                  )
                 ],
               ),
             ),
-            BarbellWidget(
-              plateList: plateListOnBarbell,
-            ),
+            BarbellWidget(plateList: plateListOnBarbell),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          double worldRecord = metricSystem ? 501 : 1104;
-          if (double.parse(trainingWeightController.text) > worldRecord) {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Good Job Champ!'),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text('You made a new world record!'),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Image.asset('assets/arnold-nice.png')
-                    ],
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        _launchUrl();
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('NICE'),
-                    ),
-                  ],
-                );
-              },
-            );
-          } else {
-            calculateWeight;
-          }
-        },
-        child: const Icon(Icons.calculate_rounded),
       ),
     );
   }
