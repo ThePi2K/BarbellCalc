@@ -227,14 +227,15 @@ class _MainPageState extends State<MainPage> {
                               child: const Text('Select Barbell'),
                             ),
                             const SizedBox(width: 10),
-                            SizedBox(
-                              width: 100,
-                              child: Text(
-                                '$barbellName (${barbellWeight.toString()} ${metricSystem ? 'kg' : 'lb'})',
-                                softWrap: true,
-                                // overflow: TextOverflow.ellipsis,
+                            if (barbellWeight != 0)
+                              SizedBox(
+                                width: 100,
+                                child: Text(
+                                  '$barbellName (${barbellWeight.toString()} ${metricSystem ? 'kg' : 'lb'})',
+                                  softWrap: true,
+                                  // overflow: TextOverflow.ellipsis,
+                                ),
                               ),
-                            ),
                           ],
                         )
                       ],
@@ -288,6 +289,7 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
             ),
+            const SizedBox(height: 50),
             BarbellWidget(plateList: plateListOnBarbell),
           ],
         ),
