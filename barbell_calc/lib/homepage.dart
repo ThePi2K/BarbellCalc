@@ -231,9 +231,9 @@ class _MainPageState extends State<MainPage> {
                               SizedBox(
                                 width: 100,
                                 child: Text(
-                                  '$barbellName (${barbellWeight.toString()} ${metricSystem ? 'kg' : 'lb'})',
+                                  '$barbellName\n(${barbellWeight.toString()} ${metricSystem ? 'kg' : 'lb'})',
                                   softWrap: true,
-                                  // overflow: TextOverflow.ellipsis,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                           ],
@@ -258,7 +258,8 @@ class _MainPageState extends State<MainPage> {
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Text('You made a new world record!'),
+                                  const Text(
+                                      'That breaks the world record! Congratulations!'),
                                   const SizedBox(
                                     height: 20,
                                   ),
