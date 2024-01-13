@@ -16,11 +16,12 @@ class _MainPageState extends State<MainPage> {
   double plateWeight = 0;
   double barbellWeight = 0;
   String barbellWidth = 'Standard';
+  late String barbellName = '';
   final trainingWeightController = TextEditingController();
 
   late bool standardBarbells;
   late bool olympicBarbells;
-  late bool metricSystem;
+  bool metricSystem = true;
 
   late List<Plate> allPlates = [];
   late List<Plate> plates = [];
@@ -162,8 +163,8 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       barbellWeight = selectedBarbell.weight;
       barbellWidth = selectedBarbell.width;
+      barbellName = selectedBarbell.name;
     });
-    calculateWeight();
   }
 
   Future<void> _launchUrl() async {
@@ -178,94 +179,112 @@ class _MainPageState extends State<MainPage> {
     getBarbells();
     getMetricSystem();
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      // appBar: AppBar(leading: Image.asset('android/app/src/main/res/mipmap/ic_launcher.png'),title: const Text('Barbell Calc')),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(height: 25),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(15.0),
               child: Row(
                 children: [
                   Expanded(
                     child: Column(
                       children: [
-                        TextField(
-                          onTapOutside: (event) {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                          },
-                          controller: trainingWeightController,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            labelText:
-                                'Training Weight in ${metricSystem ? 'kg' : 'lb'}',
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            onTapOutside: (event) {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            controller: trainingWeightController,
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              labelText:
+                                  'Training Weight in ${metricSystem ? 'kg' : 'lb'}',
+                            ),
+                            keyboardType: TextInputType.number,
                           ),
-                          keyboardType: TextInputType.number,
                         ),
-                        const SizedBox(height: 10),
-                        ElevatedButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return SelectBarbellDialog(
-                                  barbellListOlympic: barbellsOlympic,
-                                  metricSystem: metricSystem,
-                                  barbellListStandard: barbellsStandard,
-                                  setSelectedBarbell: setSelectedBarbell,
-                                  standardBarbells: standardBarbells,
-                                  olympicBarbells: olympicBarbells,
+                        Row(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return SelectBarbellDialog(
+                                      barbellListOlympic: barbellsOlympic,
+                                      metricSystem: metricSystem,
+                                      barbellListStandard: barbellsStandard,
+                                      setSelectedBarbell: setSelectedBarbell,
+                                      standardBarbells: standardBarbells,
+                                      olympicBarbells: olympicBarbells,
+                                    );
+                                  },
                                 );
                               },
-                            );
-                          },
-                          child: const Text('Select Barbell'),
-                        ),
+                              child: const Text('Select Barbell'),
+                            ),
+                            const SizedBox(width: 10),
+                            SizedBox(
+                              width: 100,
+                              child: Text(
+                                '$barbellName (${barbellWeight.toString()} ${metricSystem ? 'kg' : 'lb'})',
+                                softWrap: true,
+                                // overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  ButtonTheme(
-                    minWidth: 150.0, // Breite nach Bedarf ändern
-                    height: 100.0, // Höhe nach Bedarf ändern
-                    child: ElevatedButton(
-                      onPressed: () {
-                        double worldRecord = metricSystem ? 501 : 1104;
-                        if (double.parse(trainingWeightController.text) >
-                            worldRecord) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Good Job Champ!'),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Text('You made a new world record!'),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Image.asset('assets/arnold-nice.png')
-                                  ],
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      _launchUrl();
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('NICE'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        } else {
-                          calculateWeight;
-                        }
-                      },
-                      child: Icon(Icons.calculate_rounded),
+                  const SizedBox(width: 7),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(75, 90),
                     ),
-                  )
+                    onPressed: () {
+                      double worldRecord = metricSystem ? 501 : 1104;
+                      if (double.parse(trainingWeightController.text) >
+                          worldRecord) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Good Job Champ!'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text('You made a new world record!'),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Image.asset('assets/arnold-nice.png')
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    _launchUrl();
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('NICE'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else {
+                        calculateWeight();
+                      }
+                    },
+                    child: const Icon(
+                      Icons.calculate,
+                      size: 30.0,
+                    ),
+                  ),
                 ],
               ),
             ),
