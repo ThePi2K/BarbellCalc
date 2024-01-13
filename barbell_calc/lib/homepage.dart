@@ -372,18 +372,25 @@ class SelectBarbellList extends StatelessWidget {
     return Column(
       children: [
         for (var index = 0; index < barbellList.length; index++)
-          ListTile(
-            title: Text(barbellList[index].name),
-            subtitle: SelectBarbellListItemSubtitle(
-              olympicBarbells: olympicBarbells,
-              standardBarbells: standardBarbells,
-              metricSystem: metricSystem,
-              barbell: barbellList[index],
+          Container(
+            decoration: BoxDecoration(
+              color:
+                  Theme.of(context).colorScheme.inversePrimary.withOpacity(0.4),
+              borderRadius: BorderRadius.circular(17.0),
             ),
-            onTap: () {
-              Navigator.of(context).pop();
-              setSelectedBarbell(barbellList[index]);
-            },
+            child: ListTile(
+              title: Text(barbellList[index].name),
+              subtitle: SelectBarbellListItemSubtitle(
+                olympicBarbells: olympicBarbells,
+                standardBarbells: standardBarbells,
+                metricSystem: metricSystem,
+                barbell: barbellList[index],
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                setSelectedBarbell(barbellList[index]);
+              },
+            ),
           )
       ],
     );
