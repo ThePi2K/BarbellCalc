@@ -380,6 +380,8 @@ class _CreatePlateState extends State<CreatePlate> {
   bool standardBarbells = true;
   bool olympicBarbells = false;
 
+  bool metricSystem = true;
+
   List<String> widthList = [];
 
   // List<String> widthList = <String>['Standard', 'Olympic'];
@@ -402,6 +404,9 @@ class _CreatePlateState extends State<CreatePlate> {
     // reading SharedPreferences and save the values to the variables
     standardBarbells = prefs.getBool('standardBarbells') ?? true;
     olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
+
+    // get unit System
+    metricSystem = prefs.getBool('metricSystem') ?? true;
 
     if (standardBarbells) {
       widthList.add('Standard');
@@ -539,7 +544,18 @@ class _CreatePlateState extends State<CreatePlate> {
                     },
                   );
                 } else {
-                  savePlate();
+                  if (plateToAdd.weight <= 0) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ErrorDialog(
+                            errorMessage:
+                                'The Plate has to weight more than 0 ${metricSystem ? 'kg' : 'lb'}!');
+                      },
+                    );
+                  } else {
+                    savePlate();
+                  }
                 }
               } else {
                 showDialog(
@@ -583,6 +599,8 @@ class _CreateBarbellState extends State<CreateBarbell> {
   bool standardBarbells = true;
   bool olympicBarbells = false;
 
+  bool metricSystem = true;
+
   List<String> widthList = [];
 
   // List<String> widthList = <String>['Standard', 'Olympic'];
@@ -605,6 +623,9 @@ class _CreateBarbellState extends State<CreateBarbell> {
     // reading SharedPreferences and save the values to the variables
     standardBarbells = prefs.getBool('standardBarbells') ?? true;
     olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
+
+    // get unit System
+    metricSystem = prefs.getBool('metricSystem') ?? true;
 
     if (standardBarbells) {
       widthList.add('Standard');
@@ -762,7 +783,18 @@ class _CreateBarbellState extends State<CreateBarbell> {
                       },
                     );
                   } else {
-                    saveBarbell();
+                    if (barbellToAdd.weight <= 0) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ErrorDialog(
+                              errorMessage:
+                                  'The Barbell has to weight more than 0 ${metricSystem ? 'kg' : 'lb'}!');
+                        },
+                      );
+                    } else {
+                      saveBarbell();
+                    }
                   }
                 } else {
                   showDialog(
