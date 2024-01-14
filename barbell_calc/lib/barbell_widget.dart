@@ -67,16 +67,25 @@ class BarbellWidget extends StatelessWidget {
     required this.barbellName,
     required this.barbellWeight,
     required this.barbellWidth,
+    required this.barbellWeightInclPlates,
   });
 
   final double distancePlates = 0.9;
   final List<PlateWidget> plateList;
   final String barbellName;
   final double barbellWeight;
+  final double barbellWeightInclPlates;
   final String barbellWidth;
 
   @override
   Widget build(BuildContext context) {
+
+    String barbellWeightString = barbellWeight.toString();
+    if (barbellWeightString.endsWith(".0")) {
+      barbellWeightString =
+          barbellWeightString.substring(0, barbellWeightString.length - 2);
+    }
+
     return Column(
       children: [
         Text(barbellName),

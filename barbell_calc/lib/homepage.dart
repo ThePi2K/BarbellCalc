@@ -31,6 +31,8 @@ class _MainPageState extends State<MainPage> {
   late List<Barbell> barbellsOlympic = [];
   late List<Barbell> barbellsStandard = [];
 
+  double barbellWeightInclPlates = 0;
+
   late List<PlateWidget> plateListOnBarbell = [];
 
   final Uri _url = Uri.parse(
@@ -153,6 +155,9 @@ class _MainPageState extends State<MainPage> {
       plateWeight =
           (double.parse(trainingWeightController.text) - barbellWeight) / 2;
 
+      // set barbellWeightInclPlates the barbellWeight
+      barbellWeightInclPlates = barbellWeight;
+
       // starting calculation
 
       bool whileFlow = true;
@@ -171,6 +176,7 @@ class _MainPageState extends State<MainPage> {
             } else {
               plateListOnBarbell
                   .add(PlateWidget(weightPlate: plates.first.weight));
+              barbellWeightInclPlates += plates.first.weight * 2;
               plateWeightTemp = difference;
             }
           } else if (difference < 0) {
@@ -344,6 +350,7 @@ class _MainPageState extends State<MainPage> {
               barbellName: barbellName,
               barbellWeight: barbellWeight,
               barbellWidth: barbellWidth,
+              barbellWeightInclPlates: barbellWeightInclPlates,
             ),
           ],
         ),
