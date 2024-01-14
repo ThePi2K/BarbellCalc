@@ -265,7 +265,8 @@ class NewPlateBarbellButton extends StatelessWidget {
                         borderRadius: BorderRadius.circular(17.0),
                       ),
                       child: ListTile(
-                        leading: const Icon(Icons.radio_button_off),
+                        // leading: const Icon(Icons.radio_button_off),
+                        leading: const Image(image: AssetImage('assets/Plate.png'),height: 30),
                         title: const Text('Add Plate'),
                         onTap: () {
                           // Closing PopupMenu
