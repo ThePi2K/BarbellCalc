@@ -28,9 +28,15 @@ class PlateWidget extends StatelessWidget {
       heightPlate = 45.0;
     }
 
+    String plateWeightString = weightPlate.toString();
+    if (plateWeightString.endsWith(".0")) {
+      plateWeightString =
+          plateWeightString.substring(0, plateWeightString.length - 2);
+    }
+
     return Container(
       height: heightPlate,
-      width: 32.0,
+      width: 30.0,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.inversePrimary.withOpacity(1.0),
         // color: Theme.of(context).colorScheme.primary,
@@ -41,8 +47,13 @@ class PlateWidget extends StatelessWidget {
         ),
       ),
       child: Center(
-        child: Text(weightPlate.toString(),
-            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        child: Text(plateWeightString,
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+              fontSize: 15,
+            ),
             textAlign: TextAlign.center),
       ),
     );
@@ -153,7 +164,9 @@ class BarWidget extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                height: (barbellWidth == 'Standard') ? heightStandard : heightOlympic,
+                height: (barbellWidth == 'Standard')
+                    ? heightStandard
+                    : heightOlympic,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.centerLeft,
