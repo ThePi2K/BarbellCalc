@@ -217,7 +217,7 @@ class _MainPageState extends State<MainPage> {
                       keyboardType: TextInputType.number,
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   ElevatedButton(
                     onPressed: () {
                       showDialog(
@@ -236,7 +236,7 @@ class _MainPageState extends State<MainPage> {
                     },
                     child: const Text('Choose\nBarbell'),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   ElevatedButton(
                     onPressed: () {
                       if (!checkWeightDouble()) {
@@ -315,7 +315,7 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             BarbellWidget(
               plateList: plateListOnBarbell,
               barbellName: barbellName,
