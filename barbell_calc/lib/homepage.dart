@@ -246,142 +246,158 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SelectBarbellDialog(
-                            barbellListOlympic: barbellsOlympic,
-                            metricSystem: metricSystem,
-                            barbellListStandard: barbellsStandard,
-                            setSelectedBarbell: setSelectedBarbell,
-                            standardBarbells: standardBarbells,
-                            olympicBarbells: olympicBarbells,
-                          );
-                        },
-                      );
-                    },
-                    child: const Text('Choose\nBarbell'),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (!checkWeightDouble()) {
+                  SizedBox(
+                    height: 70,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      onPressed: () {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return const ErrorDialog(
-                                errorMessage: 'Weight is invalid!');
+                            return SelectBarbellDialog(
+                              barbellListOlympic: barbellsOlympic,
+                              metricSystem: metricSystem,
+                              barbellListStandard: barbellsStandard,
+                              setSelectedBarbell: setSelectedBarbell,
+                              standardBarbells: standardBarbells,
+                              olympicBarbells: olympicBarbells,
+                            );
                           },
                         );
-                      } else {
-                        double worldRecord = metricSystem ? 501 : 1104;
-                        if (double.parse(trainingWeightController.text) >
-                            worldRecord) {
+                      },
+                      child: const Text('Choose\nBarbell'),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  SizedBox(
+                    height: 70,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      onPressed: () {
+                        if (!checkWeightDouble()) {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Good Job Champ!'),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Text(
-                                        'That breaks the world record! Congratulations!'),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Image.asset('assets/arnold-nice.png')
-                                  ],
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      _launchUrl();
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('NICE'),
-                                  ),
-                                ],
-                              );
+                              return const ErrorDialog(
+                                  errorMessage: 'Weight is invalid!');
                             },
                           );
                         } else {
-                          if (barbellWeight == 0) {
+                          double worldRecord = metricSystem ? 501 : 1104;
+                          if (double.parse(trainingWeightController.text) >
+                              worldRecord) {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return const ErrorDialog(
-                                    errorMessage:
-                                        'You need to choose a Barbell!');
+                                return AlertDialog(
+                                  title: const Text('Good Job Champ!'),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text(
+                                          'That breaks the world record! Congratulations!'),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Image.asset('assets/arnold-nice.png')
+                                    ],
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        _launchUrl();
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('NICE'),
+                                    ),
+                                  ],
+                                );
                               },
                             );
                           } else {
-                            if (barbellWeight >
-                                double.parse(trainingWeightController.text)) {
+                            if (barbellWeight == 0) {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return const ErrorDialog(
                                       errorMessage:
-                                          'You need to choose more weight!');
+                                          'You need to choose a Barbell!');
                                 },
                               );
                             } else {
-                              calculateWeight();
-                              if (barbellWeightInclPlates !=
+                              if (barbellWeight >
                                   double.parse(trainingWeightController.text)) {
-                                String trainingWeightString =
-                                    trainingWeightController.text.toString();
-                                if (trainingWeightString.endsWith(".0")) {
-                                  trainingWeightString =
-                                      trainingWeightString.substring(
-                                          0, trainingWeightString.length - 2);
-                                }
-                                trainingWeightString +=
-                                    ' ${metricSystem ? 'kg' : 'lb'}';
-
-                                String barbellWeightInclPlatesString =
-                                    barbellWeightInclPlates.toString();
-                                if (barbellWeightInclPlatesString
-                                    .endsWith(".0")) {
-                                  barbellWeightInclPlatesString =
-                                      barbellWeightInclPlatesString.substring(
-                                          0,
-                                          barbellWeightInclPlatesString.length -
-                                              2);
-                                }
-                                barbellWeightInclPlatesString +=
-                                    ' ${metricSystem ? 'kg' : 'lb'}';
-
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text('Attention!'),
-                                      content: Text(
-                                          'The entered weight ($trainingWeightString) differs from the possible training weight ($barbellWeightInclPlatesString)!'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
-                                    );
+                                    return const ErrorDialog(
+                                        errorMessage:
+                                            'You need to choose more weight!');
                                   },
                                 );
+                              } else {
+                                calculateWeight();
+                                if (barbellWeightInclPlates !=
+                                    double.parse(trainingWeightController.text)) {
+                                  String trainingWeightString =
+                                      trainingWeightController.text.toString();
+                                  if (trainingWeightString.endsWith(".0")) {
+                                    trainingWeightString =
+                                        trainingWeightString.substring(
+                                            0, trainingWeightString.length - 2);
+                                  }
+                                  trainingWeightString +=
+                                      ' ${metricSystem ? 'kg' : 'lb'}';
+                    
+                                  String barbellWeightInclPlatesString =
+                                      barbellWeightInclPlates.toString();
+                                  if (barbellWeightInclPlatesString
+                                      .endsWith(".0")) {
+                                    barbellWeightInclPlatesString =
+                                        barbellWeightInclPlatesString.substring(
+                                            0,
+                                            barbellWeightInclPlatesString.length -
+                                                2);
+                                  }
+                                  barbellWeightInclPlatesString +=
+                                      ' ${metricSystem ? 'kg' : 'lb'}';
+                    
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text('Attention!'),
+                                        content: Text(
+                                            'The entered weight ($trainingWeightString) differs from the possible training weight ($barbellWeightInclPlatesString)!'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
                               }
                             }
                           }
                         }
-                      }
-                    },
-                    child: const Icon(
-                      Icons.calculate,
-                      size: 30.0,
+                      },
+                      child: const Icon(
+                        Icons.calculate,
+                        size: 40.0,
+                      ),
                     ),
                   ),
                 ],
