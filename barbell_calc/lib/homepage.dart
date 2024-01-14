@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'barbell-widget.dart';
+import 'barbell_widget.dart';
 import 'barbell.dart';
 import 'plate.dart';
 import 'inventory.dart';
