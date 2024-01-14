@@ -119,8 +119,8 @@ class BarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double heightStandard = 15.0;
-    double heightOlympic = 25.0;
+    double heightStandard = 17.0;
+    double heightOlympic = 27.0;
     return Stack(
       alignment: Alignment.centerLeft,
       children: [
