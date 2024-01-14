@@ -194,7 +194,6 @@ class _MainPageState extends State<MainPage> {
     }
 
     return Scaffold(
-      // appBar: AppBar(leading: Image.asset('android/app/src/main/res/mipmap/ic_launcher.png'),title: const Text('Barbell Calc')),
       body: SingleChildScrollView(
         child: Column(
           children: [
