@@ -346,6 +346,7 @@ class _MainPageState extends State<MainPage> {
             ),
             const SizedBox(height: 30),
             BarbellWidget(
+              metricSystem: metricSystem,
               plateList: plateListOnBarbell,
               barbellName: barbellName,
               barbellWeight: barbellWeight,

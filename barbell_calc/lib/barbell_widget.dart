@@ -68,6 +68,7 @@ class BarbellWidget extends StatelessWidget {
     required this.barbellWeight,
     required this.barbellWidth,
     required this.barbellWeightInclPlates,
+    required this.metricSystem,
   });
 
   final double distancePlates = 0.9;
@@ -76,6 +77,7 @@ class BarbellWidget extends StatelessWidget {
   final double barbellWeight;
   final double barbellWeightInclPlates;
   final String barbellWidth;
+  final bool metricSystem;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +90,8 @@ class BarbellWidget extends StatelessWidget {
 
     return Column(
       children: [
-        Text(barbellName),
+        Text('$barbellName ($barbellWeightString ${metricSystem ? 'kg' : 'lb'})'),
+        Text(barbellWeightInclPlates.toString()),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
           child: Stack(
