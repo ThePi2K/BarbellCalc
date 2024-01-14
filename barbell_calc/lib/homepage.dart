@@ -204,6 +204,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    barbellWeightInclPlates = 0;
     plateListOnBarbell.clear();
   }
 
