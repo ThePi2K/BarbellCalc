@@ -42,7 +42,7 @@ class PlateWidget extends StatelessWidget {
       ),
       child: Center(
         child: Text(weightPlate.toString(),
-            style: TextStyle(color: Theme.of(context).colorScheme.background),
+            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center),
       ),
     );
@@ -55,12 +55,14 @@ class BarbellWidget extends StatelessWidget {
     required this.plateList,
     required this.barbellName,
     required this.barbellWeight,
+    required this.barbellWidth,
   });
 
   final double distancePlates = 0.9;
   final List<PlateWidget> plateList;
   final String barbellName;
   final double barbellWeight;
+  final String barbellWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +75,10 @@ class BarbellWidget extends StatelessWidget {
             alignment: Alignment.centerLeft,
             children: [
               // bar in the background
-              BarWidget(),
+              BarWidget(barbellWidth: barbellWidth),
               Row(
                 children: [
-                  const SizedBox(width: 25.0 + 17.0),
+                  const SizedBox(width: 15.0 + 17.0),
 
                   // here are the plates from the array plateList
                   Row(
@@ -100,49 +102,101 @@ class BarbellWidget extends StatelessWidget {
 }
 
 class BarWidget extends StatelessWidget {
-  const BarWidget({super.key});
+  const BarWidget({super.key, required this.barbellWidth});
+
+  final String barbellWidth;
 
   @override
   Widget build(BuildContext context) {
+    double heightStandard = 15.0;
+    double heightOlympic = 25.0;
     return Stack(
       alignment: Alignment.centerLeft,
       children: [
         // bar
-        Container(
-          height: 25.0,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Theme.of(context).colorScheme.inversePrimary.withOpacity(0.0),
-                Theme.of(context).colorScheme.inversePrimary.withOpacity(0.4),
-              ],
-              stops: const [0.0, 0.017],
-            ),
-            borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(5.0),
-              bottomRight: Radius.circular(5.0),
-            ),
-            border: Border(
-              top: BorderSide(
-                color: Colors.black.withOpacity(1.0),
-                width: 1.5,
-              ),
-              bottom: BorderSide(
-                color: Colors.black.withOpacity(1.0),
-                width: 1.5,
-              ),
-              right: BorderSide(
-                color: Colors.black.withOpacity(1.0),
-                width: 1.5,
-              ),
-            ),
-          ),
-        ),
         Row(
           children: [
-            const SizedBox(width: 25.0),
+            Container(
+              width: 25,
+              height: heightStandard,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Theme.of(context)
+                        .colorScheme
+                        .inversePrimary
+                        .withOpacity(0.0),
+                    Theme.of(context)
+                        .colorScheme
+                        .inversePrimary
+                        .withOpacity(0.4),
+                  ],
+                  stops: const [0.0, 0.017],
+                ),
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.black.withOpacity(1.0),
+                    width: 1.5,
+                  ),
+                  bottom: BorderSide(
+                    color: Colors.black.withOpacity(1.0),
+                    width: 1.5,
+                  ),
+                  right: BorderSide(
+                    color: Colors.black.withOpacity(1.0),
+                    width: 1.5,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: (barbellWidth == 'Standard') ? heightStandard : heightOlympic,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      Theme.of(context)
+                          .colorScheme
+                          .inversePrimary
+                          .withOpacity(0.0),
+                      Theme.of(context)
+                          .colorScheme
+                          .inversePrimary
+                          .withOpacity(0.4),
+                    ],
+                    stops: const [0.0, 0.017],
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(5.0),
+                    bottomRight: Radius.circular(5.0),
+                  ),
+                  border: Border(
+                    top: BorderSide(
+                      color: Colors.black.withOpacity(1.0),
+                      width: 1.5,
+                    ),
+                    bottom: BorderSide(
+                      color: Colors.black.withOpacity(1.0),
+                      width: 1.5,
+                    ),
+                    right: BorderSide(
+                      color: Colors.black.withOpacity(1.0),
+                      width: 1.5,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+        // stopper
+        Row(
+          children: [
+            const SizedBox(width: 15.0),
             Container(
               height: 50.0,
               width: 17.0,

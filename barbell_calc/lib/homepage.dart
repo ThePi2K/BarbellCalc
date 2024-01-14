@@ -339,6 +339,7 @@ class _MainPageState extends State<MainPage> {
               plateList: plateListOnBarbell,
               barbellName: barbellName,
               barbellWeight: barbellWeight,
+              barbellWidth: barbellWidth,
             ),
           ],
         ),
