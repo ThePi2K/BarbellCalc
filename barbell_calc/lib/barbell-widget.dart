@@ -31,8 +31,8 @@ class PlateWidget extends StatelessWidget {
     return Container(
       height: heightPlate,
       width: 32.0,
-      decoration: BoxDecoration(color:
-        Theme.of(context).colorScheme.inversePrimary.withOpacity(1.0),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.inversePrimary.withOpacity(1.0),
         // color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(7.0),
         border: Border.all(
@@ -50,39 +50,51 @@ class PlateWidget extends StatelessWidget {
 }
 
 class BarbellWidget extends StatelessWidget {
-  const BarbellWidget({super.key, required this.plateList});
+  const BarbellWidget({
+    super.key,
+    required this.plateList,
+    required this.barbellName,
+    required this.barbellWeight,
+  });
 
   final double distancePlates = 0.9;
   final List<PlateWidget> plateList;
+  final String barbellName;
+  final double barbellWeight;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
-      child: Stack(
-        alignment: Alignment.centerLeft,
-        children: [
-          // bar in the background
-          const BarWidget(),
-          Row(
+    return Column(
+      children: [
+        Text(barbellName),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
+          child: Stack(
+            alignment: Alignment.centerLeft,
             children: [
-              const SizedBox(width: 10.0 + 17.0),
-
-              // here are the plates from the array plateList
+              // bar in the background
+              BarWidget(),
               Row(
-                children: plateList.map((widget) {
-                  return Row(
-                    children: [
-                      SizedBox(width: distancePlates),
-                      widget,
-                    ],
-                  );
-                }).toList(),
+                children: [
+                  const SizedBox(width: 25.0 + 17.0),
+
+                  // here are the plates from the array plateList
+                  Row(
+                    children: plateList.map((widget) {
+                      return Row(
+                        children: [
+                          SizedBox(width: distancePlates),
+                          widget,
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -96,46 +108,41 @@ class BarWidget extends StatelessWidget {
       alignment: Alignment.centerLeft,
       children: [
         // bar
-         Container(
-            height: 20.0,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  Theme.of(context).colorScheme.inversePrimary.withOpacity(0.0),
-
-                  Theme.of(context)
-                      .colorScheme
-                      .inversePrimary
-                      .withOpacity(0.4),
-                ],
-                stops: const [0.0, 0.017],
+        Container(
+          height: 25.0,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Theme.of(context).colorScheme.inversePrimary.withOpacity(0.0),
+                Theme.of(context).colorScheme.inversePrimary.withOpacity(0.4),
+              ],
+              stops: const [0.0, 0.017],
+            ),
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(5.0),
+              bottomRight: Radius.circular(5.0),
+            ),
+            border: Border(
+              top: BorderSide(
+                color: Colors.black.withOpacity(1.0),
+                width: 1.5,
               ),
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(5.0),
-                bottomRight: Radius.circular(5.0),
+              bottom: BorderSide(
+                color: Colors.black.withOpacity(1.0),
+                width: 1.5,
               ),
-              border: Border(
-                top: BorderSide(
-                  color: Colors.black.withOpacity(1.0),
-                  width: 1.5,
-                ),
-                bottom: BorderSide(
-                  color: Colors.black.withOpacity(1.0),
-                  width: 1.5,
-                ),
-                right: BorderSide(
-                  color: Colors.black.withOpacity(1.0),
-                  width: 1.5,
-                ),
+              right: BorderSide(
+                color: Colors.black.withOpacity(1.0),
+                width: 1.5,
               ),
             ),
           ),
-
+        ),
         Row(
           children: [
-            const SizedBox(width: 10.0),
+            const SizedBox(width: 25.0),
             Container(
               height: 50.0,
               width: 17.0,

@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'barbell-widget.dart';
 import 'barbell.dart';
 import 'plate.dart';
+import 'inventory.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -178,6 +179,16 @@ class _MainPageState extends State<MainPage> {
     getPlates();
     getBarbells();
     getMetricSystem();
+
+    bool checkWeightDouble() {
+      try {
+        double.parse(trainingWeightController.text);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
     return Scaffold(
       // appBar: AppBar(leading: Image.asset('android/app/src/main/res/mipmap/ic_launcher.png'),title: const Text('Barbell Calc')),
       body: SingleChildScrollView(
@@ -247,59 +258,71 @@ class _MainPageState extends State<MainPage> {
                       minimumSize: const Size(75, 90),
                     ),
                     onPressed: () {
-                      double worldRecord = metricSystem ? 501 : 1104;
-                      if (double.parse(trainingWeightController.text) >
-                          worldRecord) {
+                      if (!checkWeightDouble()) {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text('Good Job Champ!'),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Text(
-                                      'That breaks the world record! Congratulations!'),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Image.asset('assets/arnold-nice.png')
-                                ],
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    _launchUrl();
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('NICE'),
-                                ),
-                              ],
-                            );
+                            return const ErrorDialog(
+                                errorMessage: 'Weight is invalid!');
                           },
                         );
                       } else {
-                        if (barbellWeight == 0) {
+                        double worldRecord = metricSystem ? 501 : 1104;
+                        if (double.parse(trainingWeightController.text) >
+                            worldRecord) {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: const Text('Attention'),
-                                content:
-                                    const Text('You need to choose a Barbell!'),
+                                title: const Text('Good Job Champ!'),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Text(
+                                        'That breaks the world record! Congratulations!'),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Image.asset('assets/arnold-nice.png')
+                                  ],
+                                ),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
+                                      _launchUrl();
                                       Navigator.of(context).pop();
                                     },
-                                    child: const Text('OK'),
+                                    child: const Text('NICE'),
                                   ),
                                 ],
                               );
                             },
                           );
                         } else {
-                          calculateWeight();
+                          if (barbellWeight == 0) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const ErrorDialog(
+                                    errorMessage:
+                                        'You need to choose a Barbell!');
+                              },
+                            );
+                          } else {
+                            if (barbellWeight >
+                                double.parse(trainingWeightController.text)) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return const ErrorDialog(
+                                      errorMessage:
+                                          'You need to choose more weight!');
+                                },
+                              );
+                            } else {
+                              calculateWeight();
+                            }
+                          }
                         }
                       }
                     },
@@ -312,7 +335,11 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
             const SizedBox(height: 50),
-            BarbellWidget(plateList: plateListOnBarbell),
+            BarbellWidget(
+              plateList: plateListOnBarbell,
+              barbellName: barbellName,
+              barbellWeight: barbellWeight,
+            ),
           ],
         ),
       ),
