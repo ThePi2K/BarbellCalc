@@ -34,6 +34,11 @@ class PlateWidget extends StatelessWidget {
           plateWeightString.substring(0, plateWeightString.length - 2);
     }
 
+    double fontSize = 15;
+    if (plateWeightString.length>3){
+      fontSize = 11;
+    }
+
     return Container(
       height: heightPlate,
       width: 30.0,
@@ -48,11 +53,11 @@ class PlateWidget extends StatelessWidget {
       ),
       child: Center(
         child: Text(plateWeightString,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
               height: 1.2,
-              fontSize: 15,
+              fontSize: fontSize,
             ),
             textAlign: TextAlign.center),
       ),
