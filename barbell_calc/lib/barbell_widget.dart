@@ -97,8 +97,11 @@ class BarbellWidget extends StatelessWidget {
 
     return Column(
       children: [
-        Text('$barbellName ($barbellWeightString)'),
-        Text(barbellWeightInclPlatesString),
+        if (barbellWeight != 0)
+          Text('$barbellName ($barbellWeightString)',
+              style: TextStyle(fontSize: 16)),
+        if (barbellWeightInclPlates != 0)
+          Text('Weight on Barbell: $barbellWeightInclPlatesString'),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
           child: Stack(
