@@ -120,6 +120,17 @@ class _MainPageState extends State<MainPage> {
     metricSystem = prefs.getBool('metricSystem') ?? true;
   }
 
+  // Function to calculate maxPlates based on the display size
+  double calculateMaxPlates() {
+    double widthDisplay = MediaQuery.of(context).size.width;
+    double startPlates = 32.0;
+    double endPlates = 10.0;
+    double widthPlate = 30.0;
+    double distancePlates = 0.9;
+    return ((widthDisplay - (startPlates + endPlates+10)) /
+        (widthPlate + distancePlates));
+  }
+
   void calculateWeight() {
     setState(() {
       // clear plates on barbell
@@ -153,26 +164,20 @@ class _MainPageState extends State<MainPage> {
         } else {
           double difference = plateWeightTemp - plates.first.weight;
           if (difference >= 0) {
-            plateListOnBarbell
-                .add(PlateWidget(weightPlate: plates.first.weight));
-            plateWeightTemp = difference;
+            if (plateListOnBarbell.length + 1 > calculateMaxPlates()) {
+              print('STOP! Too many Plates on Barbell');
+              break;
+            } else {
+              plateListOnBarbell
+                  .add(PlateWidget(weightPlate: plates.first.weight));
+              plateWeightTemp = difference;
+            }
           } else if (difference < 0) {
             plates.remove(plates.first);
           }
         }
       }
     });
-  }
-
-  // Function to calculate maxPlates based on the display size
-  double calculateMaxPlates() {
-    double widthDisplay = MediaQuery.of(context).size.width;
-    double startPlates = 32.0;
-    double endPlates = 10.0;
-    double widthPlate = 30.0;
-    double distancePlates = 0.9;
-    return (widthDisplay - (startPlates + endPlates)) /
-        (widthPlate + distancePlates);
   }
 
   void setSelectedBarbell(Barbell selectedBarbell) {
