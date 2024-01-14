@@ -81,17 +81,24 @@ class BarbellWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     String barbellWeightString = barbellWeight.toString();
     if (barbellWeightString.endsWith(".0")) {
       barbellWeightString =
           barbellWeightString.substring(0, barbellWeightString.length - 2);
     }
+    barbellWeightString += ' ${metricSystem ? 'kg' : 'lb'}';
+
+    String barbellWeightInclPlatesString = barbellWeightInclPlates.toString();
+    if (barbellWeightInclPlatesString.endsWith(".0")) {
+      barbellWeightInclPlatesString = barbellWeightInclPlatesString.substring(
+          0, barbellWeightInclPlatesString.length - 2);
+    }
+    barbellWeightInclPlatesString += ' ${metricSystem ? 'kg' : 'lb'}';
 
     return Column(
       children: [
-        Text('$barbellName ($barbellWeightString ${metricSystem ? 'kg' : 'lb'})'),
-        Text(barbellWeightInclPlates.toString()),
+        Text('$barbellName ($barbellWeightString)'),
+        Text(barbellWeightInclPlatesString),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
           child: Stack(
