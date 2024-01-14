@@ -127,7 +127,7 @@ class _MainPageState extends State<MainPage> {
     double endPlates = 10.0;
     double widthPlate = 30.0;
     double distancePlates = 0.9;
-    return ((widthDisplay - (startPlates + endPlates+10)) /
+    return ((widthDisplay - (startPlates + endPlates + 10)) /
         (widthPlate + distancePlates));
   }
 
@@ -192,6 +192,12 @@ class _MainPageState extends State<MainPage> {
     if (!await launchUrl(_url)) {
       throw Exception('Could not launch $_url');
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    plateListOnBarbell.clear();
   }
 
   @override
