@@ -279,7 +279,28 @@ class _MainPageState extends State<MainPage> {
                           },
                         );
                       } else {
-                        calculateWeight();
+                        if (barbellWeight == 0) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Attention'),
+                                content:
+                                    const Text('You need to choose a Barbell!'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          calculateWeight();
+                        }
                       }
                     },
                     child: const Icon(
