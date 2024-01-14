@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'barbell_widget.dart';
@@ -165,7 +166,7 @@ class _MainPageState extends State<MainPage> {
           double difference = plateWeightTemp - plates.first.weight;
           if (difference >= 0) {
             if (plateListOnBarbell.length + 1 > calculateMaxPlates()) {
-              print('STOP! Too many Plates on Barbell');
+              // TOO MANY PLATES ON BARBELL
               break;
             } else {
               plateListOnBarbell
@@ -230,6 +231,7 @@ class _MainPageState extends State<MainPage> {
                         FocusManager.instance.primaryFocus?.unfocus();
                       },
                       controller: trainingWeightController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(6)],
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         labelText:

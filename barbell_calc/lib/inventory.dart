@@ -475,6 +475,7 @@ class _CreatePlateState extends State<CreatePlate> {
         children: [
           TextField(
             controller: weightController,
+            inputFormatters: [LengthLimitingTextInputFormatter(5)],
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Plate Weight',
@@ -703,6 +704,7 @@ class _CreateBarbellState extends State<CreateBarbell> {
           const SizedBox(height: 20),
           TextField(
             controller: weightController,
+            inputFormatters: [LengthLimitingTextInputFormatter(5)],
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Barbell Weight',
