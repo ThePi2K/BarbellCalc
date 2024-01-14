@@ -86,6 +86,10 @@ class _MainPageState extends State<MainPage> {
     standardBarbells = prefs.getBool('standardBarbells') ?? true;
     olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
 
+    if ((olympicBarbells == true) & (standardBarbells == false)) {
+      barbellWidth = 'Olympic';
+    }
+
     // if 0 barbells
     if (barbells.isEmpty) {
       // Create a new Barbell and add it to the list
@@ -176,8 +180,8 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    getPlates();
     getBarbells();
+    getPlates();
     getMetricSystem();
 
     bool checkWeightDouble() {
@@ -425,8 +429,10 @@ class SelectBarbellList extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color:
-                      Theme.of(context).colorScheme.inversePrimary.withOpacity(0.4),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .inversePrimary
+                      .withOpacity(0.4),
                   borderRadius: BorderRadius.circular(17.0),
                 ),
                 child: ListTile(
@@ -443,7 +449,9 @@ class SelectBarbellList extends StatelessWidget {
                   },
                 ),
               ),
-              const SizedBox(height: 5,),
+              const SizedBox(
+                height: 5,
+              ),
             ],
           ),
       ],
