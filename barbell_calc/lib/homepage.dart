@@ -198,69 +198,46 @@ class _MainPageState extends State<MainPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 25),
+            const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Row(
                 children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            onTapOutside: (event) {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                            },
-                            controller: trainingWeightController,
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText:
-                                  'Training Weight in ${metricSystem ? 'kg' : 'lb'}',
-                            ),
-                            keyboardType: TextInputType.number,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return SelectBarbellDialog(
-                                      barbellListOlympic: barbellsOlympic,
-                                      metricSystem: metricSystem,
-                                      barbellListStandard: barbellsStandard,
-                                      setSelectedBarbell: setSelectedBarbell,
-                                      standardBarbells: standardBarbells,
-                                      olympicBarbells: olympicBarbells,
-                                    );
-                                  },
-                                );
-                              },
-                              child: const Text('Select Barbell'),
-                            ),
-                            const SizedBox(width: 10),
-                            if (barbellWeight != 0)
-                              SizedBox(
-                                width: 100,
-                                child: Text(
-                                  '$barbellName\n(${barbellWeight.toString()} ${metricSystem ? 'kg' : 'lb'})',
-                                  softWrap: true,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                          ],
-                        )
-                      ],
+                  Flexible(
+                    child: TextField(
+                      onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                      },
+                      controller: trainingWeightController,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText:
+                            'Training Weight\nin ${metricSystem ? 'kg' : 'lb'}',
+                      ),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
-                  const SizedBox(width: 7),
+                  SizedBox(width: 8),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(75, 90),
-                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SelectBarbellDialog(
+                            barbellListOlympic: barbellsOlympic,
+                            metricSystem: metricSystem,
+                            barbellListStandard: barbellsStandard,
+                            setSelectedBarbell: setSelectedBarbell,
+                            standardBarbells: standardBarbells,
+                            olympicBarbells: olympicBarbells,
+                          );
+                        },
+                      );
+                    },
+                    child: const Text('Choose\nBarbell'),
+                  ),
+                  SizedBox(width: 8),
+                  ElevatedButton(
                     onPressed: () {
                       if (!checkWeightDouble()) {
                         showDialog(
@@ -338,7 +315,7 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
             ),
-            const SizedBox(height: 50),
+            SizedBox(height: 30),
             BarbellWidget(
               plateList: plateListOnBarbell,
               barbellName: barbellName,
