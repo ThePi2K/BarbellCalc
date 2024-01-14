@@ -238,10 +238,9 @@ class _MainPageState extends State<MainPage> {
                       },
                       controller: trainingWeightController,
                       inputFormatters: [LengthLimitingTextInputFormatter(6)],
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        labelText:
-                            'Training Weight\nin ${metricSystem ? 'kg' : 'lb'}',
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Training Weight',
                       ),
                       keyboardType: TextInputType.number,
                     ),
@@ -331,6 +330,50 @@ class _MainPageState extends State<MainPage> {
                               );
                             } else {
                               calculateWeight();
+                              if (barbellWeightInclPlates !=
+                                  double.parse(trainingWeightController.text)) {
+                                String trainingWeightString =
+                                    trainingWeightController.text.toString();
+                                if (trainingWeightString.endsWith(".0")) {
+                                  trainingWeightString =
+                                      trainingWeightString.substring(
+                                          0, trainingWeightString.length - 2);
+                                }
+                                trainingWeightString +=
+                                    ' ${metricSystem ? 'kg' : 'lb'}';
+
+                                String barbellWeightInclPlatesString =
+                                    barbellWeightInclPlates.toString();
+                                if (barbellWeightInclPlatesString
+                                    .endsWith(".0")) {
+                                  barbellWeightInclPlatesString =
+                                      barbellWeightInclPlatesString.substring(
+                                          0,
+                                          barbellWeightInclPlatesString.length -
+                                              2);
+                                }
+                                barbellWeightInclPlatesString +=
+                                    ' ${metricSystem ? 'kg' : 'lb'}';
+
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Attention!'),
+                                      content: Text(
+                                          'The entered weight ($trainingWeightString) differs from the possible training weight ($barbellWeightInclPlatesString)!'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
                             }
                           }
                         }

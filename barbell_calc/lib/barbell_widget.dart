@@ -99,7 +99,7 @@ class BarbellWidget extends StatelessWidget {
       children: [
         if (barbellWeight != 0)
           Text('$barbellName ($barbellWeightString)',
-              style: TextStyle(fontSize: 16)),
+              style: const TextStyle(fontSize: 16)),
         if (barbellWeightInclPlates != 0)
           Text('Weight on Barbell: $barbellWeightInclPlatesString'),
         Padding(
