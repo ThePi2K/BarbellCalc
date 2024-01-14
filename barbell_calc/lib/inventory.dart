@@ -837,6 +837,8 @@ class ErrorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 60),
+      backgroundColor: Colors.redAccent.shade100,
       title: const Text('Error'),
       content: Text(errorMessage),
       actions: [
