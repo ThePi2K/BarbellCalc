@@ -75,13 +75,16 @@ class BarbellWidget extends StatelessWidget {
   final double barbellWeight;
   final String barbellWidth;
 
+  double startPlates = 32.0; // start of plates
+  double endPlates = 10.0; // end of barbell/plates
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Text(barbellName),
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
+          padding: EdgeInsets.fromLTRB(0, 20, endPlates, 20),
           child: Stack(
             alignment: Alignment.centerLeft,
             children: [
@@ -89,8 +92,7 @@ class BarbellWidget extends StatelessWidget {
               BarWidget(barbellWidth: barbellWidth),
               Row(
                 children: [
-                  const SizedBox(width: 15.0 + 17.0),
-
+                  SizedBox(width: startPlates),
                   // here are the plates from the array plateList
                   Row(
                     children: plateList.map((widget) {
