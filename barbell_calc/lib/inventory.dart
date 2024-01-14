@@ -1053,7 +1053,11 @@ class PlateListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String weightString = '${plate.weight} ${metricSystem ? 'kg' : 'lb'}';
+    String weightString = plate.weight.toString();
+    if (weightString.endsWith(".0")) {
+      weightString = weightString.substring(0, weightString.length - 2);
+    }
+    weightString += ' ${metricSystem ? 'kg' : 'lb'}';
     if (olympicBarbells & standardBarbells) {
       return Card(
         child: ListTile(
@@ -1101,7 +1105,11 @@ class BarbellListItemSubtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String weightString = '${barbell.weight} ${metricSystem ? 'kg' : 'lb'}';
+    String weightString = barbell.weight.toString();
+    if (weightString.endsWith(".0")) {
+      weightString = weightString.substring(0, weightString.length - 2);
+    }
+    weightString += ' ${metricSystem ? 'kg' : 'lb'}';
     if (olympicBarbells & standardBarbells) {
       return Row(
         children: [
