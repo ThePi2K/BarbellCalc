@@ -238,7 +238,10 @@ class NewPlateBarbellButton extends StatelessWidget {
                         borderRadius: BorderRadius.circular(17.0),
                       ),
                       child: ListTile(
-                        leading: const Icon(Icons.fitness_center),
+                        leading: Icon(
+                          Icons.fitness_center,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                         title: const Text('Add Barbell'),
                         onTap: () {
                           // Closing PopupMenu
@@ -270,6 +273,7 @@ class NewPlateBarbellButton extends StatelessWidget {
                         leading: SvgPicture.asset(
                           'assets/icons/plate.svg',
                           height: 30,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                         title: const Text('Add Plate'),
                         onTap: () {
