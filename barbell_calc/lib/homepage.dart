@@ -237,6 +237,7 @@ class _MainPageState extends State<MainPage> {
                       onTapOutside: (event) {
                         FocusManager.instance.primaryFocus?.unfocus();
                       },
+                      autofocus: true,
                       controller: trainingWeightController,
                       inputFormatters: [LengthLimitingTextInputFormatter(6)],
                       decoration: const InputDecoration(
@@ -347,7 +348,8 @@ class _MainPageState extends State<MainPage> {
                               } else {
                                 calculateWeight();
                                 if (barbellWeightInclPlates !=
-                                    double.parse(trainingWeightController.text)) {
+                                    double.parse(
+                                        trainingWeightController.text)) {
                                   String trainingWeightString =
                                       trainingWeightController.text.toString();
                                   if (trainingWeightString.endsWith(".0")) {
@@ -357,7 +359,7 @@ class _MainPageState extends State<MainPage> {
                                   }
                                   trainingWeightString +=
                                       ' ${metricSystem ? 'kg' : 'lb'}';
-                    
+
                                   String barbellWeightInclPlatesString =
                                       barbellWeightInclPlates.toString();
                                   if (barbellWeightInclPlatesString
@@ -365,12 +367,13 @@ class _MainPageState extends State<MainPage> {
                                     barbellWeightInclPlatesString =
                                         barbellWeightInclPlatesString.substring(
                                             0,
-                                            barbellWeightInclPlatesString.length -
+                                            barbellWeightInclPlatesString
+                                                    .length -
                                                 2);
                                   }
                                   barbellWeightInclPlatesString +=
                                       ' ${metricSystem ? 'kg' : 'lb'}';
-                    
+
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
