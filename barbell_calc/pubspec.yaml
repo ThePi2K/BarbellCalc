@@ -35,6 +35,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   provider: 6.1.1
   url_launcher: 6.2.3
+  flutter_svg: ^0.22.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -60,6 +61,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
+    - assets/icons/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

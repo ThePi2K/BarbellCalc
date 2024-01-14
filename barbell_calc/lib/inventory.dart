@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'plate.dart';
 import 'barbell.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class InventoryPage extends StatefulWidget {
   const InventoryPage({super.key});
@@ -266,7 +267,10 @@ class NewPlateBarbellButton extends StatelessWidget {
                       ),
                       child: ListTile(
                         // leading: const Icon(Icons.radio_button_off),
-                        leading: const Image(image: AssetImage('assets/Plate.png'),height: 30),
+                        leading: SvgPicture.asset(
+                          'assets/icons/plate.svg',
+                          height: 30,
+                        ),
                         title: const Text('Add Plate'),
                         onTap: () {
                           // Closing PopupMenu
