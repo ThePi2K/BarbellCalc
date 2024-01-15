@@ -444,7 +444,7 @@ class SelectBarbellDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Select Barbell'),
+      title: const Text('Choose Barbell'),
       content: SizedBox(
         height: MediaQuery.of(context).size.height * 0.5,
         width: double.maxFinite,
