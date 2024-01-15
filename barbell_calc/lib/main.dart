@@ -32,9 +32,9 @@ class _MyAppState extends State<MyApp> {
 
     setState(() {
       // reading SharedPreferences and save the values to the variables
+      appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
       darkMode = prefs.getBool('darkMode') ?? false;
       followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
-      appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
     });
   }
 
