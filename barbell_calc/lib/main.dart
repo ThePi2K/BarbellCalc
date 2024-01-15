@@ -17,9 +17,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late SharedPreferences prefs;
-  bool darkMode = false;
-  bool followSystemTheme = false;
-  Color appColor = Colors.blue;
+  late bool darkMode;
+  late bool followSystemTheme;
+  late Color appColor;
 
   @override
   void initState() {
@@ -37,11 +37,6 @@ class _MyAppState extends State<MyApp> {
       followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
     });
   }
-
-  // void updateTheme() {
-  //   loadSharedPreference();
-  //   setState(() {});
-  // }
 
   MaterialApp buildMyApp() {
     ThemeMode themeMode;
@@ -90,12 +85,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentPageIndex = 0;
 
-  late List<Widget> pages; // Declare pages as a late variable
+  late List<Widget> pages;
 
   @override
   void initState() {
     super.initState();
-    // Initialize pages in initState
     pages = [
       const MainPage(),
       const InventoryPage(),
