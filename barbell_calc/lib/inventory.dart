@@ -181,29 +181,31 @@ class _InventoryPageState extends State<InventoryPage> {
     // first run
     updatePlates();
     updateBarbells();
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Inventory'),
-          leading: const Icon(Icons.inventory),
-        ),
-        body: InventoryListView(
-          barbellListStandard: barbellsStandard,
-          barbellListOlympic: barbellsOlympic,
-          plateListStandard: platesStandard,
-          plateListOlympic: platesOlympic,
-          standardBarbells: standardBarbells,
-          olympicBarbells: olympicBarbells,
-          metricSystem: metricSystem,
-          deletePlate: deletePlate,
-          deleteBarbell: deleteBarbell,
-          editBarbell: editBarbell,
-        ),
-        floatingActionButton: NewPlateBarbellButton(
-          onSavePlate: updatePlates,
-          onSaveBarbell: updateBarbells,
-          plates: plates,
-          barbells: barbells,
-        ));
+    return SafeArea(
+      child: Scaffold(
+          // appBar: AppBar(
+          //   title: const Text('Inventory'),
+          //   leading: const Icon(Icons.inventory),
+          // ),
+          body: InventoryListView(
+            barbellListStandard: barbellsStandard,
+            barbellListOlympic: barbellsOlympic,
+            plateListStandard: platesStandard,
+            plateListOlympic: platesOlympic,
+            standardBarbells: standardBarbells,
+            olympicBarbells: olympicBarbells,
+            metricSystem: metricSystem,
+            deletePlate: deletePlate,
+            deleteBarbell: deleteBarbell,
+            editBarbell: editBarbell,
+          ),
+          floatingActionButton: NewPlateBarbellButton(
+            onSavePlate: updatePlates,
+            onSaveBarbell: updateBarbells,
+            plates: plates,
+            barbells: barbells,
+          )),
+    );
   }
 }
 
