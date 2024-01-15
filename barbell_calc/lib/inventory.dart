@@ -907,6 +907,7 @@ class InventoryListView extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
         child: Column(
           children: [
+            const SizedBox(height: 10),
             // const Divider(),
             const InventoryListTitle(title: 'Barbells'),
             for (var index = 0; index < barbellListStandard.length; index++)
