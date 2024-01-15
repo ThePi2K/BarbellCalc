@@ -138,6 +138,10 @@ class _InventoryPageState extends State<InventoryPage> {
     updateBarbells();
   }
 
+  Future<void> editBarbell(Barbell barbellToDelete) async {
+    print(barbellToDelete.name);
+  }
+
   Future<void> deletePlate(Plate plateToDelete) async {
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -192,6 +196,7 @@ class _InventoryPageState extends State<InventoryPage> {
           metricSystem: metricSystem,
           deletePlate: deletePlate,
           deleteBarbell: deleteBarbell,
+          editBarbell: editBarbell,
         ),
         floatingActionButton: NewPlateBarbellButton(
           onSavePlate: updatePlates,
@@ -864,6 +869,7 @@ class InventoryListView extends StatelessWidget {
     required this.plateListStandard,
     required this.plateListOlympic,
     required this.deleteBarbell,
+    required this.editBarbell,
     required this.deletePlate,
     required this.olympicBarbells,
     required this.standardBarbells,
@@ -876,6 +882,7 @@ class InventoryListView extends StatelessWidget {
   final List<Plate> plateListOlympic;
 
   final Function(Barbell) deleteBarbell;
+  final Function(Barbell) editBarbell;
   final Function(Plate) deletePlate;
 
   final bool olympicBarbells;
@@ -905,6 +912,7 @@ class InventoryListView extends StatelessWidget {
                 barbell: barbellListStandard[index],
                 barbellListLength: barbellListStandard.length,
                 onDelete: deleteBarbell,
+                onEdit: editBarbell,
                 olympicBarbells: olympicBarbells,
                 standardBarbells: standardBarbells,
                 metricSystem: metricSystem,
@@ -914,6 +922,7 @@ class InventoryListView extends StatelessWidget {
                 barbell: barbellListOlympic[index],
                 barbellListLength: barbellListOlympic.length,
                 onDelete: deleteBarbell,
+                onEdit: editBarbell,
                 olympicBarbells: olympicBarbells,
                 standardBarbells: standardBarbells,
                 metricSystem: metricSystem,
@@ -952,6 +961,7 @@ class BarbellListItem extends StatelessWidget {
     super.key,
     required this.barbell,
     required this.onDelete,
+    required this.onEdit,
     required this.barbellListLength,
     required this.olympicBarbells,
     required this.standardBarbells,
@@ -961,6 +971,7 @@ class BarbellListItem extends StatelessWidget {
   final Barbell barbell;
   final int barbellListLength;
   final Function(Barbell) onDelete;
+  final Function(Barbell) onEdit;
   final bool olympicBarbells;
   final bool standardBarbells;
   final bool metricSystem;
@@ -979,6 +990,12 @@ class BarbellListItem extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                onEdit(barbell);
+              },
+            ),
             IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () {
@@ -1026,12 +1043,6 @@ class BarbellListItem extends StatelessWidget {
                     },
                   );
                 }
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                // Add onEdit(barbell) function call here
               },
             ),
           ],
