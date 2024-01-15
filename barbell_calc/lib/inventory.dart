@@ -976,56 +976,65 @@ class BarbellListItem extends StatelessWidget {
           metricSystem: metricSystem,
           barbell: barbell,
         ),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete),
-          onPressed: () {
-            if (barbellListLength == 1) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Attention'),
-                    content:
-                        Text('You need at least one ${barbell.width} Barbell!'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                if (barbellListLength == 1) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Attention'),
+                        content: Text('You need at least one ${barbell.width} Barbell!'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
                   );
-                },
-              );
-            } else {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Attention'),
-                    content:
-                        const Text('Do really want to remove this Barbell?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          onDelete(barbell);
-                        },
-                        child: const Text('YES'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('NO'),
-                      ),
-                    ],
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Attention'),
+                        content: const Text('Do really want to remove this Barbell?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              onDelete(barbell);
+                            },
+                            child: const Text('YES'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('NO'),
+                          ),
+                        ],
+                      );
+                    },
                   );
-                },
-              );
-            }
-          },
+                }
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                // Add onEdit(barbell) function call here
+              },
+            ),
+          ],
         ),
       ),
     );
