@@ -137,120 +137,122 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-        leading: const Icon(Icons.settings),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-        children: <Widget>[
-          // const Divider(),
-          const SettingsTitle(
-              title: 'App Design', subtitle: 'Customize the app theme'),
-          ListTile(
-            title: const Text('Follow System Theme'),
-            trailing: Switch(
-              onChanged: toggleFollowSystemTheme,
-              value: followSystemTheme,
-            ),
-          ),
-          Visibility(
-            visible: !followSystemTheme,
-            child: ListTile(
-              title: const Text('Dark Mode'),
+    return SafeArea(
+      child: Scaffold(
+        // appBar: AppBar(
+        //   title: const Text('Settings'),
+        //   leading: const Icon(Icons.settings),
+        // ),
+        body: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+          children: <Widget>[
+            // const Divider(),
+            const SettingsTitle(
+                title: 'App Design', subtitle: 'Customize the app theme'),
+            ListTile(
+              title: const Text('Follow System Theme'),
               trailing: Switch(
-                onChanged: toggleDarkMode,
-                value: darkMode,
+                onChanged: toggleFollowSystemTheme,
+                value: followSystemTheme,
               ),
             ),
-          ),
-          ListTile(
-            title: const Text('App Color'),
-            trailing: IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Pick a color'),
-                      content: SingleChildScrollView(
-                          child: BlockPicker(
-                        pickerColor: appColor,
-                        onColorChanged: (Color color) {
-                          appColor = color;
-                        },
-                      )),
-                      actions: <Widget>[
-                        TextButton(
-                          child: const Text('Cancel'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        TextButton(
-                          child: const Text('Save'),
-                          onPressed: () {
-                            changeColor(appColor);
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              icon: const Icon(Icons.color_lens_outlined),
-              color: appColor,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(appColor),
-                foregroundColor:
-                    MaterialStateProperty.all(darkenColor(appColor, 0.5)),
+            Visibility(
+              visible: !followSystemTheme,
+              child: ListTile(
+                title: const Text('Dark Mode'),
+                trailing: Switch(
+                  onChanged: toggleDarkMode,
+                  value: darkMode,
+                ),
               ),
             ),
-          ),
-          const Divider(),
-          const SettingsTitle(
-              title: 'Unit System',
-              subtitle: 'Choose between metric and Imperial/US units'),
-          ListTile(
-            title:
-                metricSystem ? const Text('Metric System') : const Text('US System'),
-            subtitle:
-                metricSystem ? const Text('mm/kg') : const Text('inch/pounds'),
-            trailing: Switch(
-              onChanged: (value) {
-                toggleUnit(value);
-              },
-              value: metricSystem,
+            ListTile(
+              title: const Text('App Color'),
+              trailing: IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Pick a color'),
+                        content: SingleChildScrollView(
+                            child: BlockPicker(
+                          pickerColor: appColor,
+                          onColorChanged: (Color color) {
+                            appColor = color;
+                          },
+                        )),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Cancel'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text('Save'),
+                            onPressed: () {
+                              changeColor(appColor);
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                icon: const Icon(Icons.color_lens_outlined),
+                color: appColor,
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(appColor),
+                  foregroundColor:
+                      MaterialStateProperty.all(darkenColor(appColor, 0.5)),
+                ),
+              ),
             ),
-          ),
-          const Divider(),
-          const SettingsTitle(
-              title: 'Barbell Sleeve Diameters',
-              subtitle: 'Choose at least one barbell type'),
-          ListTile(
-            title: const Text('Standard Barbells'),
-            subtitle: metricSystem ? const Text('Ø 30 mm') : const Text('Ø 1.18"'),
-            trailing: Switch(
-              onChanged: (value) {
-                toggleStandardBarbells(value);
-              },
-              value: standardBarbells,
+            const Divider(),
+            const SettingsTitle(
+                title: 'Unit System',
+                subtitle: 'Choose between metric and Imperial/US units'),
+            ListTile(
+              title:
+                  metricSystem ? const Text('Metric System') : const Text('US System'),
+              subtitle:
+                  metricSystem ? const Text('mm/kg') : const Text('inch/pounds'),
+              trailing: Switch(
+                onChanged: (value) {
+                  toggleUnit(value);
+                },
+                value: metricSystem,
+              ),
             ),
-          ),
-          ListTile(
-            title: const Text('Olympic Barbells'),
-            subtitle: metricSystem ? const Text('Ø 50 mm') : const Text('Ø 2"'),
-            trailing: Switch(
-              onChanged: (value) {
-                toggleOlympicBarbells(value);
-              },
-              value: olympicBarbells,
+            const Divider(),
+            const SettingsTitle(
+                title: 'Barbell Sleeve Diameters',
+                subtitle: 'Choose at least one barbell type'),
+            ListTile(
+              title: const Text('Standard Barbells'),
+              subtitle: metricSystem ? const Text('Ø 30 mm') : const Text('Ø 1.18"'),
+              trailing: Switch(
+                onChanged: (value) {
+                  toggleStandardBarbells(value);
+                },
+                value: standardBarbells,
+              ),
             ),
-          ),
-          // const Divider(),
-        ],
+            ListTile(
+              title: const Text('Olympic Barbells'),
+              subtitle: metricSystem ? const Text('Ø 50 mm') : const Text('Ø 2"'),
+              trailing: Switch(
+                onChanged: (value) {
+                  toggleOlympicBarbells(value);
+                },
+                value: olympicBarbells,
+              ),
+            ),
+            // const Divider(),
+          ],
+        ),
       ),
     );
   }
