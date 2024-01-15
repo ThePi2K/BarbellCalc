@@ -38,10 +38,10 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void updateTheme() {
-    loadSharedPreference();
-    setState(() {});
-  }
+  // void updateTheme() {
+  //   loadSharedPreference();
+  //   setState(() {});
+  // }
 
   MaterialApp buildMyApp() {
     ThemeMode themeMode;
@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       themeMode: themeMode,
-      home: HomePage(updateTheme: updateTheme),
+      home: HomePage(updateTheme: loadSharedPreference),
     );
   }
 
