@@ -108,8 +108,8 @@ class BarbellWidget extends StatelessWidget {
             : const Text('', style: TextStyle(fontSize: 16)),
         (barbellWeightInclPlates != 0)
             ? Text('Weight on Barbell: $barbellWeightInclPlatesString')
-            : const Text(''),
-        Container(
+            : const Text(' '),
+        SizedBox(
             height: 220,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
