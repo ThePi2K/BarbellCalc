@@ -117,7 +117,7 @@ class BarbellWidget extends StatelessWidget {
                 BarWidget(barbellWidth: barbellWidth),
                 Row(
                   children: [
-                    const SizedBox(width: 15.0 + 17.0),
+                    const SizedBox(width: 15.0 + 20.0),
                     Row(
                       children: plateList.map((widget) {
                         return Row(
@@ -144,8 +144,8 @@ class BarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double heightStandard = 17.0;
-    double heightOlympic = 27.0;
+    double heightStandard = 20.0;
+    double heightOlympic = 35.0;
     return Stack(
       alignment: Alignment.centerLeft,
       children: [
@@ -153,7 +153,7 @@ class BarWidget extends StatelessWidget {
         Row(
           children: [
             Container(
-              width: 25,
+              width: 15,
               height: heightStandard,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -169,7 +169,7 @@ class BarWidget extends StatelessWidget {
                         .inversePrimary
                         .withOpacity(0.4),
                   ],
-                  stops: const [0.0, 0.017],
+                  stops: const [0.0, 5],
                 ),
                 border: Border(
                   top: BorderSide(
@@ -180,49 +180,35 @@ class BarWidget extends StatelessWidget {
                     color: Colors.black.withOpacity(1.0),
                     width: 1.5,
                   ),
-                  right: BorderSide(
-                    color: Colors.black.withOpacity(1.0),
-                    width: 1.5,
-                  ),
                 ),
               ),
             ),
+            const SizedBox(width: 23),
             Expanded(
               child: Container(
                 height: (barbellWidth == 'Standard')
                     ? heightStandard
                     : heightOlympic,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [
-                      Theme.of(context)
-                          .colorScheme
-                          .inversePrimary
-                          .withOpacity(0.0),
-                      Theme.of(context)
-                          .colorScheme
-                          .inversePrimary
-                          .withOpacity(0.4),
-                    ],
-                    stops: const [0.0, 0.017],
-                  ),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .inversePrimary
+                      .withOpacity(0.4),
                   borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(5.0),
                     bottomRight: Radius.circular(5.0),
                   ),
-                  border: Border(
+                  border: const Border(
                     top: BorderSide(
-                      color: Colors.black.withOpacity(1.0),
+                      color: Colors.black,
                       width: 1.5,
                     ),
                     bottom: BorderSide(
-                      color: Colors.black.withOpacity(1.0),
+                      color: Colors.black,
                       width: 1.5,
                     ),
                     right: BorderSide(
-                      color: Colors.black.withOpacity(1.0),
+                      color: Colors.black,
                       width: 1.5,
                     ),
                   ),
@@ -236,10 +222,13 @@ class BarWidget extends StatelessWidget {
           children: [
             const SizedBox(width: 15.0),
             Container(
-              height: 50.0,
-              width: 17.0,
+              height: 60.0,
+              width: 23.0,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.inversePrimary,
+                color: Theme.of(context)
+                    .colorScheme
+                    .inversePrimary
+                    .withOpacity(0.4),
                 borderRadius: BorderRadius.circular(5.0),
                 border: Border.all(
                   color: Colors.black,
