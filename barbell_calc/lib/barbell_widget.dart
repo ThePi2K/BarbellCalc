@@ -35,7 +35,7 @@ class PlateWidget extends StatelessWidget {
     }
 
     double fontSize = 15;
-    if (plateWeightString.length>3){
+    if (plateWeightString.length > 3) {
       fontSize = 11;
     }
 
@@ -100,28 +100,24 @@ class BarbellWidget extends StatelessWidget {
     }
     barbellWeightInclPlatesString += ' ${metricSystem ? 'kg' : 'lb'}';
 
-    return Container(
-      decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-      height: 300,
-      child: Column(
-        children: [
-          if (barbellWeight != 0)
-            Text('$barbellName ($barbellWeightString)',
-                style: const TextStyle(fontSize: 16)),
-          if (barbellWeightInclPlates != 0)
-            Text('Weight on Barbell: $barbellWeightInclPlatesString'),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
-            child: Stack(
-              alignment: Alignment.centerLeft,
-              children: [
-                // bar in the background
+    return Column(
+      children: [
+        (barbellWeight != 0)
+            ? Text('$barbellName ($barbellWeightString)',
+                style: const TextStyle(fontSize: 16))
+            : const Text('', style: TextStyle(fontSize: 16)),
+        (barbellWeightInclPlates != 0)
+            ? Text('Weight on Barbell: $barbellWeightInclPlatesString')
+            : const Text(''),
+        Container(
+            height: 220,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
+              child: Stack(alignment: Alignment.centerLeft, children: [
                 BarWidget(barbellWidth: barbellWidth),
                 Row(
                   children: [
                     const SizedBox(width: 15.0 + 17.0),
-
-                    // here are the plates from the array plateList
                     Row(
                       children: plateList.map((widget) {
                         return Row(
@@ -134,12 +130,49 @@ class BarbellWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
+              ]),
+            )),
+      ],
     );
+
+    //   Container(
+    //   decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+    //   height: 300,
+    //   child: Column(
+    //     children: [
+    //
+    //       Center(
+    //         child: Padding(
+    //           padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
+    //           child: Stack(
+    //             alignment: Alignment.centerLeft,
+    //             children: [
+    //               // bar in the background
+    //               BarWidget(barbellWidth: barbellWidth),
+    //               Row(
+    //                 children: [
+    //                   const SizedBox(width: 15.0 + 17.0),
+    //
+    //                   // here are the plates from the array plateList
+    //                   Row(
+    //                     children: plateList.map((widget) {
+    //                       return Row(
+    //                         children: [
+    //                           SizedBox(width: distancePlates),
+    //                           widget,
+    //                         ],
+    //                       );
+    //                     }).toList(),
+    //                   ),
+    //                 ],
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }
 
