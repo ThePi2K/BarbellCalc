@@ -309,7 +309,7 @@ class _MainPageState extends State<MainPage> {
                                         const SizedBox(
                                           height: 20,
                                         ),
-                                        Image.asset('assets/arnold-nice.png')
+                                        Image.asset('assets/manga_nice_bing_ki.png')
                                       ],
                                     ),
                                     actions: [
