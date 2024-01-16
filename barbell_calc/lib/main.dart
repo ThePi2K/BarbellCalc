@@ -17,9 +17,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late SharedPreferences prefs;
-  late bool darkMode;
-  late bool followSystemTheme;
-  late Color appColor;
+  bool darkMode = false;
+  bool followSystemTheme = false;
+  Color appColor = Colors.blue;
 
   @override
   void initState() {
