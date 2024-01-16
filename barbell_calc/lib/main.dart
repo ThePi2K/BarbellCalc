@@ -40,6 +40,7 @@ class _MyAppState extends State<MyApp> {
 
   MaterialApp buildMyApp() {
     ThemeMode themeMode;
+    loadSharedPreference();
 
     if (followSystemTheme) {
       themeMode = ThemeMode.system;
