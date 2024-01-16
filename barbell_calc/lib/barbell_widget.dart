@@ -134,45 +134,6 @@ class BarbellWidget extends StatelessWidget {
             )),
       ],
     );
-
-    //   Container(
-    //   decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-    //   height: 300,
-    //   child: Column(
-    //     children: [
-    //
-    //       Center(
-    //         child: Padding(
-    //           padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
-    //           child: Stack(
-    //             alignment: Alignment.centerLeft,
-    //             children: [
-    //               // bar in the background
-    //               BarWidget(barbellWidth: barbellWidth),
-    //               Row(
-    //                 children: [
-    //                   const SizedBox(width: 15.0 + 17.0),
-    //
-    //                   // here are the plates from the array plateList
-    //                   Row(
-    //                     children: plateList.map((widget) {
-    //                       return Row(
-    //                         children: [
-    //                           SizedBox(width: distancePlates),
-    //                           widget,
-    //                         ],
-    //                       );
-    //                     }).toList(),
-    //                   ),
-    //                 ],
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 }
 
