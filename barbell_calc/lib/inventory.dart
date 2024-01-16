@@ -280,7 +280,8 @@ class NewPlateBarbellButton extends StatelessWidget {
                         leading: SvgPicture.asset(
                           'assets/icons/plate.svg',
                           height: 30,
-                          color: Theme.of(context).colorScheme.onSurface,
+                          theme: SvgTheme(currentColor: Theme.of(context).colorScheme.onSurface),
+                          // color: Theme.of(context).colorScheme.onSurface,
                         ),
                         title: const Text('Add Plate'),
                         onTap: () {
