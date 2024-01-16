@@ -300,25 +300,37 @@ class _MainPageState extends State<MainPage> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: const Text('Good Job Champ!'),
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        const Text(
-                                            'That breaks the world record! Congratulations!'),
-                                        const SizedBox(
-                                          height: 20,
+                                        Image.asset(
+                                            'assets/manga_nice_bing_ki.png'),
+                                        const Padding(
+                                          padding: EdgeInsets.all(20.0),
+                                          child: Text(
+                                            'That breaks the world record! Congratulations!',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                            ),
+                                          ),
                                         ),
-                                        Image.asset('assets/manga_nice_bing_ki.png')
                                       ],
                                     ),
+                                    contentPadding: EdgeInsets.zero,
+                                    // Set contentPadding to zero
                                     actions: [
                                       TextButton(
                                         onPressed: () {
                                           _launchUrl();
                                           Navigator.of(context).pop();
                                         },
-                                        child: const Text('NICE'),
+                                        child: const Text('CHECK DETAILS'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('OK'),
                                       ),
                                     ],
                                   );
@@ -336,7 +348,8 @@ class _MainPageState extends State<MainPage> {
                                 );
                               } else {
                                 if (barbellWeight >
-                                    double.parse(trainingWeightController.text)) {
+                                    double.parse(
+                                        trainingWeightController.text)) {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -351,11 +364,12 @@ class _MainPageState extends State<MainPage> {
                                       double.parse(
                                           trainingWeightController.text)) {
                                     String trainingWeightString =
-                                        trainingWeightController.text.toString();
+                                        trainingWeightController.text
+                                            .toString();
                                     if (trainingWeightString.endsWith(".0")) {
                                       trainingWeightString =
-                                          trainingWeightString.substring(
-                                              0, trainingWeightString.length - 2);
+                                          trainingWeightString.substring(0,
+                                              trainingWeightString.length - 2);
                                     }
                                     trainingWeightString +=
                                         ' ${metricSystem ? 'kg' : 'lb'}';
@@ -365,11 +379,12 @@ class _MainPageState extends State<MainPage> {
                                     if (barbellWeightInclPlatesString
                                         .endsWith(".0")) {
                                       barbellWeightInclPlatesString =
-                                          barbellWeightInclPlatesString.substring(
-                                              0,
-                                              barbellWeightInclPlatesString
-                                                      .length -
-                                                  2);
+                                          barbellWeightInclPlatesString
+                                              .substring(
+                                                  0,
+                                                  barbellWeightInclPlatesString
+                                                          .length -
+                                                      2);
                                     }
                                     barbellWeightInclPlatesString +=
                                         ' ${metricSystem ? 'kg' : 'lb'}';
