@@ -126,7 +126,7 @@ class _MainPageState extends State<MainPage> {
   // Function to calculate maxPlates based on the display size
   double calculateMaxPlates() {
     double widthDisplay = MediaQuery.of(context).size.width;
-    double startPlates = 32.0;
+    double startPlates = 39.0;
     double endPlates = 10.0;
     double widthPlate = 30.0;
     double distancePlates = 0.9;

@@ -117,7 +117,7 @@ class BarbellWidget extends StatelessWidget {
                 BarWidget(barbellWidth: barbellWidth),
                 Row(
                   children: [
-                    const SizedBox(width: 15.0 + 20.0),
+                    const SizedBox(width: 15.0 + 23.0),
                     Row(
                       children: plateList.map((widget) {
                         return Row(
