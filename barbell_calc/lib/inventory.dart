@@ -275,9 +275,7 @@ class NewPlateBarbellButton extends StatelessWidget {
                         leading: SvgPicture.asset(
                           'assets/icons/plate.svg',
                           height: 30,
-                          theme: SvgTheme(
-                              currentColor:
-                                  Theme.of(context).colorScheme.onSurface),
+                          theme: SvgTheme(currentColor: Theme.of(context).colorScheme.onSurface),
                           // color: Theme.of(context).colorScheme.onSurface,
                         ),
                         title: const Text('Add Plate'),
@@ -838,15 +836,18 @@ class _CreateBarbellState extends State<CreateBarbell> {
 }
 
 class EditBarbell extends StatefulWidget {
-  EditBarbell({super.key, required this.barbellToEdit});
+  const EditBarbell(
+      {super.key, required this.onSave, required this.barbells});
 
-  Barbell barbellToEdit;
+  final Function() onSave;
+  final List<Barbell> barbells;
 
   @override
   State<EditBarbell> createState() => _EditBarbellState();
 }
 
 class _EditBarbellState extends State<EditBarbell> {
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
 
@@ -867,7 +868,7 @@ class _EditBarbellState extends State<EditBarbell> {
       if (widthList.isNotEmpty) {
         dropdownValue = widthList.first;
         setState(
-            () {}); // Trigger a rebuild to update the UI after dropdownValue is set
+                () {}); // Trigger a rebuild to update the UI after dropdownValue is set
       }
     });
   }
@@ -1026,7 +1027,7 @@ class _EditBarbellState extends State<EditBarbell> {
 
                   // check if plate is already saved
                   bool isBarbellDouble = widget.barbells.any((barbell) =>
-                      barbell.weight == barbellToAdd.weight &&
+                  barbell.weight == barbellToAdd.weight &&
                       barbell.width == barbellToAdd.width &&
                       barbell.name == barbellToAdd.name);
                   if (isBarbellDouble) {
@@ -1044,7 +1045,7 @@ class _EditBarbellState extends State<EditBarbell> {
                         builder: (BuildContext context) {
                           return ErrorDialog(
                               errorMessage:
-                                  'The Barbell has to weight more than 0 ${metricSystem ? 'kg' : 'lb'}!');
+                              'The Barbell has to weight more than 0 ${metricSystem ? 'kg' : 'lb'}!');
                         },
                       );
                     } else {
@@ -1069,6 +1070,7 @@ class _EditBarbellState extends State<EditBarbell> {
     );
   }
 }
+
 
 class ErrorDialog extends StatelessWidget {
   const ErrorDialog({super.key, required this.errorMessage});
@@ -1221,15 +1223,7 @@ class BarbellListItem extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return EditBarbell(
-                      onSave: onSaveBarbell,
-                      barbells: barbells,
-                    );
-                  },
-                );
+                // EDIT BARBELL
               },
             ),
             IconButton(
@@ -1241,8 +1235,7 @@ class BarbellListItem extends StatelessWidget {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text('Attention'),
-                        content: Text(
-                            'You need at least one ${barbell.width} Barbell!'),
+                        content: Text('You need at least one ${barbell.width} Barbell!'),
                         actions: [
                           TextButton(
                             onPressed: () {
@@ -1260,8 +1253,7 @@ class BarbellListItem extends StatelessWidget {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text('Attention'),
-                        content: const Text(
-                            'Do really want to remove this Barbell?'),
+                        content: const Text('Do really want to remove this Barbell?'),
                         actions: [
                           TextButton(
                             onPressed: () {
