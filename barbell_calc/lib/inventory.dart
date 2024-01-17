@@ -877,11 +877,6 @@ class _EditBarbellState extends State<EditBarbell> {
       nameController.text = widget.barbell.name;
       weightController.text = widget.barbell.weight.toString();
       dropdownValue = widget.barbell.width;
-      if (widthList.isNotEmpty) {
-        dropdownValue = widthList.first;
-        setState(
-            () {}); // Trigger a rebuild to update the UI after dropdownValue is set
-      }
     });
   }
 
