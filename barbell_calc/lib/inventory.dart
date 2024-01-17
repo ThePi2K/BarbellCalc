@@ -843,17 +843,108 @@ class _CreateBarbellState extends State<CreateBarbell> {
 }
 
 class EditBarbell extends StatefulWidget {
-  const EditBarbell({super.key});
+  const EditBarbell({super.key, required this.barbell});
+
+  final Barbell barbell;
 
   @override
   State<EditBarbell> createState() => _EditBarbellState();
 }
 
 class _EditBarbellState extends State<EditBarbell> {
+  bool standardBarbells = true;
+  bool olympicBarbells = false;
+
+  bool metricSystem = true;
+
+  late String dropdownValue;
+
+  List<String> widthList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getBarbellWidths().then((_) {
+      if (widthList.isNotEmpty) {
+        dropdownValue = widthList.first;
+        setState(
+            () {}); // Trigger a rebuild to update the UI after dropdownValue is set
+      }
+    });
+  }
+
+  getBarbellWidths() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // reading SharedPreferences and save the values to the variables
+    standardBarbells = prefs.getBool('standardBarbells') ?? true;
+    olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
+
+    // get unit System
+    metricSystem = prefs.getBool('metricSystem') ?? true;
+
+    if (standardBarbells) {
+      widthList.add('Standard');
+    }
+    if (olympicBarbells) {
+      widthList.add('Olympic');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const AlertDialog(
-      title: Text('hoi'),
+    final TextEditingController nameController =
+        TextEditingController(text: widget.barbell.name);
+    final TextEditingController weightController =
+        TextEditingController(text: widget.barbell.weight.toString());
+    dropdownValue = widget.barbell.width;
+
+    return AlertDialog(
+      title: const Text('Editing Barbell'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextField(
+            controller: nameController,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Barbell Name',
+              icon: Icon(Icons.tag),
+            ),
+          ),
+          const SizedBox(height: 20),
+          TextField(
+            controller: weightController,
+            inputFormatters: [LengthLimitingTextInputFormatter(5)],
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Barbell Weight',
+              icon: Icon(Icons.scale),
+            ),
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 20),
+          DropdownButtonFormField<String>(
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Select Width',
+              icon: Icon(Icons.straighten),
+            ),
+            value: dropdownValue,
+            onChanged: (String? value) {
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+            items: widthList.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -1018,7 +1109,7 @@ class BarbellListItem extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return EditBarbell();
+                    return EditBarbell(barbell: barbell);
                   },
                 );
               },
