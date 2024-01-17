@@ -190,6 +190,7 @@ class _InventoryPageState extends State<InventoryPage> {
           body: InventoryListView(
             barbellListStandard: barbellsStandard,
             barbellListOlympic: barbellsOlympic,
+            barbellListAll: barbells,
             plateListStandard: platesStandard,
             plateListOlympic: platesOlympic,
             standardBarbells: standardBarbells,
@@ -843,9 +844,14 @@ class _CreateBarbellState extends State<CreateBarbell> {
 }
 
 class EditBarbell extends StatefulWidget {
-  const EditBarbell({super.key, required this.barbell});
+  const EditBarbell({
+    super.key,
+    required this.barbell,
+    required this.barbellList,
+  });
 
   final Barbell barbell;
+  final List<Barbell> barbellList;
 
   @override
   State<EditBarbell> createState() => _EditBarbellState();
@@ -996,6 +1002,7 @@ class _EditBarbellState extends State<EditBarbell> {
                       name: nameController.text,
                       weight: double.parse(weightController.text),
                       width: dropdownValue);
+
                   //
                   //   // check if barbell is already saved
                   //   bool isBarbellDouble = widget.barbells.any((barbell) =>
@@ -1080,12 +1087,14 @@ class InventoryListView extends StatelessWidget {
     required this.olympicBarbells,
     required this.standardBarbells,
     required this.metricSystem,
+    required this.barbellListAll,
   });
 
   final List<Barbell> barbellListStandard;
   final List<Barbell> barbellListOlympic;
   final List<Plate> plateListStandard;
   final List<Plate> plateListOlympic;
+  final List <Barbell> barbellListAll;
 
   final Function(Barbell) deleteBarbell;
   final Function(Barbell) editBarbell;
@@ -1123,6 +1132,7 @@ class InventoryListView extends StatelessWidget {
                 olympicBarbells: olympicBarbells,
                 standardBarbells: standardBarbells,
                 metricSystem: metricSystem,
+                barbellList: barbellListAll,
               ),
             for (var index = 0; index < barbellListOlympic.length; index++)
               BarbellListItem(
@@ -1133,6 +1143,7 @@ class InventoryListView extends StatelessWidget {
                 olympicBarbells: olympicBarbells,
                 standardBarbells: standardBarbells,
                 metricSystem: metricSystem,
+                barbellList: barbellListAll,
               ),
             const SizedBox(height: 5),
             const Divider(),
@@ -1173,6 +1184,7 @@ class BarbellListItem extends StatelessWidget {
     required this.olympicBarbells,
     required this.standardBarbells,
     required this.metricSystem,
+    required this.barbellList,
   });
 
   final Barbell barbell;
@@ -1182,6 +1194,7 @@ class BarbellListItem extends StatelessWidget {
   final bool olympicBarbells;
   final bool standardBarbells;
   final bool metricSystem;
+  final List <Barbell> barbellList;
 
   @override
   Widget build(BuildContext context) {
@@ -1203,7 +1216,7 @@ class BarbellListItem extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return EditBarbell(barbell: barbell);
+                    return EditBarbell(barbell: barbell, barbellList: barbellList,);
                   },
                 );
               },
