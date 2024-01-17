@@ -138,10 +138,6 @@ class _InventoryPageState extends State<InventoryPage> {
     updateBarbells();
   }
 
-  Future<void> editBarbell(Barbell barbellToDelete) async {
-    print(barbellToDelete.name);
-  }
-
   Future<void> deletePlate(Plate plateToDelete) async {
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -197,7 +193,6 @@ class _InventoryPageState extends State<InventoryPage> {
             metricSystem: metricSystem,
             deletePlate: deletePlate,
             deleteBarbell: deleteBarbell,
-            editBarbell: editBarbell,
           ),
           floatingActionButton: NewPlateBarbellButton(
             onSavePlate: updatePlates,
@@ -841,16 +836,238 @@ class _CreateBarbellState extends State<CreateBarbell> {
 }
 
 class EditBarbell extends StatefulWidget {
-  const EditBarbell({super.key});
+  const EditBarbell(
+      {super.key, required this.onSave, required this.barbells});
+
+  final Function() onSave;
+  final List<Barbell> barbells;
 
   @override
   State<EditBarbell> createState() => _EditBarbellState();
 }
 
 class _EditBarbellState extends State<EditBarbell> {
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController weightController = TextEditingController();
+
+  bool standardBarbells = true;
+  bool olympicBarbells = false;
+
+  bool metricSystem = true;
+
+  List<String> widthList = [];
+
+  // List<String> widthList = <String>['Standard', 'Olympic'];
+  late String dropdownValue;
+
+  @override
+  void initState() {
+    super.initState();
+    getBarbellWidths().then((_) {
+      if (widthList.isNotEmpty) {
+        dropdownValue = widthList.first;
+        setState(
+                () {}); // Trigger a rebuild to update the UI after dropdownValue is set
+      }
+    });
+  }
+
+  getBarbellWidths() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // reading SharedPreferences and save the values to the variables
+    standardBarbells = prefs.getBool('standardBarbells') ?? true;
+    olympicBarbells = prefs.getBool('olympicBarbells') ?? false;
+
+    // get unit System
+    metricSystem = prefs.getBool('metricSystem') ?? true;
+
+    if (standardBarbells) {
+      widthList.add('Standard');
+    }
+    if (olympicBarbells) {
+      widthList.add('Olympic');
+    }
+  }
+
+  void saveBarbell() async {
+    // connect to SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // get barbells from SharedPreferences and save them into the List "barbells"
+    final String? barbellsString = prefs.getString('barbells_key');
+    List<Barbell> barbells = [];
+    barbells = Barbell.decode(barbellsString!);
+
+    Barbell barbellToAdd = Barbell(
+        name: nameController.text,
+        weight: double.parse(weightController.text),
+        width: dropdownValue);
+
+    // add barbell to List (on top)
+    barbells.insert(0, barbellToAdd);
+
+    // Encode the updated list to a string
+    final String encodedData = Barbell.encode(barbells);
+
+    // Write the updated string to 'barbells_key'
+    await prefs.setString('barbells_key', encodedData);
+
+    closeWindow();
+    widget.onSave();
+  }
+
+  void closeWindow() {
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    } else {
+      SystemNavigator.pop();
+    }
+  }
+
+  bool checkWeightDouble() {
+    try {
+      double.parse(weightController.text);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return AlertDialog(
+      title: const Text('Add Barbell'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextField(
+            controller: nameController,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Barbell Name',
+              icon: Icon(Icons.tag),
+            ),
+          ),
+          const SizedBox(height: 20),
+          TextField(
+            controller: weightController,
+            inputFormatters: [LengthLimitingTextInputFormatter(5)],
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Barbell Weight',
+              icon: Icon(Icons.scale),
+            ),
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 20),
+          DropdownButtonFormField<String>(
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Select Width',
+              icon: Icon(Icons.straighten),
+            ),
+            value: dropdownValue,
+            onChanged: (String? value) {
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+            items: widthList.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('CANCEL'),
+        ),
+        TextButton(
+          onPressed: () {
+            // reformatting text inputs (remove spaces and minus, replace , with .)
+            weightController.text = weightController.text
+                .replaceAll(" ", "")
+                .replaceAll("-", "")
+                .replaceAll(",", ".");
+
+            // check if name is empty
+            if (nameController.text.isEmpty) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const ErrorDialog(
+                      errorMessage: 'Name cannot be empty!');
+                },
+              );
+            } else {
+              // check if weight is empty
+              if (weightController.text.isEmpty) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const ErrorDialog(
+                        errorMessage: 'Weight cannot be empty!');
+                  },
+                );
+              } else {
+                // check if weight is valid
+                if (checkWeightDouble()) {
+                  Barbell barbellToAdd = Barbell(
+                      name: nameController.text,
+                      weight: double.parse(weightController.text),
+                      width: dropdownValue);
+
+                  // check if plate is already saved
+                  bool isBarbellDouble = widget.barbells.any((barbell) =>
+                  barbell.weight == barbellToAdd.weight &&
+                      barbell.width == barbellToAdd.width &&
+                      barbell.name == barbellToAdd.name);
+                  if (isBarbellDouble) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const ErrorDialog(
+                            errorMessage: 'Barbell is already existing!');
+                      },
+                    );
+                  } else {
+                    if (barbellToAdd.weight <= 0) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ErrorDialog(
+                              errorMessage:
+                              'The Barbell has to weight more than 0 ${metricSystem ? 'kg' : 'lb'}!');
+                        },
+                      );
+                    } else {
+                      saveBarbell();
+                    }
+                  }
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const ErrorDialog(
+                          errorMessage: 'Weight is invalid!');
+                    },
+                  );
+                }
+              }
+            }
+          },
+          child: const Text('SAVE'),
+        ),
+      ],
+    );
   }
 }
 
@@ -887,7 +1104,6 @@ class InventoryListView extends StatelessWidget {
     required this.plateListStandard,
     required this.plateListOlympic,
     required this.deleteBarbell,
-    required this.editBarbell,
     required this.deletePlate,
     required this.olympicBarbells,
     required this.standardBarbells,
@@ -900,7 +1116,6 @@ class InventoryListView extends StatelessWidget {
   final List<Plate> plateListOlympic;
 
   final Function(Barbell) deleteBarbell;
-  final Function(Barbell) editBarbell;
   final Function(Plate) deletePlate;
 
   final bool olympicBarbells;
@@ -931,7 +1146,6 @@ class InventoryListView extends StatelessWidget {
                 barbell: barbellListStandard[index],
                 barbellListLength: barbellListStandard.length,
                 onDelete: deleteBarbell,
-                onEdit: editBarbell,
                 olympicBarbells: olympicBarbells,
                 standardBarbells: standardBarbells,
                 metricSystem: metricSystem,
@@ -941,7 +1155,6 @@ class InventoryListView extends StatelessWidget {
                 barbell: barbellListOlympic[index],
                 barbellListLength: barbellListOlympic.length,
                 onDelete: deleteBarbell,
-                onEdit: editBarbell,
                 olympicBarbells: olympicBarbells,
                 standardBarbells: standardBarbells,
                 metricSystem: metricSystem,
@@ -980,7 +1193,6 @@ class BarbellListItem extends StatelessWidget {
     super.key,
     required this.barbell,
     required this.onDelete,
-    required this.onEdit,
     required this.barbellListLength,
     required this.olympicBarbells,
     required this.standardBarbells,
@@ -990,7 +1202,6 @@ class BarbellListItem extends StatelessWidget {
   final Barbell barbell;
   final int barbellListLength;
   final Function(Barbell) onDelete;
-  final Function(Barbell) onEdit;
   final bool olympicBarbells;
   final bool standardBarbells;
   final bool metricSystem;
@@ -1012,7 +1223,7 @@ class BarbellListItem extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () {
-                onEdit(barbell);
+                // EDIT BARBELL
               },
             ),
             IconButton(
