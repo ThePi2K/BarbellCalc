@@ -840,6 +840,21 @@ class _CreateBarbellState extends State<CreateBarbell> {
   }
 }
 
+class EditBarbell extends StatefulWidget {
+  const EditBarbell({super.key});
+
+  @override
+  State<EditBarbell> createState() => _EditBarbellState();
+}
+
+class _EditBarbellState extends State<EditBarbell> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+
 class ErrorDialog extends StatelessWidget {
   const ErrorDialog({super.key, required this.errorMessage});
 
