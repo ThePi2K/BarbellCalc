@@ -861,6 +861,9 @@ class _EditBarbellState extends State<EditBarbell> {
 
   List<String> widthList = [];
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -901,10 +904,8 @@ class _EditBarbellState extends State<EditBarbell> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameController =
-        TextEditingController(text: widget.barbell.name);
-    final TextEditingController weightController =
-        TextEditingController(text: widget.barbell.weight.toString());
+    nameController.text = widget.barbell.name;
+    weightController.text = widget.barbell.weight.toString();
     dropdownValue = widget.barbell.width;
 
     return AlertDialog(
@@ -995,34 +996,34 @@ class _EditBarbellState extends State<EditBarbell> {
                       name: nameController.text,
                       weight: double.parse(weightController.text),
                       width: dropdownValue);
-
-                  // check if barbell is already saved
-                  bool isBarbellDouble = widget.barbells.any((barbell) =>
-                  barbell.weight == barbellToAdd.weight &&
-                      barbell.width == barbellToAdd.width &&
-                      barbell.name == barbellToAdd.name);
-                  if (isBarbellDouble) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const ErrorDialog(
-                            errorMessage: 'Barbell is already existing!');
-                      },
-                    );
-                  } else {
-                    if (barbellToAdd.weight <= 0) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return ErrorDialog(
-                              errorMessage:
-                              'The Barbell has to weight more than 0 ${metricSystem ? 'kg' : 'lb'}!');
-                        },
-                      );
-                    } else {
-                      saveBarbell();
-                    }
-                  }
+                  //
+                  //   // check if barbell is already saved
+                  //   bool isBarbellDouble = widget.barbells.any((barbell) =>
+                  //       barbell.weight == barbellToAdd.weight &&
+                  //       barbell.width == barbellToAdd.width &&
+                  //       barbell.name == barbellToAdd.name);
+                  //   if (isBarbellDouble) {
+                  //     showDialog(
+                  //       context: context,
+                  //       builder: (BuildContext context) {
+                  //         return const ErrorDialog(
+                  //             errorMessage: 'Barbell is already existing!');
+                  //       },
+                  //     );
+                  //   } else {
+                  //     if (barbellToAdd.weight <= 0) {
+                  //       showDialog(
+                  //         context: context,
+                  //         builder: (BuildContext context) {
+                  //           return ErrorDialog(
+                  //               errorMessage:
+                  //                   'The Barbell has to weight more than 0 ${metricSystem ? 'kg' : 'lb'}!');
+                  //         },
+                  //       );
+                  //     } else {
+                  //       saveBarbell();
+                  //     }
+                  //   }
                 } else {
                   showDialog(
                     context: context,
