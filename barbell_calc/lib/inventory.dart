@@ -1056,8 +1056,31 @@ class _EditBarbellState extends State<EditBarbell> {
                         },
                       );
                     } else {
-                      widget.onDelete(widget.barbell);
-                      saveBarbell();
+                      // test if min. 2 barbells have the width of the og barbell
+                      int count = 0;
+                      bool min2barbellwiththiswidth = false;
+                      for (Barbell b in widget.barbellList) {
+                        if (b.width == widget.barbell.width) {
+                          count++;
+                          if (count >= 2) {
+                            min2barbellwiththiswidth = true;
+                            break;
+                          }
+                        }
+                      }
+                      if (min2barbellwiththiswidth) {
+                        widget.onDelete(widget.barbell);
+                        saveBarbell();
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return ErrorDialog(
+                                errorMessage:
+                                    'You need at least one ${widget.barbell.width} Barbell!');
+                          },
+                        );
+                      }
                     }
                   }
                 } else {
