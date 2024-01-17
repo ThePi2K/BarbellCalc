@@ -280,7 +280,9 @@ class NewPlateBarbellButton extends StatelessWidget {
                         leading: SvgPicture.asset(
                           'assets/icons/plate.svg',
                           height: 30,
-                          theme: SvgTheme(currentColor: Theme.of(context).colorScheme.onSurface),
+                          theme: SvgTheme(
+                              currentColor:
+                                  Theme.of(context).colorScheme.onSurface),
                           // color: Theme.of(context).colorScheme.onSurface,
                         ),
                         title: const Text('Add Plate'),
@@ -850,10 +852,11 @@ class EditBarbell extends StatefulWidget {
 class _EditBarbellState extends State<EditBarbell> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const AlertDialog(
+      title: Text('hoi'),
+    );
   }
 }
-
 
 class ErrorDialog extends StatelessWidget {
   const ErrorDialog({super.key, required this.errorMessage});
@@ -1012,7 +1015,12 @@ class BarbellListItem extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () {
-                onEdit(barbell);
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return EditBarbell();
+                  },
+                );
               },
             ),
             IconButton(
@@ -1024,7 +1032,8 @@ class BarbellListItem extends StatelessWidget {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text('Attention'),
-                        content: Text('You need at least one ${barbell.width} Barbell!'),
+                        content: Text(
+                            'You need at least one ${barbell.width} Barbell!'),
                         actions: [
                           TextButton(
                             onPressed: () {
@@ -1042,7 +1051,8 @@ class BarbellListItem extends StatelessWidget {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text('Attention'),
-                        content: const Text('Do really want to remove this Barbell?'),
+                        content: const Text(
+                            'Do really want to remove this Barbell?'),
                         actions: [
                           TextButton(
                             onPressed: () {
