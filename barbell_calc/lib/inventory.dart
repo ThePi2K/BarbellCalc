@@ -138,10 +138,6 @@ class _InventoryPageState extends State<InventoryPage> {
     updateBarbells();
   }
 
-  Future<void> editBarbell(Barbell barbellToDelete) async {
-    print(barbellToDelete.name);
-  }
-
   Future<void> deletePlate(Plate plateToDelete) async {
     // connect to SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -199,7 +195,6 @@ class _InventoryPageState extends State<InventoryPage> {
             deletePlate: deletePlate,
             deleteBarbell: deleteBarbell,
             saveBarbell: updateBarbells,
-            editBarbell: editBarbell,
           ),
           floatingActionButton: NewPlateBarbellButton(
             onSavePlate: updatePlates,
@@ -1121,7 +1116,6 @@ class InventoryListView extends StatelessWidget {
     required this.plateListStandard,
     required this.plateListOlympic,
     required this.deleteBarbell,
-    required this.editBarbell,
     required this.saveBarbell,
     required this.deletePlate,
     required this.olympicBarbells,
@@ -1137,7 +1131,6 @@ class InventoryListView extends StatelessWidget {
   final List<Barbell> barbellListAll;
 
   final Function(Barbell) deleteBarbell;
-  final Function(Barbell) editBarbell;
   final Function() saveBarbell;
   final Function(Plate) deletePlate;
 
@@ -1169,7 +1162,6 @@ class InventoryListView extends StatelessWidget {
                 barbell: barbellListStandard[index],
                 barbellListLength: barbellListStandard.length,
                 onDelete: deleteBarbell,
-                onEdit: editBarbell,
                 onSave: saveBarbell,
                 olympicBarbells: olympicBarbells,
                 standardBarbells: standardBarbells,
@@ -1181,7 +1173,6 @@ class InventoryListView extends StatelessWidget {
                 barbell: barbellListOlympic[index],
                 barbellListLength: barbellListOlympic.length,
                 onDelete: deleteBarbell,
-                onEdit: editBarbell,
                 onSave: saveBarbell,
                 olympicBarbells: olympicBarbells,
                 standardBarbells: standardBarbells,
@@ -1223,7 +1214,6 @@ class BarbellListItem extends StatelessWidget {
     required this.barbell,
     required this.onDelete,
     required this.onSave,
-    required this.onEdit,
     required this.barbellListLength,
     required this.olympicBarbells,
     required this.standardBarbells,
@@ -1234,7 +1224,6 @@ class BarbellListItem extends StatelessWidget {
   final Barbell barbell;
   final int barbellListLength;
   final Function(Barbell) onDelete;
-  final Function(Barbell) onEdit;
   final Function() onSave;
   final bool olympicBarbells;
   final bool standardBarbells;
