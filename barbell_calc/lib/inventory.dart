@@ -789,7 +789,7 @@ class _CreateBarbellState extends State<CreateBarbell> {
                       weight: double.parse(weightController.text),
                       width: dropdownValue);
 
-                  // check if plate is already saved
+                  // check if barbell is already saved
                   bool isBarbellDouble = widget.barbells.any((barbell) =>
                       barbell.weight == barbellToAdd.weight &&
                       barbell.width == barbellToAdd.width &&
@@ -890,6 +890,15 @@ class _EditBarbellState extends State<EditBarbell> {
     }
   }
 
+  bool checkWeightDouble() {
+    try {
+      double.parse(weightController.text);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final TextEditingController nameController =
@@ -945,6 +954,90 @@ class _EditBarbellState extends State<EditBarbell> {
           ),
         ],
       ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('CANCEL'),
+        ),
+        TextButton(
+          onPressed: () {
+            // reformatting text inputs (remove spaces and minus, replace , with .)
+            weightController.text = weightController.text
+                .replaceAll(" ", "")
+                .replaceAll("-", "")
+                .replaceAll(",", ".");
+
+            // check if name is empty
+            if (nameController.text.isEmpty) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const ErrorDialog(
+                      errorMessage: 'Name cannot be empty!');
+                },
+              );
+            } else {
+              // check if weight is empty
+              if (weightController.text.isEmpty) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const ErrorDialog(
+                        errorMessage: 'Weight cannot be empty!');
+                  },
+                );
+              } else {
+                // check if weight is valid
+                if (checkWeightDouble()) {
+                  Barbell barbellToAdd = Barbell(
+                      name: nameController.text,
+                      weight: double.parse(weightController.text),
+                      width: dropdownValue);
+
+                  // check if barbell is already saved
+                  bool isBarbellDouble = widget.barbells.any((barbell) =>
+                  barbell.weight == barbellToAdd.weight &&
+                      barbell.width == barbellToAdd.width &&
+                      barbell.name == barbellToAdd.name);
+                  if (isBarbellDouble) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const ErrorDialog(
+                            errorMessage: 'Barbell is already existing!');
+                      },
+                    );
+                  } else {
+                    if (barbellToAdd.weight <= 0) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ErrorDialog(
+                              errorMessage:
+                              'The Barbell has to weight more than 0 ${metricSystem ? 'kg' : 'lb'}!');
+                        },
+                      );
+                    } else {
+                      saveBarbell();
+                    }
+                  }
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const ErrorDialog(
+                          errorMessage: 'Weight is invalid!');
+                    },
+                  );
+                }
+              }
+            }
+          },
+          child: const Text('SAVE'),
+        ),
+      ],
     );
   }
 }
