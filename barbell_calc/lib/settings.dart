@@ -60,11 +60,8 @@ class _SettingsPageState extends State<SettingsPage> {
       metricSystem = prefs.getBool('metricSystem') ?? true;
       appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
 
-      selectedLanguage = prefs.getString('appLanguage') ?? systemLanguage;
-      if (!supportedLanguages.contains(selectedLanguage)) {
-        selectedLanguage = 'en_US';
-      }
-      selectedLanguage = prefs.getString('appLanguage') ?? systemLanguage;
+      String? selectedLang = prefs.getString('appLanguage');
+      selectedLanguage = supportedLanguages.contains(selectedLang) ? selectedLang! : 'en_US';
     });
   }
 
