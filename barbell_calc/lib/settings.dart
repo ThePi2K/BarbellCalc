@@ -25,7 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Color appColor = Colors.blue;
   String selectedLanguage = 'en';
 
-  final List<String> supportedLanguages = ['en', 'de', 'it'];
+  final List<String> supportedLanguages = ['en', 'de'];
   final String systemLanguage =
       WidgetsBinding.instance.platformDispatcher.locale.languageCode;
 
@@ -35,8 +35,6 @@ class _SettingsPageState extends State<SettingsPage> {
         return 'English (English)';
       case 'de':
         return 'German (Deutsch)';
-      case 'it':
-        return 'Italian (Italiano)';
       default:
         return 'English (English)';
     }

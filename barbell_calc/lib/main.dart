@@ -22,6 +22,11 @@ class _MyAppState extends State<MyApp> {
   bool darkMode = false;
   bool followSystemTheme = false;
   Color appColor = Colors.blue;
+  String selectedLanguage = 'en';
+
+  final String systemLanguage =
+      WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+  final List<String> supportedLanguages = ['en', 'de'];
 
   @override
   void initState() {
@@ -37,6 +42,9 @@ class _MyAppState extends State<MyApp> {
       appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
       darkMode = prefs.getBool('darkMode') ?? false;
       followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
+      String? selectedLang = prefs.getString('appLanguage');
+      selectedLanguage =
+      supportedLanguages.contains(selectedLang) ? selectedLang! : 'en';
     });
   }
 
@@ -69,7 +77,7 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      locale: Locale('de'),
+      locale: Locale(selectedLanguage),
       supportedLocales: const [
         Locale('en'),
         Locale('de'),
