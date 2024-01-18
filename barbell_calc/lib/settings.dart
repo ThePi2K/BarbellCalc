@@ -236,7 +236,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             const Divider(),
             const SettingsTitle(
-                title: 'Language', subtitle: 'Choose your preferred language'),
+                title: 'Language & Unit System', subtitle: 'Choose your preferred language and unit system'),
             ListTile(
               title: const Text('Language'),
               trailing: DropdownButton<String>(
@@ -255,10 +255,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 }).toList(),
               ),
             ),
-            const Divider(),
-            const SettingsTitle(
-                title: 'Unit System',
-                subtitle: 'Choose between metric and Imperial/US units'),
+            // const Divider(),
+            // const SettingsTitle(
+            //     title: 'Unit System',
+            //     subtitle: 'Choose between metric and Imperial/US units'),
             ListTile(
               title: metricSystem
                   ? const Text('Metric System')
