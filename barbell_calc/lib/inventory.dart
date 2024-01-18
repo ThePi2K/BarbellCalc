@@ -943,10 +943,6 @@ class _EditBarbellState extends State<EditBarbell> {
 
   @override
   Widget build(BuildContext context) {
-    Barbell barbellToAdd = Barbell(
-        name: nameController.text,
-        weight: double.parse(weightController.text),
-        width: dropdownValue);
     return AlertDialog(
       title: const Text('Editing Barbell'),
       content: Column(
@@ -1029,6 +1025,11 @@ class _EditBarbellState extends State<EditBarbell> {
                   },
                 );
               } else {
+                Barbell barbellToAdd = Barbell(
+                    name: nameController.text,
+                    weight: double.parse(weightController.text),
+                    width: dropdownValue);
+
                 // check if weight is valid
                 if (checkWeightDouble()) {
                   // check if barbell is already saved
@@ -1038,13 +1039,24 @@ class _EditBarbellState extends State<EditBarbell> {
                       barbell.name == barbellToAdd.name);
 
                   if (isBarbellDouble) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const ErrorDialog(
-                            errorMessage: 'Barbell is already existing!');
-                      },
-                    );
+                    // check if barbell is the same as before
+                    if (widget.barbell.weight == barbellToAdd.weight &&
+                        widget.barbell.width == barbellToAdd.width &&
+                        widget.barbell.name == barbellToAdd.name) {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      } else {
+                        SystemNavigator.pop();
+                      }
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const ErrorDialog(
+                              errorMessage: 'Barbell is already existing!');
+                        },
+                      );
+                    }
                   } else {
                     if (barbellToAdd.weight <= 0) {
                       showDialog(
@@ -1068,7 +1080,8 @@ class _EditBarbellState extends State<EditBarbell> {
                           }
                         }
                       }
-                      if (min2barbellwiththiswidth) {
+                      if (widget.barbell.width ==
+                          barbellToAdd.width) if (min2barbellwiththiswidth) {
                         widget.onDelete(widget.barbell);
                         saveBarbell();
                       } else {
