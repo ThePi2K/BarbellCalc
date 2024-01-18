@@ -11,21 +11,21 @@ class PlateWidget extends StatelessWidget {
     double heightPlate = 0;
 
     if (weightPlate >= 25) {
-      heightPlate = 200.0;
+      heightPlate = 250.0;
     } else if (weightPlate >= 20) {
-      heightPlate = 170.0;
+      heightPlate = 200.0;
     } else if (weightPlate >= 15) {
-      heightPlate = 150.0;
+      heightPlate = 170.0;
     } else if (weightPlate >= 10) {
-      heightPlate = 130.0;
+      heightPlate = 150.0;
     } else if (weightPlate >= 5) {
-      heightPlate = 100.0;
+      heightPlate = 130.0;
     } else if (weightPlate >= 2.5) {
-      heightPlate = 80.0;
+      heightPlate = 100.0;
     } else if (weightPlate >= 1) {
-      heightPlate = 60.0;
+      heightPlate = 80.0;
     } else {
-      heightPlate = 45.0;
+      heightPlate = 60.0;
     }
 
     String plateWeightString = weightPlate.toString();
@@ -110,7 +110,7 @@ class BarbellWidget extends StatelessWidget {
             ? Text('Weight on Barbell: $barbellWeightInclPlatesString')
             : const Text(' '),
         SizedBox(
-            height: 220,
+            height: 300,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
               child: Stack(alignment: Alignment.centerLeft, children: [
