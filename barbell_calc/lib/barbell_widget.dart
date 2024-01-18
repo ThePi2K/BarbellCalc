@@ -41,7 +41,7 @@ class PlateWidget extends StatelessWidget {
 
     return Container(
       height: heightPlate,
-      width: 30.0,
+      width: 32.5,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.inversePrimary.withOpacity(1.0),
         // color: Theme.of(context).colorScheme.primary,

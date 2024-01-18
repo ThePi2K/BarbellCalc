@@ -128,7 +128,7 @@ class _MainPageState extends State<MainPage> {
     double widthDisplay = MediaQuery.of(context).size.width;
     double startPlates = 39.0;
     double endPlates = 10.0;
-    double widthPlate = 30.0;
+    double widthPlate = 32.5;
     double distancePlates = 0.9;
     return ((widthDisplay - (startPlates + endPlates + 10)) /
         (widthPlate + distancePlates));
