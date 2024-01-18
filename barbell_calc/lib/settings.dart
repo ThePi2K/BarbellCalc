@@ -23,6 +23,7 @@ class _SettingsPageState extends State<SettingsPage> {
   bool metricSystem = true;
   bool followSystemTheme = false;
   Color appColor = Colors.blue;
+  String selectedLanguage = 'en_US';
 
   // starting loadSharedPreference()
   @override
@@ -41,6 +42,15 @@ class _SettingsPageState extends State<SettingsPage> {
       followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
       metricSystem = prefs.getBool('metricSystem') ?? true;
       appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
+      selectedLanguage = prefs.getString('appLanguage') ?? 'en_US';
+    });
+  }
+
+  void toggleLanguage(String language) async {
+    // set String value
+    await prefs.setString('appLanguage', language);
+    setState(() {
+      selectedLanguage = language;
     });
   }
 
@@ -216,10 +226,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: 'Unit System',
                 subtitle: 'Choose between metric and Imperial/US units'),
             ListTile(
-              title:
-                  metricSystem ? const Text('Metric System') : const Text('US System'),
-              subtitle:
-                  metricSystem ? const Text('mm/kg') : const Text('inch/pounds'),
+              title: metricSystem
+                  ? const Text('Metric System')
+                  : const Text('US System'),
+              subtitle: metricSystem
+                  ? const Text('mm/kg')
+                  : const Text('inch/pounds'),
               trailing: Switch(
                 onChanged: (value) {
                   toggleUnit(value);
@@ -233,7 +245,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 subtitle: 'Choose at least one barbell type'),
             ListTile(
               title: const Text('Standard Barbells'),
-              subtitle: metricSystem ? const Text('Ø 30 mm') : const Text('Ø 1.18"'),
+              subtitle:
+                  metricSystem ? const Text('Ø 30 mm') : const Text('Ø 1.18"'),
               trailing: Switch(
                 onChanged: (value) {
                   toggleStandardBarbells(value);
@@ -243,7 +256,8 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             ListTile(
               title: const Text('Olympic Barbells'),
-              subtitle: metricSystem ? const Text('Ø 50 mm') : const Text('Ø 2"'),
+              subtitle:
+                  metricSystem ? const Text('Ø 50 mm') : const Text('Ø 2"'),
               trailing: Switch(
                 onChanged: (value) {
                   toggleOlympicBarbells(value);
