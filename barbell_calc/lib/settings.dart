@@ -30,17 +30,6 @@ class _SettingsPageState extends State<SettingsPage> {
   final String systemLanguage =
       WidgetsBinding.instance.platformDispatcher.locale.languageCode;
 
-  String getDisplayLanguage(String internalLanguage) {
-    switch (internalLanguage) {
-      case 'en':
-        return 'English (English)';
-      case 'de':
-        return 'German (Deutsch)';
-      default:
-        return 'English (English)';
-    }
-  }
-
   // starting loadSharedPreference()
   @override
   void initState() {
@@ -167,6 +156,17 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    String getDisplayLanguage(String internalLanguage) {
+      switch (internalLanguage) {
+        case 'en':
+          return '${AppLocalizations.of(context)!.english} (English)';
+        case 'de':
+          return '${AppLocalizations.of(context)!.german} (Deutsch)';
+        default:
+          return '${AppLocalizations.of(context)!.english} (English)';
+      }
+    }
+
     return SafeArea(
       child: Scaffold(
         // appBar: AppBar(
