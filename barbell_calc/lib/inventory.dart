@@ -1080,19 +1080,20 @@ class _EditBarbellState extends State<EditBarbell> {
                           }
                         }
                       }
-                      if (widget.barbell.width ==
-                          barbellToAdd.width) if (min2barbellwiththiswidth) {
-                        widget.onDelete(widget.barbell);
-                        saveBarbell();
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return ErrorDialog(
-                                errorMessage:
-                                    'You need at least one ${widget.barbell.width} Barbell!');
-                          },
-                        );
+                      if (widget.barbell.width == barbellToAdd.width) {
+                        if (min2barbellwiththiswidth) {
+                          widget.onDelete(widget.barbell);
+                          saveBarbell();
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ErrorDialog(
+                                  errorMessage:
+                                      'You need at least one ${widget.barbell.width} Barbell!');
+                            },
+                          );
+                        }
                       }
                     }
                   }
