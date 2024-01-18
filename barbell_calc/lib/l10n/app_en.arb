@@ -1,0 +1,6 @@
+{
+    "helloWorld": "Hello World",
+    "@helloWorld": {
+        "description": "The first 2 words of every sad programmer"
+    }
+}
