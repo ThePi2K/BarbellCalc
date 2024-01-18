@@ -7,6 +7,7 @@
   "weight_on_barbell": "Weight on Barbell",
   "training_weight": "Training Weight",
   "choose_barbell": "Choose Barbell",
+  "weight_cannot_be_empty": "Weight cannot be empty!",
   "weight_is_invalid": "Weight is invalid!",
   "new_world_record": "That breaks the world record! Congratulations!",
   "check_details": "CHECK DETAILS",
@@ -23,7 +24,58 @@
       }
     }
   },
+  "@_INVENTORY": {},
+  "add_barbell": "Add Barbell",
+  "add_plate": "Add Plate",
+  "plate_weight": "Plate Weight",
+  "select_width": "Select Width",
+  "plate_exists": "Plate is already existing!",
+  "plate_has_to_weight_more_than_0": "The Plate has to weight more than 0 {metricUnit}!",
+  "@plate_has_to_weight_more_than_0": {
+    "placeholders": {
+      "metricUnit": {
+        "type": "String"
+      }
+    }
+  },
+  "barbell_name": "Barbell Name",
+  "barbell_weight": "Barbell Weight",
+  "name_cannot_be_empty": "Name cannot be empty!",
+  "barbell_exists": "Barbell is already existing!",
+  "barbell_has_to_weight_more_than_0": "The Barbell has to weight more than 0 {metricUnit}!",
+  "@barbell_has_to_weight_more_than_0": {
+    "placeholders": {
+      "metricUnit": {
+        "type": "String"
+      }
+    }
+  },
+  "at_least_one_barbell": "You need at least one {barbellWidth} Barbell!",
+  "@at_least_one_barbell": {
+    "placeholders": {
+      "barbellWidth": {
+        "type": "String"
+      }
+    }
+  },
+  "at_least_one_plate": "You need at least one {barbellWidth} Plate!",
+  "@at_least_one_plate": {
+    "placeholders": {
+      "barbellWidth": {
+        "type": "String"
+      }
+    }
+  },
+  "editing_barbell": "Editing Barbell",
+  "barbells": "Barbells",
+  "plates": "Plates",
+  "really_want_to_delete_barbell": "Do really want to remove this Barbell?",
+  "really_want_to_delete_plate": "Do really want to remove this Plate?",
   "@_ALERT_DIALOGS": {},
   "error": "Error",
-  "attention": "Attention!"
+  "attention": "Attention!",
+  "save": "SAVE",
+  "cancel": "CANCEL",
+  "yes": "YES",
+  "no": "NO"
 }

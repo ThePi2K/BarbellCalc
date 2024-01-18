@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'plate.dart';
 import 'barbell.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -246,7 +247,7 @@ class NewPlateBarbellButton extends StatelessWidget {
                           Icons.fitness_center,
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
-                        title: const Text('Add Barbell'),
+                        title: Text(AppLocalizations.of(context)!.add_barbell),
                         onTap: () {
                           // Closing PopupMenu
                           Navigator.pop(context);
@@ -282,7 +283,7 @@ class NewPlateBarbellButton extends StatelessWidget {
                                   Theme.of(context).colorScheme.onSurface),
                           // color: Theme.of(context).colorScheme.onSurface,
                         ),
-                        title: const Text('Add Plate'),
+                        title: Text(AppLocalizations.of(context)!.add_plate),
                         onTap: () {
                           // Closing PopupMenu
                           Navigator.pop(context);
@@ -478,7 +479,7 @@ class _CreatePlateState extends State<CreatePlate> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Add Plate'),
+      title: Text(AppLocalizations.of(context)!.add_plate),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -486,19 +487,20 @@ class _CreatePlateState extends State<CreatePlate> {
           TextField(
             controller: weightController,
             inputFormatters: [LengthLimitingTextInputFormatter(5)],
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
+              // ignore: prefer_const_constructors
               border: OutlineInputBorder(),
-              labelText: 'Plate Weight',
-              icon: Icon(Icons.scale),
+              labelText: AppLocalizations.of(context)!.plate_weight,
+              icon: const Icon(Icons.scale),
             ),
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 20),
           DropdownButtonFormField<String>(
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Select Width',
-              icon: Icon(Icons.straighten),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: AppLocalizations.of(context)!.select_width,
+              icon: const Icon(Icons.straighten),
             ),
             value: dropdownValue,
             onChanged: (String? value) {
@@ -520,7 +522,7 @@ class _CreatePlateState extends State<CreatePlate> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text('CANCEL'),
+          child: Text(AppLocalizations.of(context)!.cancel),
         ),
         TextButton(
           onPressed: () {
@@ -535,8 +537,9 @@ class _CreatePlateState extends State<CreatePlate> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return const ErrorDialog(
-                      errorMessage: 'Weight cannot be empty!');
+                  return ErrorDialog(
+                      errorMessage:
+                          AppLocalizations.of(context)!.weight_cannot_be_empty);
                 },
               );
             } else {
@@ -555,8 +558,9 @@ class _CreatePlateState extends State<CreatePlate> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return const ErrorDialog(
-                          errorMessage: 'Plate is already existing!');
+                      return ErrorDialog(
+                          errorMessage:
+                              AppLocalizations.of(context)!.plate_exists);
                     },
                   );
                 } else {
@@ -565,8 +569,9 @@ class _CreatePlateState extends State<CreatePlate> {
                       context: context,
                       builder: (BuildContext context) {
                         return ErrorDialog(
-                            errorMessage:
-                                'The Plate has to weight more than 0 ${metricSystem ? 'kg' : 'lb'}!');
+                            errorMessage: AppLocalizations.of(context)!
+                                .plate_has_to_weight_more_than_0(
+                                    metricSystem ? 'kg' : 'lb'));
                       },
                     );
                   } else {
@@ -577,14 +582,15 @@ class _CreatePlateState extends State<CreatePlate> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return const ErrorDialog(
-                        errorMessage: 'Weight is invalid!');
+                    return ErrorDialog(
+                        errorMessage:
+                            AppLocalizations.of(context)!.weight_is_invalid);
                   },
                 );
               }
             }
           },
-          child: const Text('SAVE'),
+          child: Text(AppLocalizations.of(context)!.save),
         ),
       ],
     );
@@ -698,36 +704,36 @@ class _CreateBarbellState extends State<CreateBarbell> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Add Barbell'),
+      title: Text(AppLocalizations.of(context)!.add_barbell),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextField(
             controller: nameController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Barbell Name',
-              icon: Icon(Icons.tag),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: AppLocalizations.of(context)!.barbell_name,
+              icon: const Icon(Icons.tag),
             ),
           ),
           const SizedBox(height: 20),
           TextField(
             controller: weightController,
             inputFormatters: [LengthLimitingTextInputFormatter(5)],
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Barbell Weight',
-              icon: Icon(Icons.scale),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: AppLocalizations.of(context)!.barbell_weight,
+              icon: const Icon(Icons.scale),
             ),
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 20),
           DropdownButtonFormField<String>(
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Select Width',
-              icon: Icon(Icons.straighten),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: AppLocalizations.of(context)!.select_width,
+              icon: const Icon(Icons.straighten),
             ),
             value: dropdownValue,
             onChanged: (String? value) {
@@ -749,7 +755,7 @@ class _CreateBarbellState extends State<CreateBarbell> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text('CANCEL'),
+          child: Text(AppLocalizations.of(context)!.cancel),
         ),
         TextButton(
           onPressed: () {
@@ -764,8 +770,9 @@ class _CreateBarbellState extends State<CreateBarbell> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return const ErrorDialog(
-                      errorMessage: 'Name cannot be empty!');
+                  return ErrorDialog(
+                      errorMessage:
+                          AppLocalizations.of(context)!.name_cannot_be_empty);
                 },
               );
             } else {
@@ -774,8 +781,9 @@ class _CreateBarbellState extends State<CreateBarbell> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return const ErrorDialog(
-                        errorMessage: 'Weight cannot be empty!');
+                    return ErrorDialog(
+                        errorMessage: AppLocalizations.of(context)!
+                            .weight_cannot_be_empty);
                   },
                 );
               } else {
@@ -795,8 +803,9 @@ class _CreateBarbellState extends State<CreateBarbell> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return const ErrorDialog(
-                            errorMessage: 'Barbell is already existing!');
+                        return ErrorDialog(
+                            errorMessage:
+                                AppLocalizations.of(context)!.barbell_exists);
                       },
                     );
                   } else {
@@ -805,8 +814,9 @@ class _CreateBarbellState extends State<CreateBarbell> {
                         context: context,
                         builder: (BuildContext context) {
                           return ErrorDialog(
-                              errorMessage:
-                                  'The Barbell has to weight more than 0 ${metricSystem ? 'kg' : 'lb'}!');
+                              errorMessage: AppLocalizations.of(context)!
+                                  .barbell_has_to_weight_more_than_0(
+                                      metricSystem ? 'kg' : 'lb'));
                         },
                       );
                     } else {
@@ -817,15 +827,16 @@ class _CreateBarbellState extends State<CreateBarbell> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return const ErrorDialog(
-                          errorMessage: 'Weight is invalid!');
+                      return ErrorDialog(
+                          errorMessage:
+                              AppLocalizations.of(context)!.weight_is_invalid);
                     },
                   );
                 }
               }
             }
           },
-          child: const Text('SAVE'),
+          child: Text(AppLocalizations.of(context)!.save),
         ),
       ],
     );
@@ -944,36 +955,36 @@ class _EditBarbellState extends State<EditBarbell> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Editing Barbell'),
+      title: Text(AppLocalizations.of(context)!.editing_barbell),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextField(
             controller: nameController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Barbell Name',
-              icon: Icon(Icons.tag),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: AppLocalizations.of(context)!.barbell_name,
+              icon: const Icon(Icons.tag),
             ),
           ),
           const SizedBox(height: 20),
           TextField(
             controller: weightController,
             inputFormatters: [LengthLimitingTextInputFormatter(5)],
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Barbell Weight',
-              icon: Icon(Icons.scale),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: AppLocalizations.of(context)!.barbell_weight,
+              icon: const Icon(Icons.scale),
             ),
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 20),
           DropdownButtonFormField<String>(
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Select Width',
-              icon: Icon(Icons.straighten),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: AppLocalizations.of(context)!.select_width,
+              icon: const Icon(Icons.straighten),
             ),
             value: dropdownValue,
             onChanged: (String? value) {
@@ -995,7 +1006,7 @@ class _EditBarbellState extends State<EditBarbell> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text('CANCEL'),
+          child: Text(AppLocalizations.of(context)!.cancel),
         ),
         TextButton(
           onPressed: () {
@@ -1010,8 +1021,9 @@ class _EditBarbellState extends State<EditBarbell> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return const ErrorDialog(
-                      errorMessage: 'Name cannot be empty!');
+                  return ErrorDialog(
+                      errorMessage:
+                          AppLocalizations.of(context)!.name_cannot_be_empty);
                 },
               );
             } else {
@@ -1020,8 +1032,9 @@ class _EditBarbellState extends State<EditBarbell> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return const ErrorDialog(
-                        errorMessage: 'Weight cannot be empty!');
+                    return ErrorDialog(
+                        errorMessage: AppLocalizations.of(context)!
+                            .weight_cannot_be_empty);
                   },
                 );
               } else {
@@ -1052,8 +1065,9 @@ class _EditBarbellState extends State<EditBarbell> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return const ErrorDialog(
-                              errorMessage: 'Barbell is already existing!');
+                          return ErrorDialog(
+                              errorMessage:
+                                  AppLocalizations.of(context)!.barbell_exists);
                         },
                       );
                     }
@@ -1063,8 +1077,9 @@ class _EditBarbellState extends State<EditBarbell> {
                         context: context,
                         builder: (BuildContext context) {
                           return ErrorDialog(
-                              errorMessage:
-                                  'The Barbell has to weight more than 0 ${metricSystem ? 'kg' : 'lb'}!');
+                              errorMessage: AppLocalizations.of(context)!
+                                  .barbell_has_to_weight_more_than_0(
+                                      metricSystem ? 'kg' : 'lb'));
                         },
                       );
                     } else {
@@ -1089,8 +1104,9 @@ class _EditBarbellState extends State<EditBarbell> {
                             context: context,
                             builder: (BuildContext context) {
                               return ErrorDialog(
-                                  errorMessage:
-                                      'You need at least one ${widget.barbell.width} Barbell!');
+                                  errorMessage: AppLocalizations.of(context)!
+                                      .at_least_one_barbell(
+                                          widget.barbell.width));
                             },
                           );
                         }
@@ -1101,15 +1117,16 @@ class _EditBarbellState extends State<EditBarbell> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return const ErrorDialog(
-                          errorMessage: 'Weight is invalid!');
+                      return ErrorDialog(
+                          errorMessage:
+                              AppLocalizations.of(context)!.weight_is_invalid);
                     },
                   );
                 }
               }
             }
           },
-          child: const Text('SAVE'),
+          child: Text(AppLocalizations.of(context)!.save),
         ),
       ],
     );
@@ -1126,7 +1143,7 @@ class ErrorDialog extends StatelessWidget {
     return AlertDialog(
       insetPadding: const EdgeInsets.symmetric(horizontal: 60),
       backgroundColor: Colors.redAccent.shade100,
-      title: const Text('Error'),
+      title: Text(AppLocalizations.of(context)!.error),
       content: Text(errorMessage),
       actions: [
         TextButton(
@@ -1188,7 +1205,7 @@ class InventoryListView extends StatelessWidget {
           children: [
             const SizedBox(height: 10),
             // const Divider(),
-            const InventoryListTitle(title: 'Barbells'),
+            InventoryListTitle(title: AppLocalizations.of(context)!.barbells),
             for (var index = 0; index < barbellListStandard.length; index++)
               BarbellListItem(
                 barbell: barbellListStandard[index],
@@ -1213,7 +1230,7 @@ class InventoryListView extends StatelessWidget {
               ),
             const SizedBox(height: 5),
             const Divider(),
-            const InventoryListTitle(title: 'Plates'),
+            InventoryListTitle(title: AppLocalizations.of(context)!.plates),
             for (var index = 0; index < plateListStandard.length; index++)
               PlateListItem(
                 plate: plateListStandard[index],
@@ -1300,9 +1317,9 @@ class BarbellListItem extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Attention'),
-                        content: Text(
-                            'You need at least one ${barbell.width} Barbell!'),
+                        title: Text(AppLocalizations.of(context)!.attention),
+                        content: Text(AppLocalizations.of(context)!
+                            .at_least_one_barbell(barbell.width)),
                         actions: [
                           TextButton(
                             onPressed: () {
@@ -1319,22 +1336,22 @@ class BarbellListItem extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Attention'),
-                        content: const Text(
-                            'Do really want to remove this Barbell?'),
+                        title: Text(AppLocalizations.of(context)!.attention),
+                        content: Text(AppLocalizations.of(context)!
+                            .really_want_to_delete_barbell),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
                               onDelete(barbell);
                             },
-                            child: const Text('YES'),
+                            child: Text(AppLocalizations.of(context)!.yes),
                           ),
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: const Text('NO'),
+                            child: Text(AppLocalizations.of(context)!.no),
                           ),
                         ],
                       );
@@ -1466,8 +1483,9 @@ class PlateListItemIconButton extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: const Text('Attention'),
-                content: Text('You need at least one ${plate.width} Plate!'),
+                title: Text(AppLocalizations.of(context)!.attention),
+                content: Text(AppLocalizations.of(context)!
+                    .at_least_one_plate(plate.width)),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -1484,21 +1502,22 @@ class PlateListItemIconButton extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: const Text('Attention'),
-                content: const Text('Do really want to remove this Plate?'),
+                title: Text(AppLocalizations.of(context)!.attention),
+                content: Text(
+                    AppLocalizations.of(context)!.really_want_to_delete_plate),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                       onDelete(plate);
                     },
-                    child: const Text('YES'),
+                    child: Text(AppLocalizations.of(context)!.yes),
                   ),
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text('NO'),
+                    child: Text(AppLocalizations.of(context)!.no),
                   ),
                 ],
               );

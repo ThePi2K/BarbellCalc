@@ -7,6 +7,7 @@
   "weight_on_barbell": "Gewicht auf Hantel",
   "training_weight": "Trainingsgewicht",
   "choose_barbell": "Wähle Hantel",
+  "weight_cannot_be_empty": "Du musst ein Gewicht angeben!",
   "weight_is_invalid": "Das Gewicht ist ungültig!",
   "new_world_record": "Damit brichst du den Weltrekord! Herzlichen Glückwunsch!",
   "check_details": "MEHR DAZU",
@@ -23,7 +24,58 @@
       }
     }
   },
+  "@_INVENTORY": {},
+  "add_barbell": "Neue Langhantel",
+  "add_plate": "Neue Scheibe",
+  "plate_weight": "Gewicht Scheibe",
+  "select_width": "Durchmesser auswählen",
+  "plate_exists": "Die Scheibe wurde bereits gespeichert!",
+  "plate_has_to_weight_more_than_0": "Die Scheibe muss mehr als 0 {metricUnit} wiegen!",
+  "@plate_has_to_weight_more_than_0": {
+    "placeholders": {
+      "metricUnit": {
+        "type": "String"
+      }
+    }
+  },
+  "barbell_name": "Name der Hantel",
+  "barbell_weight": "Hantelgewicht",
+  "name_cannot_be_empty": "Du musst einen Namen angeben!",
+  "barbell_exists": "Die Hantel wurde bereits gespeichert!",
+  "barbell_has_to_weight_more_than_0": "Die Hantel muss mehr als 0 {metricUnit} wiegen!",
+  "@barbell_has_to_weight_more_than_0": {
+    "placeholders": {
+      "metricUnit": {
+        "type": "String"
+      }
+    }
+  },
+  "at_least_one_barbell": "Du brauchst mindestens eine {barbellWidth} Hantel!",
+  "@at_least_one_barbell": {
+    "placeholders": {
+      "barbellWidth": {
+        "type": "String"
+      }
+    }
+  },
+  "at_least_one_plate": "Du brauchst mindestens eine {barbellWidth} Scheibe!",
+  "@at_least_one_plate": {
+    "placeholders": {
+      "barbellWidth": {
+        "type": "String"
+      }
+    }
+  },
+  "editing_barbell": "Langhantel bearbeiten",
+  "barbells": "Langhanteln",
+  "plates": "Scheiben",
+  "really_want_to_delete_barbell": "Willst du diese Hantel wirklich löschen?",
+  "really_want_to_delete_plate": "Willst du diese Scheibe wirklich löschen?",
   "@_ALERT_DIALOGS": {},
   "error": "Fehler",
-  "attention": "Achtung!"
+  "attention": "Achtung!",
+  "save": "SPEICHERN",
+  "cancel": "ABBRECHEN",
+  "yes": "JA",
+  "no": "NEIN"
 }
