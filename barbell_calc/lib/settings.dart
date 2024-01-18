@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({
@@ -177,10 +178,11 @@ class _SettingsPageState extends State<SettingsPage> {
           children: <Widget>[
             // const Divider(),
             const SizedBox(height: 10),
-            const SettingsTitle(
-                title: 'Appearance', subtitle: 'Customize the app theme'),
+            SettingsTitle(
+                title: AppLocalizations.of(context)!.appearance,
+                subtitle: AppLocalizations.of(context)!.appearance_subtitle),
             ListTile(
-              title: const Text('Follow System Theme'),
+              title: Text(AppLocalizations.of(context)!.follow_system_theme),
               trailing: Switch(
                 onChanged: toggleFollowSystemTheme,
                 value: followSystemTheme,
@@ -189,7 +191,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Visibility(
               visible: !followSystemTheme,
               child: ListTile(
-                title: const Text('Dark Mode'),
+                title: Text(AppLocalizations.of(context)!.dark_mode),
                 trailing: Switch(
                   onChanged: toggleDarkMode,
                   value: darkMode,
@@ -197,14 +199,14 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             ListTile(
-              title: const Text('App Color'),
+              title: Text(AppLocalizations.of(context)!.app_color),
               trailing: IconButton(
                 onPressed: () {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Pick a color'),
+                        title: Text(AppLocalizations.of(context)!.pick_color),
                         content: SingleChildScrollView(
                             child: BlockPicker(
                           pickerColor: appColor,
@@ -214,13 +216,13 @@ class _SettingsPageState extends State<SettingsPage> {
                         )),
                         actions: <Widget>[
                           TextButton(
-                            child: const Text('Cancel'),
+                            child: Text(AppLocalizations.of(context)!.cancel),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
                           ),
                           TextButton(
-                            child: const Text('Save'),
+                            child: Text(AppLocalizations.of(context)!.save),
                             onPressed: () {
                               changeColor(appColor);
                               Navigator.of(context).pop();
@@ -241,11 +243,12 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             const Divider(),
-            const SettingsTitle(
-                title: 'Language & Unit System',
-                subtitle: 'Choose your preferred language and unit system'),
+            SettingsTitle(
+                title: AppLocalizations.of(context)!.language_and_unit_system,
+                subtitle: AppLocalizations.of(context)!
+                    .language_and_unit_system_subtitle),
             ListTile(
-              title: const Text('Language'),
+              title: Text(AppLocalizations.of(context)!.language),
               trailing: DropdownButton<String>(
                 value: selectedLanguage,
                 onChanged: (String? newValue) {
@@ -268,11 +271,11 @@ class _SettingsPageState extends State<SettingsPage> {
             //     subtitle: 'Choose between metric and Imperial/US units'),
             ListTile(
               title: metricSystem
-                  ? const Text('Metric System')
-                  : const Text('US System'),
+                  ? Text(AppLocalizations.of(context)!.metric_system)
+                  : Text(AppLocalizations.of(context)!.us_system),
               subtitle: metricSystem
                   ? const Text('mm/kg')
-                  : const Text('inch/pounds'),
+                  : Text(AppLocalizations.of(context)!.inch_pounds),
               trailing: Switch(
                 onChanged: (value) {
                   toggleUnit(value);
@@ -281,11 +284,12 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             const Divider(),
-            const SettingsTitle(
-                title: 'Barbell Sleeve Diameters',
-                subtitle: 'Choose at least one barbell type'),
+            SettingsTitle(
+                title: AppLocalizations.of(context)!.barbell_sleeve_diameters,
+                subtitle: AppLocalizations.of(context)!
+                    .barbell_sleeve_diameters_subtitle),
             ListTile(
-              title: const Text('Standard Barbells'),
+              title: Text(AppLocalizations.of(context)!.standard_barbells),
               subtitle:
                   metricSystem ? const Text('Ø 30 mm') : const Text('Ø 1.18"'),
               trailing: Switch(
@@ -296,7 +300,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             ListTile(
-              title: const Text('Olympic Barbells'),
+              title: Text(AppLocalizations.of(context)!.olympic_barbells),
               subtitle:
                   metricSystem ? const Text('Ø 50 mm') : const Text('Ø 2"'),
               trailing: Switch(
