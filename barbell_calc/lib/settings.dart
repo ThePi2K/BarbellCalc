@@ -46,14 +46,6 @@ class _SettingsPageState extends State<SettingsPage> {
     });
   }
 
-  void toggleLanguage(String language) async {
-    // set String value
-    await prefs.setString('appLanguage', language);
-    setState(() {
-      selectedLanguage = language;
-    });
-  }
-
   void toggleStandardBarbells(bool value) async {
     if (olympicBarbells) {
       // set bool value
@@ -145,6 +137,27 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
+  void toggleLanguage(String language) async {
+    // set String value
+    await prefs.setString('appLanguage', language);
+    setState(() {
+      selectedLanguage = language;
+    });
+  }
+
+  String getDisplayLanguage(String internalLanguage) {
+    switch (internalLanguage) {
+      case 'en_US':
+        return 'English';
+      case 'de_DE':
+        return 'German';
+      case 'it_IT':
+        return 'Italian';
+      default:
+        return 'English';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -159,7 +172,7 @@ class _SettingsPageState extends State<SettingsPage> {
             // const Divider(),
             const SizedBox(height: 10),
             const SettingsTitle(
-                title: 'App Design', subtitle: 'Customize the app theme'),
+                title: 'Appearance', subtitle: 'Customize the app theme'),
             ListTile(
               title: const Text('Follow System Theme'),
               trailing: Switch(
@@ -219,6 +232,27 @@ class _SettingsPageState extends State<SettingsPage> {
                   foregroundColor:
                       MaterialStateProperty.all(darkenColor(appColor, 0.5)),
                 ),
+              ),
+            ),
+            const Divider(),
+            const SettingsTitle(
+                title: 'Language', subtitle: 'Choose your preferred language'),
+            ListTile(
+              title: const Text('Language'),
+              trailing: DropdownButton<String>(
+                value: selectedLanguage,
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    toggleLanguage(newValue);
+                  }
+                },
+                items: <String>['en_US', 'de_DE', 'it_IT']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(getDisplayLanguage(value)),
+                  );
+                }).toList(),
               ),
             ),
             const Divider(),
