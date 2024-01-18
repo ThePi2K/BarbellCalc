@@ -11,7 +11,7 @@
   "check_details": "CHECK DETAILS",
   "you_need_a_barbell": "You need to choose a Barbell!",
   "you_need_more_weight": "You need to choose more weight!",
-  "different_training_weight": "'The entered weight ({trainingWeight}) differs from the possible training weight ({possibleTrainingWeight})!",
+  "different_training_weight": "The entered weight ({trainingWeight}) differs from the possible training weight ({possibleTrainingWeight})!",
   "@different_training_weight": {
     "placeholders": {
       "trainingWeight": {

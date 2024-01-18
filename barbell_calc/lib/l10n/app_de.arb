@@ -11,7 +11,7 @@
   "check_details": "MEHR DAZU",
   "you_need_a_barbell": "Du musst eine Hantel auswählen!",
   "you_need_more_weight": "Du musst mehr Gewicht wählen!",
-  "different_training_weight": "'Das eingegebene Gewicht ({trainingWeight}) weicht vom möglichen Trainingsgewicht ({possibleTrainingWeight}) ab!",
+  "different_training_weight": "Das eingegebene Gewicht ({trainingWeight}) weicht vom möglichen Trainingsgewicht ({possibleTrainingWeight}) ab!",
   "@different_training_weight": {
     "placeholders": {
       "trainingWeight": {
