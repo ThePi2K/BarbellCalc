@@ -32,13 +32,13 @@ class _SettingsPageState extends State<SettingsPage> {
   String getDisplayLanguage(String internalLanguage) {
     switch (internalLanguage) {
       case 'en_US':
-        return 'English';
+        return 'English (English)';
       case 'de_DE':
-        return 'German';
+        return 'German (Deutsch)';
       case 'it_IT':
-        return 'Italian';
+        return 'Italian (Italiano)';
       default:
-        return 'English';
+        return 'English (English)';
     }
   }
 
