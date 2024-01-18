@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'dart:io';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({
@@ -25,6 +26,22 @@ class _SettingsPageState extends State<SettingsPage> {
   Color appColor = Colors.blue;
   String selectedLanguage = 'en_US';
 
+  final List<String> supportedLanguages = ['en_US', 'de_DE', 'it_IT'];
+  final String systemLanguage = Platform.localeName;
+
+  String getDisplayLanguage(String internalLanguage) {
+    switch (internalLanguage) {
+      case 'en_US':
+        return 'English';
+      case 'de_DE':
+        return 'German';
+      case 'it_IT':
+        return 'Italian';
+      default:
+        return 'English';
+    }
+  }
+
   // starting loadSharedPreference()
   @override
   void initState() {
@@ -42,7 +59,12 @@ class _SettingsPageState extends State<SettingsPage> {
       followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
       metricSystem = prefs.getBool('metricSystem') ?? true;
       appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
-      selectedLanguage = prefs.getString('appLanguage') ?? 'en_US';
+
+      selectedLanguage = prefs.getString('appLanguage') ?? systemLanguage;
+      if (!supportedLanguages.contains(selectedLanguage)) {
+        selectedLanguage = 'en_US';
+      }
+      selectedLanguage = prefs.getString('appLanguage') ?? systemLanguage;
     });
   }
 
@@ -145,19 +167,6 @@ class _SettingsPageState extends State<SettingsPage> {
     });
   }
 
-  String getDisplayLanguage(String internalLanguage) {
-    switch (internalLanguage) {
-      case 'en_US':
-        return 'English';
-      case 'de_DE':
-        return 'German';
-      case 'it_IT':
-        return 'Italian';
-      default:
-        return 'English';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -236,7 +245,8 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             const Divider(),
             const SettingsTitle(
-                title: 'Language & Unit System', subtitle: 'Choose your preferred language and unit system'),
+                title: 'Language & Unit System',
+                subtitle: 'Choose your preferred language and unit system'),
             ListTile(
               title: const Text('Language'),
               trailing: DropdownButton<String>(
@@ -246,7 +256,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     toggleLanguage(newValue);
                   }
                 },
-                items: <String>['en_US', 'de_DE', 'it_IT']
+                items: supportedLanguages
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
