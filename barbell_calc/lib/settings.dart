@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'dart:io';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({
@@ -24,18 +23,19 @@ class _SettingsPageState extends State<SettingsPage> {
   bool metricSystem = true;
   bool followSystemTheme = false;
   Color appColor = Colors.blue;
-  String selectedLanguage = 'en_US';
+  String selectedLanguage = 'en';
 
-  final List<String> supportedLanguages = ['en_US', 'de_DE', 'it_IT'];
-  final String systemLanguage = Platform.localeName;
+  final List<String> supportedLanguages = ['en', 'de', 'it'];
+  final String systemLanguage =
+      WidgetsBinding.instance.platformDispatcher.locale.languageCode;
 
   String getDisplayLanguage(String internalLanguage) {
     switch (internalLanguage) {
-      case 'en_US':
+      case 'en':
         return 'English (English)';
-      case 'de_DE':
+      case 'de':
         return 'German (Deutsch)';
-      case 'it_IT':
+      case 'it':
         return 'Italian (Italiano)';
       default:
         return 'English (English)';
@@ -51,6 +51,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void loadSharedPreference() async {
     prefs = await SharedPreferences.getInstance();
+    print(systemLanguage);
     setState(() {
       // reading SharedPreferences and save the values to the variables
       standardBarbells = prefs.getBool('standardBarbells') ?? true;
@@ -61,7 +62,8 @@ class _SettingsPageState extends State<SettingsPage> {
       appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
 
       String? selectedLang = prefs.getString('appLanguage');
-      selectedLanguage = supportedLanguages.contains(selectedLang) ? selectedLang! : 'en_US';
+      selectedLanguage =
+          supportedLanguages.contains(selectedLang) ? selectedLang! : 'en';
     });
   }
 
