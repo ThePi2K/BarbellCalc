@@ -4,6 +4,7 @@
   "inventory": "Inventar",
   "settings": "Einstellungen",
   "@_HOME_PAGE": {},
+  "weight_on_barbell": "Gewicht auf Hantel",
   "training_weight": "Trainingsgewicht",
   "choose_barbell": "Wähle Hantel",
   "weight_is_invalid": "Das Gewicht ist ungültig!",

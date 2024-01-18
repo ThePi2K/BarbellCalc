@@ -446,6 +446,7 @@ class _MainPageState extends State<MainPage> {
                 barbellWeight: barbellWeight,
                 barbellWidth: barbellWidth,
                 barbellWeightInclPlates: barbellWeightInclPlates,
+                weightOnBarbellTitle: AppLocalizations.of(context)!.weight_on_barbell,
               ),
             ],
           ),

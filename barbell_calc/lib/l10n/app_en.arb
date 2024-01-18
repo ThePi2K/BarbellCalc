@@ -4,6 +4,7 @@
   "inventory": "Inventory",
   "settings": "Settings",
   "@_HOME_PAGE": {},
+  "weight_on_barbell": "Weight on Barbell",
   "training_weight": "Training Weight",
   "choose_barbell": "Choose Barbell",
   "weight_is_invalid": "Weight is invalid!",
