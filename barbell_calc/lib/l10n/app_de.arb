@@ -1,6 +1,6 @@
 {
-    "helloWorld": "Hallo Welt",
-    "@helloWorld": {
-        "description": "The first 2 words of every sad programmer"
-    }
+  "@_NAVIGATION_BAR": {},
+  "home": "Home",
+  "inventory": "Inventar",
+  "settings": "Einstellungen"
 }
