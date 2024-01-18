@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'barbell_widget.dart';
 import 'barbell.dart';
@@ -240,9 +241,10 @@ class _MainPageState extends State<MainPage> {
                         autofocus: true,
                         controller: trainingWeightController,
                         inputFormatters: [LengthLimitingTextInputFormatter(6)],
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Training Weight',
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText:
+                              AppLocalizations.of(context)!.training_weight,
                         ),
                         keyboardType: TextInputType.number,
                       ),
@@ -250,6 +252,7 @@ class _MainPageState extends State<MainPage> {
                     const SizedBox(width: 8),
                     SizedBox(
                       height: 70,
+                      width: 100,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -271,7 +274,9 @@ class _MainPageState extends State<MainPage> {
                             },
                           );
                         },
-                        child: const Text('Choose\nBarbell'),
+                        child: Text(
+                            textAlign: TextAlign.center,
+                            AppLocalizations.of(context)!.choose_barbell),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -288,8 +293,9 @@ class _MainPageState extends State<MainPage> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return const ErrorDialog(
-                                    errorMessage: 'Weight is invalid!');
+                                return ErrorDialog(
+                                    errorMessage: AppLocalizations.of(context)!
+                                        .weight_is_invalid);
                               },
                             );
                           } else {
@@ -305,11 +311,12 @@ class _MainPageState extends State<MainPage> {
                                       children: [
                                         Image.asset(
                                             'assets/manga_nice_bing_ki.png'),
-                                        const Padding(
-                                          padding: EdgeInsets.all(20.0),
+                                        Padding(
+                                          padding: const EdgeInsets.all(20.0),
                                           child: Text(
-                                            'That breaks the world record! Congratulations!',
-                                            style: TextStyle(
+                                            AppLocalizations.of(context)!
+                                                .new_world_record,
+                                            style: const TextStyle(
                                               fontSize: 18,
                                             ),
                                           ),
@@ -324,7 +331,9 @@ class _MainPageState extends State<MainPage> {
                                           _launchUrl();
                                           Navigator.of(context).pop();
                                         },
-                                        child: const Text('CHECK DETAILS'),
+                                        child: Text(
+                                            AppLocalizations.of(context)!
+                                                .check_details),
                                       ),
                                       TextButton(
                                         onPressed: () {
@@ -341,9 +350,10 @@ class _MainPageState extends State<MainPage> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return const ErrorDialog(
+                                    return ErrorDialog(
                                         errorMessage:
-                                            'You need to choose a Barbell!');
+                                            AppLocalizations.of(context)!
+                                                .you_need_a_barbell);
                                   },
                                 );
                               } else {
@@ -353,9 +363,10 @@ class _MainPageState extends State<MainPage> {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return const ErrorDialog(
+                                      return ErrorDialog(
                                           errorMessage:
-                                              'You need to choose more weight!');
+                                              AppLocalizations.of(context)!
+                                                  .you_need_more_weight);
                                     },
                                   );
                                 } else {
@@ -393,9 +404,14 @@ class _MainPageState extends State<MainPage> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: const Text('Attention!'),
-                                          content: Text(
-                                              'The entered weight ($trainingWeightString) differs from the possible training weight ($barbellWeightInclPlatesString)!'),
+                                          title: Text(
+                                              AppLocalizations.of(context)!
+                                                  .attention),
+                                          content: Text(AppLocalizations.of(
+                                                  context)!
+                                              .different_training_weight(
+                                                  trainingWeightString,
+                                                  barbellWeightInclPlatesString)),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
@@ -460,7 +476,7 @@ class SelectBarbellDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Choose Barbell'),
+      title: Text(AppLocalizations.of(context)!.choose_barbell),
       content: SizedBox(
         height: MediaQuery.of(context).size.height * 0.5,
         width: double.maxFinite,

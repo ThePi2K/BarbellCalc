@@ -2,5 +2,27 @@
   "@_NAVIGATION_BAR": {},
   "home": "Start",
   "inventory": "Inventar",
-  "settings": "Einstellungen"
+  "settings": "Einstellungen",
+  "@_HOME_PAGE": {},
+  "training_weight": "Trainingsgewicht",
+  "choose_barbell": "Wähle Hantel",
+  "weight_is_invalid": "Das Gewicht ist ungültig!",
+  "new_world_record": "Damit brichst du den Weltrekord! Herzlichen Glückwunsch!",
+  "check_details": "MEHR DAZU",
+  "you_need_a_barbell": "Du musst eine Hantel auswählen!",
+  "you_need_more_weight": "Du musst mehr Gewicht wählen!",
+  "different_training_weight": "'Das eingegebene Gewicht ({trainingWeight}) weicht vom möglichen Trainingsgewicht ({possibleTrainingWeight}) ab!",
+  "@different_training_weight": {
+    "placeholders": {
+      "trainingWeight": {
+        "type": "String"
+      },
+      "possibleTrainingWeight": {
+        "type": "String"
+      }
+    }
+  },
+  "@_ALERT_DIALOGS": {},
+  "error": "Fehler",
+  "attention": "Achtung!"
 }

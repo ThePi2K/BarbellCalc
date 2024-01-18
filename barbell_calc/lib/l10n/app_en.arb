@@ -2,5 +2,27 @@
   "@_NAVIGATION_BAR": {},
   "home": "Home",
   "inventory": "Inventory",
-  "settings": "Settings"
+  "settings": "Settings",
+  "@_HOME_PAGE": {},
+  "training_weight": "Training Weight",
+  "choose_barbell": "Choose Barbell",
+  "weight_is_invalid": "Weight is invalid!",
+  "new_world_record": "That breaks the world record! Congratulations!",
+  "check_details": "CHECK DETAILS",
+  "you_need_a_barbell": "You need to choose a Barbell!",
+  "you_need_more_weight": "You need to choose more weight!",
+  "different_training_weight": "'The entered weight ({trainingWeight}) differs from the possible training weight ({possibleTrainingWeight})!",
+  "@different_training_weight": {
+    "placeholders": {
+      "trainingWeight": {
+        "type": "String"
+      },
+      "possibleTrainingWeight": {
+        "type": "String"
+      }
+    }
+  },
+  "@_ALERT_DIALOGS": {},
+  "error": "Error",
+  "attention": "Attention!"
 }
