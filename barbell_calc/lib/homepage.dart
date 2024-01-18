@@ -289,140 +289,155 @@ class _MainPageState extends State<MainPage> {
                           ),
                         ),
                         onPressed: () {
-                          if (!checkWeightDouble()) {
+                          if (trainingWeightController.text.isEmpty) {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return ErrorDialog(
-                                    errorMessage: AppLocalizations.of(context)!
-                                        .weight_is_invalid);
+                                    errorMessage:
+                                    AppLocalizations.of(context)!
+                                        .weight_cannot_be_empty);
                               },
                             );
                           } else {
-                            double worldRecord = metricSystem ? 501 : 1104;
-                            if (double.parse(trainingWeightController.text) >
-                                worldRecord) {
+                            if (!checkWeightDouble()) {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Image.asset(
-                                            'assets/manga_nice_bing_ki.png'),
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Text(
-                                            AppLocalizations.of(context)!
-                                                .new_world_record,
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    contentPadding: EdgeInsets.zero,
-                                    // Set contentPadding to zero
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          _launchUrl();
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text(
-                                            AppLocalizations.of(context)!
-                                                .check_details),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text('OK'),
-                                      ),
-                                    ],
-                                  );
+                                  return ErrorDialog(
+                                      errorMessage:
+                                          AppLocalizations.of(context)!
+                                              .weight_is_invalid);
                                 },
                               );
                             } else {
-                              if (barbellWeight == 0) {
+                              double worldRecord = metricSystem ? 501 : 1104;
+                              if (double.parse(trainingWeightController.text) >
+                                  worldRecord) {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return ErrorDialog(
-                                        errorMessage:
-                                            AppLocalizations.of(context)!
-                                                .you_need_a_barbell);
+                                    return AlertDialog(
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                              'assets/manga_nice_bing_ki.png'),
+                                          Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .new_world_record,
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      contentPadding: EdgeInsets.zero,
+                                      // Set contentPadding to zero
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            _launchUrl();
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .check_details),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
                                   },
                                 );
                               } else {
-                                if (barbellWeight >
-                                    double.parse(
-                                        trainingWeightController.text)) {
+                                if (barbellWeight == 0) {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
                                       return ErrorDialog(
                                           errorMessage:
                                               AppLocalizations.of(context)!
-                                                  .you_need_more_weight);
+                                                  .you_need_a_barbell);
                                     },
                                   );
                                 } else {
-                                  calculateWeight();
-                                  if (barbellWeightInclPlates !=
+                                  if (barbellWeight >
                                       double.parse(
                                           trainingWeightController.text)) {
-                                    String trainingWeightString =
-                                        trainingWeightController.text
-                                            .toString();
-                                    if (trainingWeightString.endsWith(".0")) {
-                                      trainingWeightString =
-                                          trainingWeightString.substring(0,
-                                              trainingWeightString.length - 2);
-                                    }
-                                    trainingWeightString +=
-                                        ' ${metricSystem ? 'kg' : 'lb'}';
-
-                                    String barbellWeightInclPlatesString =
-                                        barbellWeightInclPlates.toString();
-                                    if (barbellWeightInclPlatesString
-                                        .endsWith(".0")) {
-                                      barbellWeightInclPlatesString =
-                                          barbellWeightInclPlatesString
-                                              .substring(
-                                                  0,
-                                                  barbellWeightInclPlatesString
-                                                          .length -
-                                                      2);
-                                    }
-                                    barbellWeightInclPlatesString +=
-                                        ' ${metricSystem ? 'kg' : 'lb'}';
-
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text(
-                                              AppLocalizations.of(context)!
-                                                  .attention),
-                                          content: Text(AppLocalizations.of(
-                                                  context)!
-                                              .different_training_weight(
-                                                  trainingWeightString,
-                                                  barbellWeightInclPlatesString)),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: const Text('OK'),
-                                            ),
-                                          ],
-                                        );
+                                        return ErrorDialog(
+                                            errorMessage:
+                                                AppLocalizations.of(context)!
+                                                    .you_need_more_weight);
                                       },
                                     );
+                                  } else {
+                                    calculateWeight();
+                                    if (barbellWeightInclPlates !=
+                                        double.parse(
+                                            trainingWeightController.text)) {
+                                      String trainingWeightString =
+                                          trainingWeightController.text
+                                              .toString();
+                                      if (trainingWeightString.endsWith(".0")) {
+                                        trainingWeightString =
+                                            trainingWeightString.substring(
+                                                0,
+                                                trainingWeightString.length -
+                                                    2);
+                                      }
+                                      trainingWeightString +=
+                                          ' ${metricSystem ? 'kg' : 'lb'}';
+
+                                      String barbellWeightInclPlatesString =
+                                          barbellWeightInclPlates.toString();
+                                      if (barbellWeightInclPlatesString
+                                          .endsWith(".0")) {
+                                        barbellWeightInclPlatesString =
+                                            barbellWeightInclPlatesString
+                                                .substring(
+                                                    0,
+                                                    barbellWeightInclPlatesString
+                                                            .length -
+                                                        2);
+                                      }
+                                      barbellWeightInclPlatesString +=
+                                          ' ${metricSystem ? 'kg' : 'lb'}';
+
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text(
+                                                AppLocalizations.of(context)!
+                                                    .attention),
+                                            content: Text(AppLocalizations.of(
+                                                    context)!
+                                                .different_training_weight(
+                                                    trainingWeightString,
+                                                    barbellWeightInclPlatesString)),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    }
                                   }
                                 }
                               }
@@ -446,7 +461,8 @@ class _MainPageState extends State<MainPage> {
                 barbellWeight: barbellWeight,
                 barbellWidth: barbellWidth,
                 barbellWeightInclPlates: barbellWeightInclPlates,
-                weightOnBarbellTitle: AppLocalizations.of(context)!.weight_on_barbell,
+                weightOnBarbellTitle:
+                    AppLocalizations.of(context)!.weight_on_barbell,
               ),
             ],
           ),
