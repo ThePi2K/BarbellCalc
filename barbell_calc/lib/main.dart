@@ -69,6 +69,7 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      locale: Locale('de'),
       supportedLocales: const [
         Locale('en'),
         Locale('de'),
@@ -121,21 +122,21 @@ class _HomePageState extends State<HomePage> {
           });
         },
         selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
+        destinations:  <Widget>[
           NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
+            selectedIcon: const Icon(Icons.home),
+            icon: const Icon(Icons.home_outlined),
+            label: AppLocalizations.of(context)!.home,
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.inventory),
-            icon: Icon(Icons.inventory_2_outlined),
-            label: 'Inventory',
+            selectedIcon: const Icon(Icons.inventory),
+            icon: const Icon(Icons.inventory_2_outlined),
+            label: AppLocalizations.of(context)!.inventory,
           ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.settings),
-            icon: Icon(Icons.settings_outlined),
-            label: 'Settings',
+           NavigationDestination(
+            selectedIcon: const Icon(Icons.settings),
+            icon: const Icon(Icons.settings_outlined),
+             label: AppLocalizations.of(context)!.settings,
           ),
         ],
       ),
