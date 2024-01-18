@@ -180,10 +180,6 @@ class _InventoryPageState extends State<InventoryPage> {
     updateBarbells();
     return SafeArea(
       child: Scaffold(
-          // appBar: AppBar(
-          //   title: const Text('Inventory'),
-          //   leading: const Icon(Icons.inventory),
-          // ),
           body: InventoryListView(
             barbellListStandard: barbellsStandard,
             barbellListOlympic: barbellsOlympic,

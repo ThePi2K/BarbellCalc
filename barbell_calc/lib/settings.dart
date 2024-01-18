@@ -169,10 +169,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   title: const Text('Settings'),
-        //   leading: const Icon(Icons.settings),
-        // ),
         body: ListView(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
           children: <Widget>[
