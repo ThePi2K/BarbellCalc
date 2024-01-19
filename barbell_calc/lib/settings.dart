@@ -39,7 +39,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void loadSharedPreference() async {
     prefs = await SharedPreferences.getInstance();
-    print(systemLanguage);
     setState(() {
       // reading SharedPreferences and save the values to the variables
       standardBarbells = prefs.getBool('standardBarbells') ?? true;
@@ -49,9 +48,11 @@ class _SettingsPageState extends State<SettingsPage> {
       metricSystem = prefs.getBool('metricSystem') ?? true;
       appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
 
-      String? selectedLang = prefs.getString('appLanguage');
-      selectedLanguage =
-          supportedLanguages.contains(selectedLang) ? selectedLang! : 'en';
+      selectedLanguage = prefs.getString('appLanguage') ?? systemLanguage;
+      if (!supportedLanguages.contains(selectedLanguage)) {
+        prefs.setString('appLanguage', 'en');
+        selectedLanguage = 'en';
+      }
     });
   }
 
