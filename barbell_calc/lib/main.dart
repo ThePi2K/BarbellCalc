@@ -22,7 +22,8 @@ class _MyAppState extends State<MyApp> {
   bool darkMode = false;
   bool followSystemTheme = false;
   Color appColor = Colors.blue;
-  String appLanguage = 'en';
+  late String appLanguage;
+  late String savedSystemLanguage;
 
   final String systemLanguage =
       WidgetsBinding.instance.platformDispatcher.locale.languageCode;
@@ -42,22 +43,20 @@ class _MyAppState extends State<MyApp> {
       appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
       darkMode = prefs.getBool('darkMode') ?? false;
       followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
+      appLanguage = prefs.getString('appLanguage') ?? 'sys';
+      savedSystemLanguage = prefs.getString('systemLanguage') ?? systemLanguage;
 
       // get language
-      if (prefs.getString('sysLanguage') != systemLanguage) {
-        prefs.setString('appLanguage', 'sys');
-      }
-      if (prefs.getString('appLanguage') == 'sys') {
-        appLanguage = systemLanguage;
+      if (appLanguage=='sys'){
+        if(supportedLanguages.contains(savedSystemLanguage)){
+          appLanguage=savedSystemLanguage;
+        } else {
+          appLanguage = 'en';
+          prefs.setString('systemLanguage', 'en');
+        }
       } else {
-        appLanguage = prefs.getString('appLanguage')!;
+        appLanguage = appLanguage;
       }
-      if (!supportedLanguages.contains(appLanguage)){
-        appLanguage = 'en';
-      }
-
-      // set system language
-      prefs.setString('sysLanguage', systemLanguage);
     });
   }
 

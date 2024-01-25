@@ -24,11 +24,13 @@ class _SettingsPageState extends State<SettingsPage> {
   bool metricSystem = true;
   bool followSystemTheme = false;
   Color appColor = Colors.blue;
-  String selectedLanguage = 'en';
+  late String appLanguage;
+  late String savedSystemLanguage;
+  late String selectedLanguage;
 
-  final List<String> supportedLanguages = ['en', 'de'];
   final String systemLanguage =
       WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+  final List<String> supportedLanguages = ['en', 'de'];
 
   // starting loadSharedPreference()
   @override
@@ -47,15 +49,8 @@ class _SettingsPageState extends State<SettingsPage> {
       followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
       metricSystem = prefs.getBool('metricSystem') ?? true;
       appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
-
-      selectedLanguage = prefs.getString('appLanguage') ?? systemLanguage;
-      if (!supportedLanguages.contains(selectedLanguage)) {
-        prefs.setString('appLanguage', 'en');
-        selectedLanguage = 'en';
-        toggleLanguage('en');
-      } else {
-        toggleLanguage(selectedLanguage);
-      }
+      appLanguage = prefs.getString('appLanguage')!;
+      savedSystemLanguage = prefs.getString('systemLanguage')!;
     });
   }
 
@@ -154,6 +149,7 @@ class _SettingsPageState extends State<SettingsPage> {
     // set String value
     await prefs.setString('appLanguage', language);
     setState(() {
+      appLanguage = language;
       selectedLanguage = language;
     });
   }
@@ -169,6 +165,12 @@ class _SettingsPageState extends State<SettingsPage> {
         default:
           return '${AppLocalizations.of(context)!.english} (English)';
       }
+    }
+
+    if (appLanguage=='sys'){
+      selectedLanguage = systemLanguage;
+    } else {
+      selectedLanguage = appLanguage;
     }
 
     return SafeArea(
