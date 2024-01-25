@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
 
       // get language
       if (prefs.getString('sysLanguage') != systemLanguage) {
-        prefs.setString('sysLanguage', systemLanguage);
+        prefs.setString('appLanguage', 'sys');
       }
       if (prefs.getString('appLanguage') == 'sys') {
         appLanguage = systemLanguage;
@@ -55,6 +55,9 @@ class _MyAppState extends State<MyApp> {
       if (!supportedLanguages.contains(appLanguage)){
         appLanguage = 'en';
       }
+
+      // set system language
+      prefs.setString('sysLanguage', systemLanguage);
     });
   }
 
