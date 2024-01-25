@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   bool darkMode = false;
   bool followSystemTheme = false;
   Color appColor = Colors.blue;
-  String selectedLanguage = 'en';
+  String appLanguage = 'en';
 
   final String systemLanguage =
       WidgetsBinding.instance.platformDispatcher.locale.languageCode;
@@ -42,10 +42,25 @@ class _MyAppState extends State<MyApp> {
       appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
       darkMode = prefs.getBool('darkMode') ?? false;
       followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
-      String? selectedLang = prefs.getString('appLanguage');
-      selectedLanguage =
-      supportedLanguages.contains(selectedLang) ? selectedLang! : 'en';
+
+      // get language
+      if (prefs.getString('sysLanguage') != systemLanguage) {
+        prefs.setString('sysLanguage', systemLanguage);
+      }
+      setAppLanguage();
     });
+  }
+
+  setAppLanguage() async {
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('appLanguage') == 'sys') {
+      appLanguage = systemLanguage;
+    } else {
+      appLanguage = prefs.getString('appLanguage')!;
+    }
+    if (!supportedLanguages.contains(appLanguage)){
+      appLanguage = 'en';
+    }
   }
 
   MaterialApp buildMyApp() {
@@ -77,7 +92,7 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      locale: Locale(selectedLanguage),
+      locale: Locale(appLanguage),
       supportedLocales: const [
         Locale('en'),
         Locale('de'),
@@ -130,7 +145,7 @@ class _HomePageState extends State<HomePage> {
           });
         },
         selectedIndex: currentPageIndex,
-        destinations:  <Widget>[
+        destinations: <Widget>[
           NavigationDestination(
             selectedIcon: const Icon(Icons.home),
             icon: const Icon(Icons.home_outlined),
@@ -141,10 +156,10 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.inventory_2_outlined),
             label: AppLocalizations.of(context)!.inventory,
           ),
-           NavigationDestination(
+          NavigationDestination(
             selectedIcon: const Icon(Icons.settings),
             icon: const Icon(Icons.settings_outlined),
-             label: AppLocalizations.of(context)!.settings,
+            label: AppLocalizations.of(context)!.settings,
           ),
         ],
       ),
