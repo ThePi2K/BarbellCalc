@@ -52,6 +52,9 @@ class _SettingsPageState extends State<SettingsPage> {
       if (!supportedLanguages.contains(selectedLanguage)) {
         prefs.setString('appLanguage', 'en');
         selectedLanguage = 'en';
+        toggleLanguage('en');
+      } else {
+        toggleLanguage(selectedLanguage);
       }
     });
   }
