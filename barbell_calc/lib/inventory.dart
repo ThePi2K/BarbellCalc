@@ -476,42 +476,47 @@ class _CreatePlateState extends State<CreatePlate> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(AppLocalizations.of(context)!.add_plate),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextField(
-            controller: weightController,
-            inputFormatters: [LengthLimitingTextInputFormatter(5)],
-            decoration: InputDecoration(
-              // ignore: prefer_const_constructors
-              border: OutlineInputBorder(),
-              labelText: AppLocalizations.of(context)!.plate_weight,
-              icon: const Icon(Icons.scale),
-            ),
-            keyboardType: TextInputType.number,
+      content: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0,5,0,0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: weightController,
+                inputFormatters: [LengthLimitingTextInputFormatter(5)],
+                decoration: InputDecoration(
+                  // ignore: prefer_const_constructors
+                  border: OutlineInputBorder(),
+                  labelText: AppLocalizations.of(context)!.plate_weight,
+                  icon: const Icon(Icons.scale),
+                ),
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: AppLocalizations.of(context)!.select_width,
+                  icon: const Icon(Icons.straighten),
+                ),
+                value: dropdownValue,
+                onChanged: (String? value) {
+                  setState(() {
+                    dropdownValue = value!;
+                  });
+                },
+                items: widthList.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ],
           ),
-          const SizedBox(height: 20),
-          DropdownButtonFormField<String>(
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: AppLocalizations.of(context)!.select_width,
-              icon: const Icon(Icons.straighten),
-            ),
-            value: dropdownValue,
-            onChanged: (String? value) {
-              setState(() {
-                dropdownValue = value!;
-              });
-            },
-            items: widthList.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-        ],
+        ),
       ),
       actions: [
         TextButton(
@@ -701,50 +706,55 @@ class _CreateBarbellState extends State<CreateBarbell> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(AppLocalizations.of(context)!.add_barbell),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextField(
-            controller: nameController,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: AppLocalizations.of(context)!.barbell_name,
-              icon: const Icon(Icons.tag),
-            ),
+      content: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0,5,0,0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: AppLocalizations.of(context)!.barbell_name,
+                  icon: const Icon(Icons.tag),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: weightController,
+                inputFormatters: [LengthLimitingTextInputFormatter(5)],
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: AppLocalizations.of(context)!.barbell_weight,
+                  icon: const Icon(Icons.scale),
+                ),
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: AppLocalizations.of(context)!.select_width,
+                  icon: const Icon(Icons.straighten),
+                ),
+                value: dropdownValue,
+                onChanged: (String? value) {
+                  setState(() {
+                    dropdownValue = value!;
+                  });
+                },
+                items: widthList.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ],
           ),
-          const SizedBox(height: 20),
-          TextField(
-            controller: weightController,
-            inputFormatters: [LengthLimitingTextInputFormatter(5)],
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: AppLocalizations.of(context)!.barbell_weight,
-              icon: const Icon(Icons.scale),
-            ),
-            keyboardType: TextInputType.number,
-          ),
-          const SizedBox(height: 20),
-          DropdownButtonFormField<String>(
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: AppLocalizations.of(context)!.select_width,
-              icon: const Icon(Icons.straighten),
-            ),
-            value: dropdownValue,
-            onChanged: (String? value) {
-              setState(() {
-                dropdownValue = value!;
-              });
-            },
-            items: widthList.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-        ],
+        ),
       ),
       actions: [
         TextButton(
@@ -952,50 +962,55 @@ class _EditBarbellState extends State<EditBarbell> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(AppLocalizations.of(context)!.editing_barbell),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextField(
-            controller: nameController,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: AppLocalizations.of(context)!.barbell_name,
-              icon: const Icon(Icons.tag),
-            ),
+      content: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0,5,0,0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: AppLocalizations.of(context)!.barbell_name,
+                  icon: const Icon(Icons.tag),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: weightController,
+                inputFormatters: [LengthLimitingTextInputFormatter(5)],
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: AppLocalizations.of(context)!.barbell_weight,
+                  icon: const Icon(Icons.scale),
+                ),
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: AppLocalizations.of(context)!.select_width,
+                  icon: const Icon(Icons.straighten),
+                ),
+                value: dropdownValue,
+                onChanged: (String? value) {
+                  setState(() {
+                    dropdownValue = value!;
+                  });
+                },
+                items: widthList.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ],
           ),
-          const SizedBox(height: 20),
-          TextField(
-            controller: weightController,
-            inputFormatters: [LengthLimitingTextInputFormatter(5)],
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: AppLocalizations.of(context)!.barbell_weight,
-              icon: const Icon(Icons.scale),
-            ),
-            keyboardType: TextInputType.number,
-          ),
-          const SizedBox(height: 20),
-          DropdownButtonFormField<String>(
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: AppLocalizations.of(context)!.select_width,
-              icon: const Icon(Icons.straighten),
-            ),
-            value: dropdownValue,
-            onChanged: (String? value) {
-              setState(() {
-                dropdownValue = value!;
-              });
-            },
-            items: widthList.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-        ],
+        ),
       ),
       actions: [
         TextButton(
