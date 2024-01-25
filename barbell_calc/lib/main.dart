@@ -47,20 +47,15 @@ class _MyAppState extends State<MyApp> {
       if (prefs.getString('sysLanguage') != systemLanguage) {
         prefs.setString('sysLanguage', systemLanguage);
       }
-      setAppLanguage();
+      if (prefs.getString('appLanguage') == 'sys') {
+        appLanguage = systemLanguage;
+      } else {
+        appLanguage = prefs.getString('appLanguage')!;
+      }
+      if (!supportedLanguages.contains(appLanguage)){
+        appLanguage = 'en';
+      }
     });
-  }
-
-  setAppLanguage() async {
-    prefs = await SharedPreferences.getInstance();
-    if (prefs.getString('appLanguage') == 'sys') {
-      appLanguage = systemLanguage;
-    } else {
-      appLanguage = prefs.getString('appLanguage')!;
-    }
-    if (!supportedLanguages.contains(appLanguage)){
-      appLanguage = 'en';
-    }
   }
 
   MaterialApp buildMyApp() {
