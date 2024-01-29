@@ -22,18 +22,17 @@ class _MyAppState extends State<MyApp> {
   bool darkMode = false;
   bool followSystemTheme = false;
   Color appColor = Colors.blue;
-  late String appLanguage = '';
-
-  // String appLanguage = 'sys';
-  // late String savedSystemLanguage;
-  //
-  // final String systemLanguage =
-  //     WidgetsBinding.instance.platformDispatcher.locale.languageCode;
-  // final List<String> supportedLanguages = ['en', 'de'];
+  String appLanguage = 'en';
+  String savedAppLanguage = 'en';
+  String savedSystemLanguage = 'en';
+  String currentSystemLanguage =
+      WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+  List<String> supportedLanguages = ['en', 'de'];
 
   @override
   void initState() {
     loadSharedPreference();
+    loadLanguage();
     super.initState();
   }
 
@@ -46,38 +45,39 @@ class _MyAppState extends State<MyApp> {
       darkMode = prefs.getBool('darkMode') ?? false;
       followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
 
-      String currentSystemLanguage =
-          WidgetsBinding.instance.platformDispatcher.locale.languageCode;
-      List<String> supportedLanguages = ['en', 'de'];
-
-      // Language
-      appLanguage = prefs.getString('appLanguage') ?? 'sys';
-      String systemLanguage =
+      savedAppLanguage = prefs.getString('appLanguage') ?? 'sys';
+      savedSystemLanguage =
           prefs.getString('systemLanguage') ?? currentSystemLanguage;
+    });
+  }
 
-      // set systemLanguage if Language is different then last time
-      if (currentSystemLanguage != systemLanguage) {
-        systemLanguage = currentSystemLanguage;
-        appLanguage = 'sys';
-        prefs.setString('systemLanguage', currentSystemLanguage);
-        prefs.setString('appLanguage', 'sys');
+  void loadLanguage() async {
+    prefs = await SharedPreferences.getInstance();
+    print('savedAppLanguage: $savedAppLanguage');
+    print('savedSystemLanguage: $savedSystemLanguage');
+
+    setState(() {
+
+      if (savedSystemLanguage != currentSystemLanguage) {
+        savedSystemLanguage = currentSystemLanguage;
+        savedAppLanguage = 'sys';
       }
 
-      // set app Language
-      if (appLanguage == 'sys') {
-        if (supportedLanguages.contains(systemLanguage)) {
-          appLanguage = systemLanguage;
-        } else {
-          appLanguage = 'en';
-        }
-        prefs.setString('appLanguage', appLanguage);
+      if (savedAppLanguage == 'sys') {
+        appLanguage = savedSystemLanguage;
+      } else {
+        appLanguage = savedAppLanguage;
       }
+
+      prefs.setString('systemLanguage', savedSystemLanguage);
+      prefs.setString('appLanguage', savedAppLanguage);
     });
   }
 
   MaterialApp buildMyApp() {
     ThemeMode themeMode;
     loadSharedPreference();
+    loadLanguage();
 
     if (followSystemTheme) {
       themeMode = ThemeMode.system;
@@ -115,6 +115,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    loadSharedPreference();
+    loadLanguage();
     return buildMyApp();
   }
 }
