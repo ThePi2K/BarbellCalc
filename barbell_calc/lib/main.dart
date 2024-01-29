@@ -22,17 +22,19 @@ class _MyAppState extends State<MyApp> {
   bool darkMode = false;
   bool followSystemTheme = false;
   Color appColor = Colors.blue;
-  late String appLanguage;
-  late String savedSystemLanguage;
+  late String appLanguage = '';
 
-  final String systemLanguage =
-      WidgetsBinding.instance.platformDispatcher.locale.languageCode;
-  final List<String> supportedLanguages = ['en', 'de'];
+  // String appLanguage = 'sys';
+  // late String savedSystemLanguage;
+  //
+  // final String systemLanguage =
+  //     WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+  // final List<String> supportedLanguages = ['en', 'de'];
 
   @override
   void initState() {
-    super.initState();
     loadSharedPreference();
+    super.initState();
   }
 
   void loadSharedPreference() async {
@@ -43,19 +45,32 @@ class _MyAppState extends State<MyApp> {
       appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
       darkMode = prefs.getBool('darkMode') ?? false;
       followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
-      appLanguage = prefs.getString('appLanguage') ?? 'sys';
-      savedSystemLanguage = prefs.getString('systemLanguage') ?? systemLanguage;
 
-      // get language
-      if (appLanguage=='sys'){
-        if(supportedLanguages.contains(savedSystemLanguage)){
-          appLanguage=savedSystemLanguage;
+      String currentSystemLanguage =
+          WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+      List<String> supportedLanguages = ['en', 'de'];
+
+      // Language
+      appLanguage = prefs.getString('appLanguage') ?? 'sys';
+      String systemLanguage =
+          prefs.getString('systemLanguage') ?? currentSystemLanguage;
+
+      // set systemLanguage if Language is different then last time
+      if (currentSystemLanguage != systemLanguage) {
+        systemLanguage = currentSystemLanguage;
+        appLanguage = 'sys';
+        prefs.setString('systemLanguage', currentSystemLanguage);
+        prefs.setString('appLanguage', 'sys');
+      }
+
+      // set app Language
+      if (appLanguage == 'sys') {
+        if (supportedLanguages.contains(systemLanguage)) {
+          appLanguage = systemLanguage;
         } else {
           appLanguage = 'en';
-          prefs.setString('systemLanguage', 'en');
         }
-      } else {
-        appLanguage = appLanguage;
+        prefs.setString('appLanguage', appLanguage);
       }
     });
   }
