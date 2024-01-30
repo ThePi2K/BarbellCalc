@@ -24,13 +24,14 @@ class _SettingsPageState extends State<SettingsPage> {
   bool metricSystem = true;
   bool followSystemTheme = false;
   Color appColor = Colors.blue;
-  late String appLanguage;
-  late String savedSystemLanguage;
-  late String selectedLanguage;
 
-  final String systemLanguage =
-      WidgetsBinding.instance.platformDispatcher.locale.languageCode;
-  final List<String> supportedLanguages = ['en', 'de'];
+  // String appLanguage = 'sys';
+  // late String savedSystemLanguage;
+  // String selectedLanguage = 'en';
+
+  // final String systemLanguage =
+  //     WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+  // final List<String> supportedLanguages = ['en', 'de'];
 
   // starting loadSharedPreference()
   @override
@@ -49,8 +50,8 @@ class _SettingsPageState extends State<SettingsPage> {
       followSystemTheme = prefs.getBool('followSystemTheme') ?? false;
       metricSystem = prefs.getBool('metricSystem') ?? true;
       appColor = Color(prefs.getInt('appColor') ?? Colors.blue.value);
-      appLanguage = prefs.getString('appLanguage')!;
-      savedSystemLanguage = prefs.getString('systemLanguage')!;
+      // appLanguage = prefs.getString('appLanguage') ?? '';
+      // savedSystemLanguage = prefs.getString('systemLanguage') ?? '';
     });
   }
 
@@ -147,11 +148,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void toggleLanguage(String language) async {
     // set String value
-    await prefs.setString('appLanguage', language);
-    setState(() {
-      appLanguage = language;
-      selectedLanguage = language;
-    });
+    // await prefs.setString('appLanguage', language);
+    // setState(() {
+    //   appLanguage = language;
+    //   selectedLanguage = language;
+    // });
   }
 
   @override
@@ -167,11 +168,11 @@ class _SettingsPageState extends State<SettingsPage> {
       }
     }
 
-    if (appLanguage=='sys'){
-      selectedLanguage = systemLanguage;
-    } else {
-      selectedLanguage = appLanguage;
-    }
+    // if (appLanguage=='sys'){
+    //   selectedLanguage = systemLanguage;
+    // } else {
+    //   selectedLanguage = appLanguage;
+    // }
 
     return SafeArea(
       child: Scaffold(
@@ -249,24 +250,24 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: AppLocalizations.of(context)!.language_and_unit_system,
                 subtitle: AppLocalizations.of(context)!
                     .language_and_unit_system_subtitle),
-            ListTile(
-              title: Text(AppLocalizations.of(context)!.language),
-              trailing: DropdownButton<String>(
-                value: selectedLanguage,
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    toggleLanguage(newValue);
-                  }
-                },
-                items: supportedLanguages
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(getDisplayLanguage(value)),
-                  );
-                }).toList(),
-              ),
-            ),
+            // ListTile(
+            //   title: Text(AppLocalizations.of(context)!.language),
+            //   trailing: DropdownButton<String>(
+            //     value: selectedLanguage,
+            //     onChanged: (String? newValue) {
+            //       if (newValue != null) {
+            //         toggleLanguage(newValue);
+            //       }
+            //     },
+            //     items: supportedLanguages
+            //         .map<DropdownMenuItem<String>>((String value) {
+            //       return DropdownMenuItem<String>(
+            //         value: value,
+            //         child: Text(getDisplayLanguage(value)),
+            //       );
+            //     }).toList(),
+            //   ),
+            // ),
             // const Divider(),
             // const SettingsTitle(
             //     title: 'Unit System',
